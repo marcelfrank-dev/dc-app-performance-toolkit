@@ -1,10 +1,11 @@
 import random
 import urllib.parse
 
+from selenium.webdriver.common.by import By
+
 from selenium_ui.conftest import print_timing
 from selenium_ui.jira.pages.pages import Login, PopupManager, Issue, Project, Search, ProjectsList, \
-    BoardsList, Board, Dashboard, Logout
-
+    BoardsList, Board, Dashboard, Logout, LastLogView, AdminLogin, SecureLogin, SumUpCalcRulesView, SumUpGlobalSettingsView, SumUpCalculationView, JwtTestIssueView, AdminToolboxIssueTypeView
 from util.api.jira_clients import JiraRestClient
 from util.conf import JIRA_SETTINGS
 
@@ -55,6 +56,7 @@ def login(webdriver, datasets):
         @print_timing("selenium_login:open_login_page")
         def sub_measure():
             login_page.go_to()
+
         sub_measure()
 
         @print_timing("selenium_login:login_and_view_dashboard")
@@ -63,7 +65,50 @@ def login(webdriver, datasets):
             if login_page.is_first_login():
                 login_page.first_login_setup()
             login_page.wait_for_page_loaded()
+
         sub_measure()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+
+def adminLogin(webdriver):
+    @print_timing("selenium_admin_login")
+    def measure():
+        login_page = AdminLogin(webdriver)
+        secure_login_page = SecureLogin(webdriver)
+
+        @print_timing("selenium_admin_login:open_login_page")
+        def sub_measure():
+            login_page.go_to()
+
+        sub_measure()
+
+        @print_timing("selenium_admin_login:login_and_view_system_settings")
+        def sub_measure():
+            login_page.set_credentials(username="admin", password="admin")
+            secure_login_page.wait_until_visible((By.ID, "login-form-authenticatePassword"), 30000)
+            secure_login_page.set_credentials()
+            login_page.wait_for_page_loaded()
+
+        sub_measure()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+
+def secureLogin(webdriver):
+    @print_timing("selenium_admin_login")
+    def measure():
+        login_page = SecureLogin(webdriver)
+        login_page.wait_for_page_loaded()
+
+        @print_timing("selenium_admin_login:login_and_view_system_settings")
+        def sub_measure():
+            login_page.set_credentials()
+
+        sub_measure()
+
     measure()
     PopupManager(webdriver).dismiss_default_popup()
 
@@ -75,6 +120,7 @@ def view_issue(webdriver, datasets):
     def measure():
         issue_page.go_to()
         issue_page.wait_for_page_loaded()
+
     measure()
 
 
@@ -85,6 +131,7 @@ def view_project_summary(webdriver, datasets):
     def measure():
         project_page.go_to()
         project_page.wait_for_page_loaded()
+
     measure()
 
 
@@ -93,10 +140,10 @@ def create_issue(webdriver, dataset):
 
     @print_timing("selenium_create_issue")
     def measure():
-
         @print_timing("selenium_create_issue:open_quick_create")
         def sub_measure():
             issue_modal.open_create_issue_modal()
+
         sub_measure()
 
         @print_timing("selenium_create_issue:fill_and_submit_issue_form")
@@ -110,8 +157,11 @@ def create_issue(webdriver, dataset):
             @print_timing("selenium_create_issue:fill_and_submit_issue_form:submit_issue_form")
             def sub_sub_measure():
                 issue_modal.submit_issue()
+
             sub_sub_measure()
+
         sub_measure()
+
     measure()
     PopupManager(webdriver).dismiss_default_popup()
 
@@ -123,6 +173,7 @@ def search_jql(webdriver, datasets):
     def measure():
         search_page.go_to()
         search_page.wait_for_page_loaded()
+
     measure()
 
 
@@ -131,10 +182,10 @@ def edit_issue(webdriver, datasets):
 
     @print_timing("selenium_edit_issue")
     def measure():
-
         @print_timing("selenium_edit_issue:open_edit_issue_form")
         def sub_measure():
             issue_page.go_to_edit_issue()  # open editor
+
         sub_measure()
 
         issue_page.fill_summary_edit()  # edit summary
@@ -144,7 +195,9 @@ def edit_issue(webdriver, datasets):
         def sub_measure():
             issue_page.edit_issue_submit()  # submit edit issue
             issue_page.wait_for_issue_title()
+
         sub_measure()
+
     measure()
 
 
@@ -153,10 +206,10 @@ def save_comment(webdriver, datasets):
 
     @print_timing("selenium_save_comment")
     def measure():
-
         @print_timing("selenium_save_comment:open_comment_form")
         def sub_measure():
             issue_page.go_to_edit_comment()  # Open edit comment page
+
         sub_measure()
 
         issue_page.fill_comment_edit(rte_status)  # Fill comment text field
@@ -164,7 +217,9 @@ def save_comment(webdriver, datasets):
         @print_timing("selenium_save_comment:submit_form")
         def sub_measure():
             issue_page.edit_comment_submit()  # Submit comment
+
         sub_measure()
+
     measure()
 
 
@@ -174,6 +229,7 @@ def browse_projects_list(webdriver, datasets):
         projects_list_page = ProjectsList(webdriver, projects_list_pages=datasets['project_pages_count'])
         projects_list_page.go_to()
         projects_list_page.wait_for_page_loaded()
+
     measure()
 
 
@@ -183,6 +239,7 @@ def browse_boards_list(webdriver, datasets):
         boards_list_page = BoardsList(webdriver)
         boards_list_page.go_to()
         boards_list_page.wait_for_page_loaded()
+
     measure()
     PopupManager(webdriver).dismiss_default_popup()
 
@@ -194,6 +251,7 @@ def view_backlog_for_scrum_board(webdriver, datasets):
     def measure():
         scrum_board_page.go_to_backlog()
         scrum_board_page.wait_for_scrum_board_backlog()
+
     measure()
 
 
@@ -204,6 +262,7 @@ def view_scrum_board(webdriver, datasets):
     def measure():
         scrum_board_page.go_to()
         scrum_board_page.wait_for_page_loaded()
+
     measure()
 
 
@@ -214,6 +273,7 @@ def view_kanban_board(webdriver, datasets):
     def measure():
         kanban_board_page.go_to()
         kanban_board_page.wait_for_page_loaded()
+
     measure()
 
 
@@ -224,6 +284,7 @@ def view_dashboard(webdriver, datasets):
     def measure():
         dashboard_page.go_to()
         dashboard_page.wait_dashboard_presented()
+
     measure()
 
 
@@ -235,4 +296,75 @@ def log_out(webdriver, datasets):
         logout_page.go_to()
         logout_page.click_logout()
         logout_page.wait_for_page_loaded()
+
     measure()
+
+
+# SUM UP
+def browse_calc_issues_view(webdriver):
+    @print_timing("selenium_browse_calc_issues_view")
+    def measure():
+        sum_up_calc_issues_view_page = SumUpCalculationView(webdriver)
+        sum_up_calc_issues_view_page.go_to()
+        sum_up_calc_issues_view_page.wait_for_page_loaded()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+
+def browse_calc_rules_view(webdriver):
+    @print_timing("selenium_browse_calc_rules_view")
+    def measure():
+        sum_up_calc_rules_view_page = SumUpCalcRulesView(webdriver)
+        sum_up_calc_rules_view_page.go_to()
+        sum_up_calc_rules_view_page.wait_for_page_loaded()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+
+def browse_global_settings_view(webdriver):
+    @print_timing("selenium_browse_global_settings_view")
+    def measure():
+        sum_up_global_settings_view_page = SumUpGlobalSettingsView(webdriver)
+        sum_up_global_settings_view_page.go_to()
+        sum_up_global_settings_view_page.wait_for_page_loaded()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+
+# LAST LOG
+def browse_last_log_view_log(webdriver):
+    @print_timing("selenium_browse_last_log_view_log")
+    def measure():
+        last_log_view_page = LastLogView(webdriver)
+        last_log_view_page.go_to()
+        last_log_view_page.wait_for_page_loaded()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+
+# JWT
+def browse_jwt_test_issue(webdriver):
+    @print_timing("selenium_browse_jwt_test_issue")
+    def measure():
+        jwt_test_issue_view_page = JwtTestIssueView(webdriver)
+        jwt_test_issue_view_page.go_to()
+        jwt_test_issue_view_page.wait_for_page_loaded()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+
+# ADMIN TOOLBOX
+def browse_admin_toolbox_issue_types_view(webdriver):
+    @print_timing("selenium_browse_admin_toolbox_issue_types_view")
+    def measure():
+        admin_toolbox_issue_type_view_page = AdminToolboxIssueTypeView(webdriver)
+        admin_toolbox_issue_type_view_page.go_to()
+        admin_toolbox_issue_type_view_page.wait_for_page_loaded()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()

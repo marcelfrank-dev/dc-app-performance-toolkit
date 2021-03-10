@@ -1,11 +1,12 @@
-from selenium.webdriver.common.keys import Keys
-import time
-import random
 import json
+import random
+import time
+
+from selenium.webdriver.common.keys import Keys
 
 from selenium_ui.base_page import BasePage
 from selenium_ui.jira.pages.selectors import UrlManager, LoginPageLocators, DashboardLocators, PopupLocators, \
-    IssueLocators, ProjectLocators, SearchLocators, BoardsListLocators, BoardLocators, LogoutLocators
+    IssueLocators, ProjectLocators, SearchLocators, BoardsListLocators, BoardLocators, LogoutLocators, LastLogViewLocators, SumUpLocators, JwtTestIssueViewLocators, AdminToolboxViewLocators
 
 
 class PopupManager(BasePage):
@@ -32,6 +33,27 @@ class Login(BasePage):
     def set_credentials(self, username, password):
         self.get_element(LoginPageLocators.login_field).send_keys(username)
         self.get_element(LoginPageLocators.password_field).send_keys(password)
+        self.get_element(LoginPageLocators.login_submit_button).click()
+
+
+class AdminLogin(BasePage):
+    page_url = LoginPageLocators.admin_login_url
+    page_loaded_selector = LoginPageLocators.system_settings
+
+    def is_first_login(self):
+        return True if self.get_elements(LoginPageLocators.continue_button) else False
+
+    def set_credentials(self, username, password):
+        self.get_element(LoginPageLocators.login_field).send_keys(username)
+        self.get_element(LoginPageLocators.password_field).send_keys(password)
+        self.get_element(LoginPageLocators.login_submit_button).click()
+
+
+class SecureLogin(BasePage):
+    page_loaded_selector = LoginPageLocators.secure_login
+
+    def set_credentials(self):
+        self.get_element(LoginPageLocators.secure_password_field).send_keys("admin")
         self.get_element(LoginPageLocators.login_submit_button).click()
 
 
@@ -90,7 +112,7 @@ class Issue(BasePage):
         self.get_element(IssueLocators.edit_issue_submit).click()
 
     def fill_description_edit(self, rte):
-        text_description = f"Edit description form selenium - {self.generate_random_string(30)}"
+        text_description = f"Edit description form selenium - {self.generate_random_string(100)}"
         if rte:
             self.__fill_rich_editor_textfield(text_description, selector=IssueLocators.issue_description_field_RTE)
         else:
@@ -126,6 +148,7 @@ class Issue(BasePage):
     def set_issue_type(self):
         def __filer_epic(element):
             return "epic" not in element.get_attribute("class").lower()
+
         issue_types = {}
         data_suggestions = json.loads(self.get_element(IssueLocators.issue_types_options)
                                       .get_attribute('data-suggestions'))
@@ -189,6 +212,251 @@ class ProjectsList(BasePage):
 class BoardsList(BasePage):
     page_url = BoardsListLocators.boards_list_url
     page_loaded_selector = BoardsListLocators.boards_list
+
+
+class JwtTestIssueView(BasePage):
+    page_url = JwtTestIssueViewLocators.jwt_test_issue_view_url
+    page_loaded_selector = JwtTestIssueViewLocators.summary
+
+    def click_transition(self):
+        self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
+        self.get_element(JwtTestIssueViewLocators.transition_button).click()
+        self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
+        self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
+
+    def check_calc_field_value(self):
+        self.wait_until_visible(JwtTestIssueViewLocators.calc_field_value, 10)
+        assert "1" in self.get_element(JwtTestIssueViewLocators.calc_field_value).text
+
+    def change_priority(self):
+        self.get_element(JwtTestIssueViewLocators.priority_button).click()
+        self.wait_until_visible(JwtTestIssueViewLocators.first_priority_option, 10)
+        self.get_element(JwtTestIssueViewLocators.first_priority_option).click()
+        self.wait_until_visible(JwtTestIssueViewLocators.submit_priority_button, 10)
+        self.get_element(JwtTestIssueViewLocators.submit_priority_button).click()
+        self.wait_until_visible(JwtTestIssueViewLocators.priority_select_loading, 10)
+        self.wait_until_invisible(JwtTestIssueViewLocators.priority_select_loading)
+
+    def check_automation_rule_changes(self):
+        self.wait_until_visible(JwtTestIssueViewLocators.assignee, 10)
+        assert "Unassigned" in self.get_element(JwtTestIssueViewLocators.assignee).text.strip()
+        self.check_summary_value("Changed by Automation rule")
+
+    def assign_to_me(self):
+        self.wait_until_visible(JwtTestIssueViewLocators.assign_to_me_button, 10)
+        self.get_element(JwtTestIssueViewLocators.assign_to_me_button).click()
+        self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
+        self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
+
+    def check_condition(self, visible):
+        if visible:
+            self.wait_until_visible(JwtTestIssueViewLocators.transition_button)
+        else:
+            self.wait_until_invisible(JwtTestIssueViewLocators.transition_button)
+
+    def check_validator(self, passed):
+        if passed:
+            self.wait_until_invisible(JwtTestIssueViewLocators.transition_screen_error)
+        else:
+            self.wait_until_visible(JwtTestIssueViewLocators.transition_screen_error)
+
+    def close_transition_screen(self):
+        self.get_element(JwtTestIssueViewLocators.transition_screen_cancel_button).click()
+
+    def execute_transition_without_change(self):
+        self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
+        self.get_element(JwtTestIssueViewLocators.transition_button).click()
+        self.wait_until_visible(JwtTestIssueViewLocators.transition_screen_submit_button, 10)
+        self.get_element(JwtTestIssueViewLocators.transition_screen_submit_button).click()
+
+    def execute_transition_with_change(self):
+        self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
+        self.get_element(JwtTestIssueViewLocators.transition_button).click()
+        self.wait_until_visible(JwtTestIssueViewLocators.transition_summary, 10)
+        self.get_element(JwtTestIssueViewLocators.transition_summary).send_keys("JWT-Summary")
+        self.get_element(JwtTestIssueViewLocators.transition_screen_submit_button).click()
+        self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
+        self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
+
+    def check_summary_value(self, text):
+        self.wait_until_visible(JwtTestIssueViewLocators.summary, 10)
+        assert text in self.get_element(JwtTestIssueViewLocators.summary).text
+
+
+class AdminToolboxIssueTypeView(BasePage):
+    page_url = AdminToolboxViewLocators.admin_toolbox_issue_types_view_url
+    page_loaded_selector = AdminToolboxViewLocators.filter_bar
+
+    def check_id_column_visibility(self, visible):
+        if visible:
+            self.wait_until_visible(AdminToolboxViewLocators.filter_id_column, 10)
+        else:
+            self.wait_until_invisible(AdminToolboxViewLocators.filter_id_column)
+
+    def activate_show_hide_id_column(self):
+        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_show_hide_button, 10)
+        if not self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_checkbox).is_selected():
+            self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_button).click()
+        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+
+    def deactivate_show_hide_id_column(self):
+        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_button, 10)
+        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_show_hide_button, 10)
+        if self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_checkbox).is_selected():
+            self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_button).click()
+        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+
+    def check_smart_view_visibility(self, visible):
+        if visible:
+            self.wait_until_visible(AdminToolboxViewLocators.filter_smart_view_related_schemes_button, 10)
+        else:
+            self.wait_until_invisible(AdminToolboxViewLocators.filter_smart_view_related_schemes_button)
+
+    def activate_smart_view(self):
+        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_button, 10)
+        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_smart_view_button, 10)
+        if not self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_checkbox).is_selected():
+            self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_button).click()
+        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+
+    def deactivate_smart_view(self):
+        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_button, 10)
+        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_smart_view_button, 10)
+        if self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_checkbox).is_selected():
+            self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_button).click()
+        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+
+    def set_name_filter(self):
+        self.get_element(AdminToolboxViewLocators.filter_name_select).click()
+        self.wait_until_visible(AdminToolboxViewLocators.filter_name_dropdown_container, 10)
+        self.get_element(AdminToolboxViewLocators.filter_name_bug_option).click()
+        self.get_element(AdminToolboxViewLocators.filter_name_select).click()
+
+    def click_reset_filter_button(self):
+        self.get_element(AdminToolboxViewLocators.filter_reset_all_button).click()
+
+    def check_activated_name_filter_result(self):
+        self.wait_until_invisible(AdminToolboxViewLocators.filter_name_second_visible_table_row)
+
+    def check_deactivated_name_filter_result(self):
+        self.wait_until_visible(AdminToolboxViewLocators.filter_name_second_visible_table_row, 10)
+
+
+class LastLogView(BasePage):
+    page_url = LastLogViewLocators.last_log_view_url
+    page_loaded_selector = LastLogViewLocators.log
+
+    def apply_filter(self):
+        self.get_element(LastLogViewLocators.apply_filter_button).click()
+
+    def wait_for_loading(self):
+        self.wait_until_visible(LastLogViewLocators.loading_spinner, 10)
+        self.wait_until_invisible(LastLogViewLocators.loading_spinner)
+
+    def check_log_visibility(self):
+        self.wait_until_visible(LastLogViewLocators.log, 10)
+
+    def reload(self):
+        self.get_element(LastLogViewLocators.reload_button).click()
+
+
+class SumUpCalcRulesView(BasePage):
+    page_url = SumUpLocators.calc_rules_url
+    page_loaded_selector = SumUpLocators.add_new_rule_button
+
+    def add_new_rule(self):
+        self.get_element(SumUpLocators.add_new_rule_button).click()
+        self.wait_until_visible(SumUpLocators.new_rule_field_select, 10)
+        self.get_element(SumUpLocators.new_rule_field_select).send_keys("Watchers")
+        self.wait_until_visible(SumUpLocators.watchers_field_select_option, 10)
+        self.get_element(SumUpLocators.new_rule_field_select).send_keys(Keys.ENTER)
+        self.wait_until_visible(SumUpLocators.rule_name_field, 10)
+        self.get_element(SumUpLocators.rule_name_field).send_keys("SumUp watchers field")
+        self.get_element(SumUpLocators.submit_button).click()
+        self.wait_until_visible(SumUpLocators.first_rule, 10)
+
+    def delete_rule(self):
+        self.get_element(SumUpLocators.delete_first_rule_button).click()
+        self.wait_until_visible(SumUpLocators.submit_button, 10)
+        self.get_element(SumUpLocators.submit_button).click()
+        self.wait_until_visible(SumUpLocators.new_rule_loading_spinner, 10)
+        self.wait_until_invisible(SumUpLocators.new_rule_loading_spinner)
+        self.go_to()
+        self.element_exists(SumUpLocators.no_rule_message)
+
+
+class SumUpCalculationView(BasePage):
+    page_url = SumUpLocators.issues_calc_view_url
+    page_loaded_selector = SumUpLocators.switch_layout_button
+
+    def switch_view_layout(self):
+        self.get_element(SumUpLocators.switch_layout_button).click()
+        self.wait_until_visible(SumUpLocators.list_view_layout_option, 10)
+        self.get_element(SumUpLocators.list_view_layout_option).click()
+
+    def add_watchers_field(self):
+        self.get_element(SumUpLocators.columns_button).click()
+        self.wait_until_visible(SumUpLocators.columns_search_bar, 10)
+        self.get_element(SumUpLocators.columns_search_bar).send_keys("Watchers")
+        self.wait_until_visible(SumUpLocators.watchers_checkbox_label, 10)
+        checkbox_label = self.get_element(SumUpLocators.watchers_checkbox_label)
+        checkbox = self.get_element(SumUpLocators.watchers_checkbox)
+        if not checkbox.is_selected():
+            checkbox_label.click()
+        self.get_element(SumUpLocators.columns_submit_button).click()
+        self.wait_until_visible(SumUpLocators.watchers_column_header, 10)
+
+    def calculate(self):
+        self.get_element(SumUpLocators.calculate_toggle).click()
+        self.wait_until_visible(SumUpLocators.page_sum_row, 10)
+        self.wait_until_visible(SumUpLocators.total_sum_row, 10)
+        self.get_element(SumUpLocators.calculate_toggle).click()
+        self.wait_until_invisible(SumUpLocators.page_sum_row)
+        self.wait_until_invisible(SumUpLocators.total_sum_row)
+
+    def remove_watchers_field(self):
+        self.get_element(SumUpLocators.columns_button).click()
+        self.wait_until_visible(SumUpLocators.columns_search_bar, 10)
+        self.get_element(SumUpLocators.columns_search_bar).send_keys("Watchers")
+        self.wait_until_visible(SumUpLocators.watchers_checkbox_label, 10)
+        checkbox_label = self.get_element(SumUpLocators.watchers_checkbox_label)
+        checkbox = self.get_element(SumUpLocators.watchers_checkbox)
+        if checkbox.is_selected():
+            checkbox_label.click()
+        self.get_element(SumUpLocators.columns_submit_button).click()
+
+
+class SumUpGlobalSettingsView(BasePage):
+    page_url = SumUpLocators.global_settings_url
+    page_loaded_selector = SumUpLocators.supported_apps_table
+
+    def deactivate_apps(self):
+        self.wait_until_visible(SumUpLocators.active_jira_core_toggle, 10)
+        self.get_element(SumUpLocators.active_jira_core_toggle).click()
+        self.wait_until_visible(SumUpLocators.open_flag, 10)
+        self.wait_until_invisible(SumUpLocators.open_flag)
+        self.wait_until_visible(SumUpLocators.inactive_jira_core_toggle, 10)
+        self.wait_until_visible(SumUpLocators.active_jira_software_toggle, 10)
+        self.get_element(SumUpLocators.active_jira_software_toggle).click()
+        self.wait_until_visible(SumUpLocators.open_flag, 10)
+        self.wait_until_invisible(SumUpLocators.open_flag)
+        self.wait_until_visible(SumUpLocators.inactive_jira_software_toggle, 10)
+
+    def activate_apps(self):
+        self.wait_until_visible(SumUpLocators.inactive_jira_core_toggle, 10)
+        self.get_element(SumUpLocators.inactive_jira_core_toggle).click()
+        self.wait_until_visible(SumUpLocators.open_flag, 10)
+        self.wait_until_invisible(SumUpLocators.open_flag)
+        self.wait_until_visible(SumUpLocators.active_jira_core_toggle, 10)
+        self.wait_until_visible(SumUpLocators.inactive_jira_software_toggle, 10)
+        self.get_element(SumUpLocators.inactive_jira_software_toggle).click()
+        self.wait_until_visible(SumUpLocators.open_flag, 10)
+        self.wait_until_invisible(SumUpLocators.open_flag)
+        self.wait_until_visible(SumUpLocators.active_jira_software_toggle, 10)
 
 
 class Search(BasePage):
