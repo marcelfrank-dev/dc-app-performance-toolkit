@@ -222,6 +222,7 @@ class JwtTestIssueView(BasePage):
         self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
         self.get_element(JwtTestIssueViewLocators.transition_button).click()
         self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
+        self.get_element(JwtTestIssueViewLocators.issue_updated_flag_close_button).click()
         self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
 
     def check_calc_field_value(self):
@@ -246,6 +247,7 @@ class JwtTestIssueView(BasePage):
         self.wait_until_visible(JwtTestIssueViewLocators.assign_to_me_button, 10)
         self.get_element(JwtTestIssueViewLocators.assign_to_me_button).click()
         self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
+        self.get_element(JwtTestIssueViewLocators.issue_updated_flag_close_button).click()
         self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
 
     def check_condition(self, visible):
@@ -276,6 +278,7 @@ class JwtTestIssueView(BasePage):
         self.get_element(JwtTestIssueViewLocators.transition_summary).send_keys("JWT-Summary")
         self.get_element(JwtTestIssueViewLocators.transition_screen_submit_button).click()
         self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
+        self.get_element(JwtTestIssueViewLocators.issue_updated_flag_close_button).click()
         self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
 
     def check_summary_value(self, text):
@@ -438,11 +441,13 @@ class SumUpGlobalSettingsView(BasePage):
         self.wait_until_visible(SumUpLocators.active_jira_core_toggle, 10)
         self.get_element(SumUpLocators.active_jira_core_toggle).click()
         self.wait_until_visible(SumUpLocators.open_flag, 10)
+        self.get_element(SumUpLocators.flag_close_button).click()
         self.wait_until_invisible(SumUpLocators.open_flag)
         self.wait_until_visible(SumUpLocators.inactive_jira_core_toggle, 10)
         self.wait_until_visible(SumUpLocators.active_jira_software_toggle, 10)
         self.get_element(SumUpLocators.active_jira_software_toggle).click()
         self.wait_until_visible(SumUpLocators.open_flag, 10)
+        self.get_element(SumUpLocators.flag_close_button).click()
         self.wait_until_invisible(SumUpLocators.open_flag)
         self.wait_until_visible(SumUpLocators.inactive_jira_software_toggle, 10)
 
@@ -450,11 +455,13 @@ class SumUpGlobalSettingsView(BasePage):
         self.wait_until_visible(SumUpLocators.inactive_jira_core_toggle, 10)
         self.get_element(SumUpLocators.inactive_jira_core_toggle).click()
         self.wait_until_visible(SumUpLocators.open_flag, 10)
+        self.get_element(SumUpLocators.flag_close_button).click()
         self.wait_until_invisible(SumUpLocators.open_flag)
         self.wait_until_visible(SumUpLocators.active_jira_core_toggle, 10)
         self.wait_until_visible(SumUpLocators.inactive_jira_software_toggle, 10)
         self.get_element(SumUpLocators.inactive_jira_software_toggle).click()
         self.wait_until_visible(SumUpLocators.open_flag, 10)
+        self.get_element(SumUpLocators.flag_close_button).click()
         self.wait_until_invisible(SumUpLocators.open_flag)
         self.wait_until_visible(SumUpLocators.active_jira_software_toggle, 10)
 

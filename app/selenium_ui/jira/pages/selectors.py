@@ -208,6 +208,7 @@ class JwtTestIssueViewLocators:
     transition_summary = (By.CSS_SELECTOR, "#summary")
     assignee = (By.CSS_SELECTOR, "#assignee-val")
     issue_updated_flag = (By.CSS_SELECTOR, "#aui-flag-container > div[open=\"open\"]")
+    issue_updated_flag_close_button = (By.CSS_SELECTOR, ".aui-close-button")
 
     calc_field_value = (By.CSS_SELECTOR, "#customfield_11200-val")
 
@@ -242,6 +243,7 @@ class SumUpLocators:
     inactive_jira_core_toggle = (By.CSS_SELECTOR, "#jira-core > td.status-row > aui-toggle:not([checked])")
     inactive_jira_software_toggle = (By.CSS_SELECTOR, "#com-pyxis-greenhopper-jira > td.status-row > aui-toggle:not([checked])")
     open_flag = (By.CSS_SELECTOR, "#aui-flag-container > div[open=\"open\"]")
+    flag_close_button = (By.CSS_SELECTOR, ".aui-close-button")
 
     # cal rules
     calc_rules_url = UrlManager().calc_rules_url()
