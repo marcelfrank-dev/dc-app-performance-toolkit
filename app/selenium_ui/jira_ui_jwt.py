@@ -1,3 +1,5 @@
+import time
+
 from extension.jira import extension_ui  # noqa F401
 from selenium_ui.conftest import print_timing
 from selenium_ui.jira import modules
@@ -31,6 +33,8 @@ def test_1_selenium_check_calc_field_value_action(jira_webdriver, jira_datasets,
 def test_1_selenium_check_automation_rule_action(jira_webdriver, jira_datasets, jira_screen_shots):
     jwt_test_issue_view_page = JwtTestIssueView(jira_webdriver)
     jwt_test_issue_view_page.change_priority()
+    # wait 2 seconds to be sure that the automation rule is executed
+    time.sleep(2)
     jwt_test_issue_view_page.go_to()
     jwt_test_issue_view_page.check_automation_rule_changes()
 
