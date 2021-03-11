@@ -59,7 +59,11 @@ execution:
     hold-for: ${test_duration}
 scenarios:
   selenium:
-    script: selenium_ui/jira_ui.py
+#    script: selenium_ui/jira_ui.py
+    script: selenium_ui/jira_ui_jwt.py
+#    script: selenium_ui/jira_ui_sum_up.py
+#    script: selenium_ui/jira_ui_last_log.py
+#    script: selenium_ui/jira_ui_admin_toolbox.py
   locust:
     script: locustio/jira/locustfile.py
   jmeter:
