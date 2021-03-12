@@ -386,8 +386,8 @@ class SumUpCalcRulesView(BasePage):
         self.get_element(SumUpLocators.delete_first_rule_button).click()
         self.wait_until_visible(SumUpLocators.submit_button, 10)
         self.get_element(SumUpLocators.submit_button).click()
-        self.wait_until_visible(SumUpLocators.new_rule_loading_spinner, 10)
-        self.wait_until_invisible(SumUpLocators.new_rule_loading_spinner)
+        # wait 2 seconds to be sure that the rule is deleted
+        time.sleep(2)
         self.go_to()
         self.element_exists(SumUpLocators.no_rule_message)
 
