@@ -73,16 +73,16 @@ def test_1_selenium_a_login(jira_webdriver, jira_datasets, jira_screen_shots):
 
 
 # ----------------------- SUM UP ------------------------
-def test_1_selenium_browse_calculation_rules_view_action(jira_webdriver, jira_datasets, jira_screen_shots):
+def test_10_selenium_browse_calculation_rules_view_action(jira_webdriver, jira_datasets, jira_screen_shots):
     modules.browse_calc_rules_view(jira_webdriver)
 
 
-def test_1_selenium_add_new_rule_action(jira_webdriver, jira_datasets, jira_screen_shots):
+def test_20_selenium_add_new_rule_action(jira_webdriver, jira_datasets, jira_screen_shots):
     calc_rules_view_page = SumUpCalcRulesView(jira_webdriver)
     calc_rules_view_page.add_new_rule()
 
 
-def test_1_selenium_calculate_watcher_field_action(jira_webdriver, jira_datasets, jira_screen_shots):
+def test_30_selenium_calculate_watcher_field_action(jira_webdriver, jira_datasets, jira_screen_shots):
     modules.browse_calc_issues_view(jira_webdriver)
     calc_issues_view_page = SumUpCalculationView(jira_webdriver)
     calc_issues_view_page.switch_view_layout()
@@ -93,27 +93,27 @@ def test_1_selenium_calculate_watcher_field_action(jira_webdriver, jira_datasets
     calc_issues_view_page.remove_watchers_field()
 
 
-def test_1_selenium_delete_new_rule_action(jira_webdriver, jira_datasets, jira_screen_shots):
+def test_40_selenium_delete_new_rule_action(jira_webdriver, jira_datasets, jira_screen_shots):
     calc_rules_view_page = SumUpCalcRulesView(jira_webdriver)
     calc_rules_view_page.go_to()
     calc_rules_view_page.wait_for_page_loaded()
     calc_rules_view_page.delete_rule()
 
 
-def test_1_selenium_browse_global_settings_view_action(jira_webdriver, jira_datasets, jira_screen_shots):
+def test_50_selenium_browse_global_settings_view_action(jira_webdriver, jira_datasets, jira_screen_shots):
     modules.browse_global_settings_view(jira_webdriver)
 
 
-def test_1_selenium_deactivate_apps_action(jira_webdriver, jira_datasets, jira_screen_shots):
+def test_60_selenium_deactivate_apps_action(jira_webdriver, jira_datasets, jira_screen_shots):
     global_settings_view_page = SumUpGlobalSettingsView(jira_webdriver)
     global_settings_view_page.deactivate_apps()
 
 
-def test_1_selenium_activate_apps_action(jira_webdriver, jira_datasets, jira_screen_shots):
+def test_70_selenium_activate_apps_action(jira_webdriver, jira_datasets, jira_screen_shots):
     global_settings_view_page = SumUpGlobalSettingsView(jira_webdriver)
     global_settings_view_page.activate_apps()
 
 
 # this action should be the last one
-def test_2_selenium_z_log_out(jira_webdriver, jira_datasets, jira_screen_shots):
+def test_999_selenium_z_log_out(jira_webdriver, jira_datasets, jira_screen_shots):
     modules.log_out(jira_webdriver, jira_datasets)
