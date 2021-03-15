@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+
 from util.conf import CONFLUENCE_SETTINGS
 
 
@@ -7,13 +8,26 @@ class UrlManager:
     def __init__(self, page_id=None):
         self.host = CONFLUENCE_SETTINGS.server_url
         self.login_params = '/login.action'
+        self.admin_login_params = '/admin/viewgeneralconfig.action'
+        self.secure_login_params = '/authenticate.action?destination=/admin/viewgeneralconfig.action'
         self.page_params = f"/pages/viewpage.action?pageId={page_id}"
         self.dashboard_params = '/dashboard.action#all-updates'
         self.edit_page_params = f'/pages/editpage.action?pageId={page_id}'
         self.logout_params = "/logout.action"
+        self.space_admin_browser = "/admin/plugins/spaceadmin/browser.action"
+        self.space_admin_shuttle = "/admin/plugins/spaceadmin/spaceshuttle.action"
+        self.space_admin_permissions = "/admin/plugins/spaceadmin/permissions.action"
+        self.space_admin_attachment_service = "/admin/plugins/spaceadmin/index.action"
+        self.space_admin_settings = "/admin/plugins/spaceadmin/configure.action"
 
     def login_url(self):
         return f"{self.host}{self.login_params}"
+
+    def admin_login_url(self):
+        return f"{self.host}{self.admin_login_params}"
+
+    def secure_login_url(self):
+        return f"{self.host}{self.secure_login_params}"
 
     def dashboard_url(self):
         return f"{self.host}{self.dashboard_params}"
@@ -27,6 +41,21 @@ class UrlManager:
     def logout_url(self):
         return f"{self.host}{self.logout_params}"
 
+    def space_admin_browser_url(self):
+        return f"{self.host}{self.space_admin_browser}"
+
+    def space_admin_shuttle_url(self):
+        return f"{self.host}{self.space_admin_shuttle}"
+
+    def space_admin_permissions_url(self):
+        return f"{self.host}{self.space_admin_permissions}"
+
+    def space_admin_attachment_service_url(self):
+        return f"{self.host}{self.space_admin_attachment_service}"
+
+    def space_admin_settings_url(self):
+        return f"{self.host}{self.space_admin_settings}"
+
 
 class PopupLocators:
     timezone_popups = '.button-panel-button .set-timezone-button'
@@ -36,7 +65,6 @@ class PopupLocators:
 
 
 class LoginPageLocators:
-
     login_page_url = UrlManager().login_url()
     login_button = (By.ID, "loginButton")
     login_username_field = (By.ID, "os_username")
@@ -49,6 +77,15 @@ class LoginPageLocators:
     skip_photo_upload = (By.CSS_SELECTOR, ".aui-button-link")
     skip_find_content = (By.CSS_SELECTOR, ".intro-find-spaces-space>.space-checkbox")
     finish_setup = (By.CSS_SELECTOR, ".intro-find-spaces-button-continue")
+
+    secure_login = UrlManager().secure_login_url()
+    secure_password_field = (By.CSS_SELECTOR, "#password")
+    secure_login_submit_button = (By.CSS_SELECTOR, "#authenticateButton")
+    admin_login_url = UrlManager().admin_login_url()
+    system_settings = (By.CSS_SELECTOR, "#admin-body-content > form > h2:nth-child(2) > a")
+    login_field = (By.CSS_SELECTOR, "#os_username")
+    password_field = (By.CSS_SELECTOR, "#os_password")
+    login_submit_button = (By.CSS_SELECTOR, "#loginButton")
 
 
 class AllUpdatesLocators:
@@ -79,3 +116,32 @@ class EditorLocators:
 
     status_indicator = (By.CLASS_NAME, "status-indicator-message")
     save_spinner = (By.ID, "rte-spinner")
+
+
+class SpaceAdminViewLocators:
+    space_admin_browser_url = UrlManager().space_admin_browser_url()
+    browser_container = (By.CSS_SELECTOR, "#spad-content > div.space-admin-container")
+
+    space_admin_shuttle_url = UrlManager().space_admin_shuttle_url()
+    shuttle_container = (By.CSS_SELECTOR, "#space-shuttle-config")
+    shuttle_add_category_button = (By.CSS_SELECTOR, "#addCategory")
+    shuttle_category_name_input = (By.CSS_SELECTOR, "#com-atlassian-confluence > section > div > form > div:nth-child(1) > input")
+    shuttle_category_submit_button = (By.CSS_SELECTOR, "#dialog-save-button")
+    shuttle_browser_category_name = (By.CSS_SELECTOR, "#space-shuttle-categories > li > div > strong")
+    shuttle_browser_category_delete_button = (By.CSS_SELECTOR, "#space-shuttle-categories > li > div > div > a.aui-button.aui-button-link.remove-category")
+    shuttle_browser_category_delete_confirm_button = (By.CSS_SELECTOR, "#dialog-save-button")
+    shuttle_browser_categories = (By.CSS_SELECTOR, ".space-shuttle-category")
+
+    space_admin_permissions_url = UrlManager().space_admin_permissions_url()
+    permissions_container = (By.CSS_SELECTOR, "#admin-body-content > div > div > form")
+    permission_user_search_input = (By.CSS_SELECTOR, "#select2-drop > div > input")
+    permission_user_select = (By.CSS_SELECTOR, "#s2id_username > a")
+    permission_user_select_option = (By.CSS_SELECTOR, "#select2-drop > ul > li > div")
+    permission_show_button = (By.CSS_SELECTOR, "#submit-button-user-group")
+    permission_no_permissions_notification = (By.CSS_SELECTOR, "#admin-body-content > div > div.aui-message.aui-message-info")
+
+    space_admin_attachment_service_url = UrlManager().space_admin_attachment_service_url()
+    attachment_service_container = (By.CSS_SELECTOR, "#admin-body > form")
+
+    space_admin_settings_url = UrlManager().space_admin_settings_url()
+    settings_container = (By.CSS_SELECTOR, "#admin-body-content > form")

@@ -1,8 +1,8 @@
+from selenium.webdriver.common.keys import Keys
 
 from selenium_ui.base_page import BasePage
-
-from selenium_ui.confluence.pages.selectors import UrlManager, LoginPageLocators, AllUpdatesLocators, PopupLocators,\
-    PageLocators, DashboardLocators, TopPanelLocators, EditorLocators
+from selenium_ui.confluence.pages.selectors import UrlManager, LoginPageLocators, AllUpdatesLocators, PopupLocators, \
+    PageLocators, DashboardLocators, TopPanelLocators, EditorLocators, SpaceAdminViewLocators
 
 
 class Login(BasePage):
@@ -118,3 +118,92 @@ class Editor(BasePage):
         self.wait_until_invisible(EditorLocators.save_spinner)
         self.wait_until_any_ec_presented(selector_names=[PageLocators.page_title,
                                                          EditorLocators.confirm_publishing_button])
+
+
+class AdminLogin(BasePage):
+    page_url = LoginPageLocators.admin_login_url
+    page_loaded_selector = LoginPageLocators.system_settings
+
+    def is_first_login(self):
+        elements = self.get_elements(LoginPageLocators.first_login_setup_page)
+        return True if elements else False
+
+    def set_credentials(self, username, password):
+        self.get_element(LoginPageLocators.login_field).send_keys(username)
+        self.get_element(LoginPageLocators.password_field).send_keys(password)
+        self.get_element(LoginPageLocators.login_submit_button).click()
+
+
+class SecureLogin(BasePage):
+    page_loaded_selector = LoginPageLocators.secure_login
+    secure_password_field = LoginPageLocators.secure_password_field
+
+    def set_credentials(self):
+        self.get_element(LoginPageLocators.secure_password_field).send_keys("admin")
+        self.get_element(LoginPageLocators.secure_login_submit_button).click()
+
+
+class SpaceAdminBrowserView(BasePage):
+    page_url = SpaceAdminViewLocators.space_admin_browser_url
+    page_loaded_selector = SpaceAdminViewLocators.browser_container
+
+
+class SpaceAdminShuttleView(BasePage):
+    page_url = SpaceAdminViewLocators.space_admin_shuttle_url
+    page_loaded_selector = SpaceAdminViewLocators.shuttle_container
+
+    def click_add_category_button(self):
+        self.wait_until_visible(SpaceAdminViewLocators.shuttle_add_category_button)
+        self.get_element(SpaceAdminViewLocators.shuttle_add_category_button).click()
+
+    def set_category_name(self, name):
+        self.wait_until_visible(SpaceAdminViewLocators.shuttle_category_name_input, 10)
+        self.get_element(SpaceAdminViewLocators.shuttle_category_name_input).send_keys(name)
+
+    def click_category_submit_button(self):
+        self.wait_until_visible(SpaceAdminViewLocators.shuttle_category_submit_button, 10)
+        self.get_element(SpaceAdminViewLocators.shuttle_category_submit_button).click()
+
+    def check_created_category(self, name):
+        self.wait_until_visible(SpaceAdminViewLocators.shuttle_browser_category_name, 10)
+        assert name in self.get_element(SpaceAdminViewLocators.shuttle_browser_category_name).text
+
+    def remove_category(self):
+        self.execute_js("$(\"#space-shuttle-categories > li > div > div > a.aui-button.aui-button-link.remove-category\").attr(\"style\",\"display:inline-block\")")
+        self.get_element(SpaceAdminViewLocators.shuttle_browser_category_delete_button).click()
+        self.wait_until_visible(SpaceAdminViewLocators.shuttle_browser_category_delete_confirm_button, 10)
+        self.get_element(SpaceAdminViewLocators.shuttle_browser_category_delete_confirm_button).click()
+
+    def check_for_no_results(self):
+        self.wait_until_invisible(SpaceAdminViewLocators.shuttle_browser_categories)
+
+
+class SpaceAdminPermissionsView(BasePage):
+    page_url = SpaceAdminViewLocators.space_admin_permissions_url
+    page_loaded_selector = SpaceAdminViewLocators.permissions_container
+
+    def select_admin(self):
+        self.wait_until_visible(SpaceAdminViewLocators.permission_user_select, 10)
+        self.get_element(SpaceAdminViewLocators.permission_user_select).click()
+        self.wait_until_visible(SpaceAdminViewLocators.permission_user_search_input, 10)
+        self.get_element(SpaceAdminViewLocators.permission_user_search_input).send_keys("admin")
+        self.wait_until_visible(SpaceAdminViewLocators.permission_user_select_option, 10)
+        self.get_element(SpaceAdminViewLocators.permission_user_search_input).send_keys(Keys.ENTER)
+
+    def click_show_button(self):
+        self.wait_until_visible(SpaceAdminViewLocators.permission_show_button, 10)
+        self.get_element(SpaceAdminViewLocators.permission_show_button).click()
+
+    def check_permissions(self):
+        self.wait_until_visible(SpaceAdminViewLocators.permission_no_permissions_notification, 10)
+        assert "This user/group has no permissions." in self.get_element(SpaceAdminViewLocators.permission_no_permissions_notification).text.strip()
+
+
+class SpaceAdminAttachmentServiceView(BasePage):
+    page_url = SpaceAdminViewLocators.space_admin_attachment_service_url
+    page_loaded_selector = SpaceAdminViewLocators.attachment_service_container
+
+
+class SpaceAdminSettingsView(BasePage):
+    page_url = SpaceAdminViewLocators.space_admin_settings_url
+    page_loaded_selector = SpaceAdminViewLocators.settings_container
