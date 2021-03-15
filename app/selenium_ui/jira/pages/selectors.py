@@ -28,6 +28,8 @@ class UrlManager:
         self.scrum_board_backlog_params = f"/secure/RapidBoard.jspa?rapidView={board_id}&view=planning"
         self.scrum_board_params = f"/secure/RapidBoard.jspa?rapidView={board_id}"
         self.last_log_view_log = '/secure/admin/ViewLastLog!default.jspa'
+        self.xcharts_resources_view = '/secure/ChartResourcesIndex!default.jspa'
+        self.xcharts_data_scripts_view = '/secure/ScriptedChartsIndex!default.jspa'
         self.admin_toolbox_issue_types_view = '/secure/admin/ViewIssueTypes.jspa'
         self.jwt_test_issue_view = '/browse/AFOCIA-1'
         self.calc_rules = '/secure/SumUpViewRule!default.jspa'
@@ -75,6 +77,12 @@ class UrlManager:
 
     def last_log_view_log_url(self):
         return f"{self.host}{self.last_log_view_log}"
+
+    def xcharts_resources_view_url(self):
+        return f"{self.host}{self.xcharts_resources_view}"
+
+    def xcharts_data_scripts_view_url(self):
+        return f"{self.host}{self.xcharts_data_scripts_view}"
 
     def admin_toolbox_issue_types_view_url(self):
         return f"{self.host}{self.admin_toolbox_issue_types_view}"
@@ -180,6 +188,45 @@ class LastLogViewLocators:
     reload_button = (By.CSS_SELECTOR, "#reload")
 
 
+class XChartsResourcesViewLocators:
+    xcharts_resources_view_url = UrlManager().xcharts_resources_view_url()
+    create_resources_button = (By.CSS_SELECTOR, "#content > div > div > section > header > div > div.aui-page-header-actions > div > a")
+    resource_name_input_field = (By.CSS_SELECTOR, "#name")
+    resource_description_input_field = (By.CSS_SELECTOR, "#description")
+    resource_type_input_field = (By.CSS_SELECTOR, "#type-field")
+    resource_data_tab_button = (By.CSS_SELECTOR, "#content > div > div > section > div > form > div.aui-group.aui-group-split > div:nth-child(1) > div > div:nth-child(2)")
+    resource_data_input = (By.CSS_SELECTOR, "#data")
+    resource_save_button = (By.CSS_SELECTOR, "#content > div > div > section > div > form > div.aui-group.aui-group-split > div:nth-child(2) > div:nth-child(1) > input")
+
+    table_resource = (By.CSS_SELECTOR, ".xcharts-table")
+    table_resource_name = (By.CSS_SELECTOR, "#content > div > div > section > table > tbody > tr:nth-child(1) > td:nth-child(1) > a")
+    table_resource_description = (By.CSS_SELECTOR, "#content > div > div > section > table > tbody > tr:nth-child(1) > td:nth-child(1) > div")
+    table_resource_type = (By.CSS_SELECTOR, "#content > div > div > section > table > tbody > tr:nth-child(1) > td:nth-child(2) > span")
+    table_resource_delete_button = (By.CSS_SELECTOR, "#content > div > div > section > table > tbody > tr:nth-child(1) > td.cell-type-collapsed.action > ul > li:nth-child(2) > a")
+    table_resource_delete_confirm_button = (By.CSS_SELECTOR, "#content > div > div > section > form > div.buttons-container > div > input")
+    table_resource_rows = (By.CSS_SELECTOR, "#content > div > div > section > table > tbody > tr:not(.noresult)")
+
+
+class XChartsDataScriptsViewLocators:
+    xcharts_data_scripts_view_url = UrlManager().xcharts_data_scripts_view_url()
+    create_script_button = (By.CSS_SELECTOR, "#content > div > div > section > header > div > div.aui-page-header-actions > div > a.aui-button.trigger-scripted-chart-add-dialog")
+    script_name_input_field = (By.CSS_SELECTOR, "#name")
+    script_description_input_field = (By.CSS_SELECTOR, "#description")
+    script_example_input_field = (By.CSS_SELECTOR, "#template-field")
+    script_add_button = (By.CSS_SELECTOR, "#trigger-scripted-chart-add-dialog > div.jira-dialog-content > form > div.buttons-container > div > input.aui-button.aui-button-primary")
+    script_preview_button = (By.CSS_SELECTOR, "#previewButton")
+    script_preview_iframe = (By.CSS_SELECTOR, "#chart-preview-iframe")
+    script_save_and_close_button = (By.CSS_SELECTOR, "#content > div > div > section > div.aui-page-panel-content > div.aui-group.aui-group-split > div:nth-child(2) > div:nth-child(1) > input.aui-button.aui-button-primary.submit-and-close")
+
+    table_script = (By.CSS_SELECTOR, ".xcharts-table")
+    table_script_rows = (By.CSS_SELECTOR, "#content > div > div > section > table > tbody > tr:not(.noresult)")
+    table_script_name = (By.CSS_SELECTOR, "#content > div > div > section > table > tbody > tr:nth-child(1) > td:nth-child(1) > a")
+    table_script_description = (By.CSS_SELECTOR, "#content > div > div > section > table > tbody > tr:nth-child(1) > td:nth-child(1) > div")
+    table_script_layout = (By.CSS_SELECTOR, "#content > div > div > section > table > tbody > tr:nth-child(1) > td:nth-child(2) > a")
+    table_script_delete_button = (By.CSS_SELECTOR, "#content > div > div > section > table > tbody > tr:nth-child(1) > td:nth-child(6) > ul > li:nth-child(3) > a")
+    table_script_delete_submit_button = (By.CSS_SELECTOR, "#content > div > div > section > form > div.buttons-container > div > input")
+
+
 class AdminToolboxViewLocators:
     admin_toolbox_issue_types_view_url = UrlManager().admin_toolbox_issue_types_view_url()
     filter_bar = (By.CSS_SELECTOR, ".xtools-navigator-filter")
@@ -252,7 +299,6 @@ class SumUpLocators:
     watchers_field_select_option = (By.CSS_SELECTOR, "[id^=\"watchers-\"]")
     rule_name_field = (By.CSS_SELECTOR, "#name")
     submit_button = (By.CSS_SELECTOR, "#submit-form")
-    new_rule_loading_spinner = (By.CSS_SELECTOR, "#sumup-delete-role > div.jira-dialog-content > form > div.buttons-container.form-footer > div > span > aui-spinner > div")
     first_rule = (By.CSS_SELECTOR, "#main > table > tbody > tr")
     no_rule_message = (By.CSS_SELECTOR, "#main > div > p > strong")
     delete_first_rule_button = (By.CSS_SELECTOR, "#main > table > tbody > tr > td:nth-child(7) > ul > li:nth-child(2) > a")

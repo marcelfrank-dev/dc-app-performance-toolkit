@@ -6,7 +6,8 @@ from selenium.webdriver.common.keys import Keys
 
 from selenium_ui.base_page import BasePage
 from selenium_ui.jira.pages.selectors import UrlManager, LoginPageLocators, DashboardLocators, PopupLocators, \
-    IssueLocators, ProjectLocators, SearchLocators, BoardsListLocators, BoardLocators, LogoutLocators, LastLogViewLocators, SumUpLocators, JwtTestIssueViewLocators, AdminToolboxViewLocators
+    IssueLocators, ProjectLocators, SearchLocators, BoardsListLocators, BoardLocators, LogoutLocators, LastLogViewLocators, SumUpLocators, JwtTestIssueViewLocators, AdminToolboxViewLocators, \
+    XChartsResourcesViewLocators, XChartsDataScriptsViewLocators
 
 
 class PopupManager(BasePage):
@@ -365,6 +366,111 @@ class LastLogView(BasePage):
 
     def reload(self):
         self.get_element(LastLogViewLocators.reload_button).click()
+
+
+class XChartsResourcesView(BasePage):
+    page_url = XChartsResourcesViewLocators.xcharts_resources_view_url
+    page_loaded_selector = XChartsResourcesViewLocators.create_resources_button
+
+    def click_create_resources_button(self):
+        self.wait_until_visible(XChartsResourcesViewLocators.create_resources_button, 10)
+        self.get_element(XChartsResourcesViewLocators.create_resources_button).click()
+
+    def set_resource_name(self, name):
+        self.wait_until_visible(XChartsResourcesViewLocators.resource_name_input_field, 10)
+        self.get_element(XChartsResourcesViewLocators.resource_name_input_field).send_keys(name)
+
+    def set_resource_description(self, description):
+        self.wait_until_visible(XChartsResourcesViewLocators.resource_description_input_field, 10)
+        self.get_element(XChartsResourcesViewLocators.resource_description_input_field).send_keys(description)
+
+    def change_resource_type(self):
+        self.wait_until_visible(XChartsResourcesViewLocators.resource_type_input_field, 10)
+        self.get_element(XChartsResourcesViewLocators.resource_type_input_field).click()
+        self.get_element(XChartsResourcesViewLocators.resource_type_input_field).send_keys(Keys.ENTER)
+
+    def set_resource_data(self, data):
+        self.wait_until_present(XChartsResourcesViewLocators.resource_data_input, 10)
+        self.execute_js("document.getElementById(\"data\").setAttribute(\"style\",\"\")")
+        self.get_element(XChartsResourcesViewLocators.resource_data_input).send_keys(data)
+
+    def change_to_data_tab(self):
+        self.wait_until_visible(XChartsResourcesViewLocators.resource_data_tab_button, 10)
+        self.get_element(XChartsResourcesViewLocators.resource_data_tab_button).click()
+
+    def click_save_resource_button(self):
+        self.wait_until_visible(XChartsResourcesViewLocators.resource_save_button, 10)
+        self.get_element(XChartsResourcesViewLocators.resource_save_button).click()
+
+    def check_resource_data(self, name, description, res_type):
+        self.wait_until_visible(XChartsResourcesViewLocators.table_resource_name, 10)
+        assert name in self.get_element(XChartsResourcesViewLocators.table_resource_name).text
+        self.wait_until_visible(XChartsResourcesViewLocators.table_resource_description, 10)
+        assert description in self.get_element(XChartsResourcesViewLocators.table_resource_description).text
+        self.wait_until_visible(XChartsResourcesViewLocators.table_resource_type, 10)
+        assert res_type in self.get_element(XChartsResourcesViewLocators.table_resource_type).text
+
+    def delete_first_resource(self):
+        self.get_element(XChartsResourcesViewLocators.table_resource_delete_button).click()
+        self.wait_until_visible(XChartsResourcesViewLocators.table_resource_delete_confirm_button, 10)
+        self.get_element(XChartsResourcesViewLocators.table_resource_delete_confirm_button).click()
+
+    def check_empty_resource_table(self):
+        self.wait_until_visible(XChartsResourcesViewLocators.table_resource, 10)
+        self.wait_until_invisible(XChartsResourcesViewLocators.table_resource_rows)
+
+
+class XChartsDataScriptsView(BasePage):
+    page_url = XChartsDataScriptsViewLocators.xcharts_data_scripts_view_url
+    page_loaded_selector = XChartsDataScriptsViewLocators.create_script_button
+
+    def set_script_name(self, name):
+        self.wait_until_visible(XChartsDataScriptsViewLocators.script_name_input_field, 10)
+        self.get_element(XChartsDataScriptsViewLocators.script_name_input_field).send_keys(name)
+
+    def set_script_description(self, description):
+        self.wait_until_visible(XChartsDataScriptsViewLocators.script_description_input_field, 10)
+        self.get_element(XChartsDataScriptsViewLocators.script_description_input_field).send_keys(description)
+
+    def set_example(self):
+        self.wait_until_visible(XChartsDataScriptsViewLocators.script_example_input_field, 10)
+        self.get_element(XChartsDataScriptsViewLocators.script_example_input_field).click()
+        self.get_element(XChartsDataScriptsViewLocators.script_example_input_field).send_keys(Keys.ENTER)
+
+    def click_create_script_button(self):
+        self.wait_until_visible(XChartsDataScriptsViewLocators.create_script_button, 10)
+        self.get_element(XChartsDataScriptsViewLocators.create_script_button).click()
+
+    def add_script(self):
+        self.wait_until_visible(XChartsDataScriptsViewLocators.script_add_button, 10)
+        self.get_element(XChartsDataScriptsViewLocators.script_add_button).click()
+
+    def save_and_close_script(self):
+        self.wait_until_visible(XChartsDataScriptsViewLocators.script_save_and_close_button, 10)
+        self.get_element(XChartsDataScriptsViewLocators.script_save_and_close_button).click()
+
+    def run_preview(self):
+        self.wait_until_visible(XChartsDataScriptsViewLocators.script_preview_button, 10)
+        self.wait_until_invisible(XChartsDataScriptsViewLocators.script_preview_iframe)
+        self.get_element(XChartsDataScriptsViewLocators.script_preview_button).click()
+        self.wait_until_visible(XChartsDataScriptsViewLocators.script_preview_iframe, 10)
+
+    def check_script_data(self, name, description, layout):
+        self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_name, 10)
+        assert name in self.get_element(XChartsDataScriptsViewLocators.table_script_name).text
+        self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_description, 10)
+        assert description in self.get_element(XChartsDataScriptsViewLocators.table_script_description).text
+        self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_layout, 10)
+        assert layout in self.get_element(XChartsDataScriptsViewLocators.table_script_layout).text
+
+    def delete_first_script(self):
+        self.get_element(XChartsDataScriptsViewLocators.table_script_delete_button).click()
+        self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_delete_submit_button, 10)
+        self.get_element(XChartsDataScriptsViewLocators.table_script_delete_submit_button).click()
+
+    def check_empty_resource_table(self):
+        self.wait_until_visible(XChartsDataScriptsViewLocators.table_script, 10)
+        self.wait_until_invisible(XChartsDataScriptsViewLocators.table_script_rows)
 
 
 class SumUpCalcRulesView(BasePage):
