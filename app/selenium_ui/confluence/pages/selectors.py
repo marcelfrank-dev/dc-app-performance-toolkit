@@ -138,7 +138,7 @@ class SpaceAdminViewLocators:
     permission_user_select = (By.CSS_SELECTOR, "#s2id_username > a")
     permission_user_select_option = (By.CSS_SELECTOR, "#select2-drop > ul > li > div")
     permission_show_button = (By.CSS_SELECTOR, "#submit-button-user-group")
-    permission_no_permissions_notification = (By.CSS_SELECTOR, "#admin-body-content > div > div.aui-message.aui-message-info")
+    permission_approve_icons = (By.CSS_SELECTOR, "#admin-body-content > div > form > table > tbody > tr:nth-child(2) > td > span")
 
     space_admin_attachment_service_url = UrlManager().space_admin_attachment_service_url()
     attachment_service_container = (By.CSS_SELECTOR, "#admin-body > form")

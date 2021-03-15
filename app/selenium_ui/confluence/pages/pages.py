@@ -195,8 +195,8 @@ class SpaceAdminPermissionsView(BasePage):
         self.get_element(SpaceAdminViewLocators.permission_show_button).click()
 
     def check_permissions(self):
-        self.wait_until_visible(SpaceAdminViewLocators.permission_no_permissions_notification, 10)
-        assert "This user/group has no permissions." in self.get_element(SpaceAdminViewLocators.permission_no_permissions_notification).text.strip()
+        self.wait_until_visible(SpaceAdminViewLocators.permission_approve_icons, 10)
+        assert 14 == len(self.get_elements(SpaceAdminViewLocators.permission_approve_icons))
 
 
 class SpaceAdminAttachmentServiceView(BasePage):
