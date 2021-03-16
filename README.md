@@ -24,7 +24,7 @@
 - Activate Jira Core and Jira Software
 
 
-###Jira Workflow Toolbox:
+### Jira Workflow Toolbox:
 - Navigate to issue with key AFOCIA-1
 - The value of the field Calculated Number Field (by JWT) should be 1
 - Change the priority -> Summary and Assignee should be changed to unassigned by automation rule
@@ -35,7 +35,7 @@
 - Change the summary on the screen and execute again: Validator should pass
 - The summary should be changed to "JWT-Summary"
 
-####Needed data:
+#### Needed data:
 - Issue with key: AFOCIA-1
 - Transition on first position (action_id_51): JWT-TRANSITION
 - An Update or copy field post function that updates the summary to "JWT-Summary"
@@ -45,7 +45,7 @@
 - Automation rule that clears the assignee and set summary on Priority change
 
 
-###Admin Toolbox:
+### Admin Toolbox:
 - Navigate to Issues -> Issue types page
 - Activate/Deactivate Show / Hide ID column settings
 - Activate/Deactivate Smart View settings
@@ -53,7 +53,7 @@
 - Clear filter
 
 
-###xCharts:
+### xCharts:
 - navigate to the xCharts resources page
 - click create resource button
 - set resource name (JavaScript resource name)
@@ -87,7 +87,7 @@
 - delete chart data script
 
 
-###SpaceAdmin:
+### SpaceAdmin:
 - Browse to the space admin browser page
 - Browse to the Permission Browser page
 - Browse to the Space Admin Settings page
