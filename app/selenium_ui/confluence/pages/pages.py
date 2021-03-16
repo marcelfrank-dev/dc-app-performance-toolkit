@@ -129,6 +129,8 @@ class AdminLogin(BasePage):
         return True if elements else False
 
     def set_credentials(self, username, password):
+        self.wait_until_visible(LoginPageLocators.logout_button, 10)
+        self.get_element(LoginPageLocators.logout_button).click()
         self.get_element(LoginPageLocators.login_field).send_keys(username)
         self.get_element(LoginPageLocators.password_field).send_keys(password)
         self.get_element(LoginPageLocators.login_submit_button).click()

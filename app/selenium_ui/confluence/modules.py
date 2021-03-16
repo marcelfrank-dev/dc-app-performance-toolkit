@@ -51,28 +51,16 @@ def login(webdriver, datasets):
     PopupManager(webdriver).dismiss_default_popup()
 
 
-def adminLogin(webdriver):
-    @print_timing("selenium_admin_login")
-    def measure():
-        login_page = AdminLogin(webdriver)
-        secure_login_page = SecureLogin(webdriver)
+def admin_login(webdriver):
+    login_page = AdminLogin(webdriver)
+    secure_login_page = SecureLogin(webdriver)
+    login_page.go_to()
+    login_page.set_credentials(username="admin", password="admin")
+    login_page.go_to()
+    secure_login_page.wait_until_visible(secure_login_page.secure_password_field, 30)
+    secure_login_page.set_credentials()
+    login_page.wait_for_page_loaded()
 
-        @print_timing("selenium_admin_login:open_login_page")
-        def sub_measure():
-            login_page.go_to()
-
-        sub_measure()
-
-        @print_timing("selenium_admin_login:login_and_view_system_settings")
-        def sub_measure():
-            login_page.set_credentials(username="admin", password="admin")
-            secure_login_page.wait_until_visible(secure_login_page.secure_password_field, 30000)
-            secure_login_page.set_credentials()
-            login_page.wait_for_page_loaded()
-
-        sub_measure()
-
-    measure()
     PopupManager(webdriver).dismiss_default_popup()
 
 

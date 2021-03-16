@@ -45,7 +45,7 @@ Refer to `app/selenium_ui/confluence/modules.py` for examples.
 
 # ----------------------- ADMIN MODE ------------------------
 def test_1_selenium_a_login(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.adminLogin(jira_webdriver)
+    modules.admin_login(jira_webdriver)
 
 
 def test_1_selenium_browse_spad_pages_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):

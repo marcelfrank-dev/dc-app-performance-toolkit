@@ -78,6 +78,7 @@ class LoginPageLocators:
     skip_find_content = (By.CSS_SELECTOR, ".intro-find-spaces-space>.space-checkbox")
     finish_setup = (By.CSS_SELECTOR, ".intro-find-spaces-button-continue")
 
+    logout_button = (By.CSS_SELECTOR, "#login-container > div > p.last > a:nth-child(2)")
     secure_login = UrlManager().secure_login_url()
     secure_password_field = (By.CSS_SELECTOR, "#password")
     secure_login_submit_button = (By.CSS_SELECTOR, "#authenticateButton")
