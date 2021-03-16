@@ -435,6 +435,7 @@ class XChartsDataScriptsView(BasePage):
     def set_example(self):
         self.wait_until_visible(XChartsDataScriptsViewLocators.script_example_input_field, 10)
         self.get_element(XChartsDataScriptsViewLocators.script_example_input_field).click()
+        self.wait_until_visible(XChartsDataScriptsViewLocators.script_example_first_option, 10)
         self.get_element(XChartsDataScriptsViewLocators.script_example_input_field).send_keys(Keys.ENTER)
 
     def click_create_script_button(self):
@@ -444,6 +445,10 @@ class XChartsDataScriptsView(BasePage):
     def add_script(self):
         self.wait_until_visible(XChartsDataScriptsViewLocators.script_add_button, 10)
         self.get_element(XChartsDataScriptsViewLocators.script_add_button).click()
+
+    def set_jql_parameter(self):
+        self.wait_until_visible(XChartsDataScriptsViewLocators.script_jql_parameter_input, 10)
+        self.get_element(XChartsDataScriptsViewLocators.script_jql_parameter_input).send_keys("porject = \"VLLR\"")
 
     def save_and_close_script(self):
         self.wait_until_visible(XChartsDataScriptsViewLocators.script_save_and_close_button, 10)

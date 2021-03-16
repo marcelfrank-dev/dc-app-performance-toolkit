@@ -1,3 +1,110 @@
+# App specific selenium tests
+
+### LastLog:
+- Navigate to View log page
+- Click apply filter button and wait till the log is loaded
+- Click the reload button and wait till the log is loaded twice
+
+### SumUp:
+- Navigate to the Calculation rules page
+- Add a new Rule with the Watchers field
+  <br/><br/>
+- Navigate to issue search with JQL: watcher is not EMPTY and project = "VLLR" (174 issues)
+- Change to List view
+- Click calculate button -> get an error because no field with a rule is visible
+- Add watchers as column
+- Click calculate button -> the watcher field should be summarized and two sum columns should be displayed
+- Click calculate button -> the sum columns should disappear
+- Remove watcher as column
+  <br/><br/>
+- Navigate to the Calculation rules page
+- Delete the newly added rule
+- Navigate to the Global settings page
+- Deactivate Jira Core and Jira Software
+- Activate Jira Core and Jira Software
+
+
+### Jira Workflow Toolbox:
+- Navigate to issue with key AFOCIA-1
+- The value of the field Calculated Number Field (by JWT) should be 1
+- Change the priority -> Summary and Assignee should be changed to unassigned by automation rule
+- Condition: The transition JWT-TRANSITION should not be visible
+- Click Assign to me button
+- Condition: The transition JWT-TRANSITION should be visible
+- Execute JWT-TRANSTION without changes on the screen: Validator should fail
+- Change the summary on the screen and execute again: Validator should pass
+- The summary should be changed to "JWT-Summary"
+
+#### Needed data:
+- Issue with key: AFOCIA-1
+- Transition on first position (action_id_51): JWT-TRANSITION
+- An Update or copy field post function that updates the summary to "JWT-Summary"
+- An Only users in a field condition that checks if the current user is the assignee
+- A Fields required or changed validator that checks if the summary changed
+- Calculated number field that shows the number of linked issues (the issue should have one linked issue)
+- Automation rule that clears the assignee and set summary on Priority change
+
+
+### Admin Toolbox:
+- Navigate to Issues -> Issue types page
+- Activate/Deactivate Show / Hide ID column settings
+- Activate/Deactivate Smart View settings
+- Filter issue types by Name
+- Clear filter
+
+
+### xCharts:
+- navigate to the xCharts resources page
+- click create resource button
+- set resource name (JavaScript resource name)
+- set resource description (JavaScript resource description)
+- change to data tab
+- set resource data (console.log("this is xcharts"))
+- save resource
+- check saved resource
+- delete resource
+  <br/><br/>
+- navigate to the xCharts resources page
+- click create resource button
+- set resource type to CSS
+- set resource name (CSS resource name)
+- set resource description (CSS resource description)
+- change to data tab
+- set resource data (.test {color: #fff;})
+- save resource
+- check saved resource
+- delete resource
+  <br/><br/>
+- navigate to Chart Data Scripts page
+- create a new script
+- set script name
+- set script description
+- set Timeseries chart as template
+- set JQL parameter to <b>project = "VLLR"</b>
+- run preview
+- save chart data script
+- check saved chart data script
+- delete chart data script
+
+
+### SpaceAdmin:
+- Browse to the space admin browser page
+- Browse to the Permission Browser page
+- Browse to the Space Admin Settings page
+- Browse to the Attachment Service page
+- Browse to the Space Shuttle Configuration page
+  <br/><br/>
+- Navigate to the Permission Manager page
+- Select the user whose permission is to be viewed
+- Click on submit button
+- Verify that the permissions are displayed correctly
+  <br/><br/>
+- Navigate to the Space Shuttle browser
+- Create a category
+- Verify that it is created
+- Remove the category
+- Verify that it is removed
+
 # Data Center App Performance Toolkit 
 The Data Center App Performance Toolkit extends [Taurus](https://gettaurus.org/) which is an open source performance framework that executes JMeter and Selenium.
 

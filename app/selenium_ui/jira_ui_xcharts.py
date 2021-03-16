@@ -114,6 +114,7 @@ def test_1_selenium_add_data_script_action(jira_webdriver, jira_datasets, jira_s
     xcharts_data_script_page.set_script_description("Data Script description")
     xcharts_data_script_page.set_example()
     xcharts_data_script_page.add_script()
+    xcharts_data_script_page.set_jql_parameter()
     xcharts_data_script_page.run_preview()
     xcharts_data_script_page.save_and_close_script()
     xcharts_data_script_page.check_script_data("Data Script name", "Data Script description", "Default Layout")
