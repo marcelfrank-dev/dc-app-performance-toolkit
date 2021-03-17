@@ -1,7 +1,5 @@
-from selenium_ui.confluence import modules
 from extension.confluence import extension_ui  # noqa F401
-
-
+from selenium_ui.confluence import modules
 # this action should be the first one
 from selenium_ui.confluence.pages.pages import SpaceAdminBrowserView, SpaceAdminShuttleView, SpaceAdminPermissionsView, SpaceAdminAttachmentServiceView, SpaceAdminSettingsView
 
@@ -39,6 +37,8 @@ Add custom actions anywhere between login and log out action. Move this to a dif
 Write your custom selenium scripts in `app/extension/confluence/extension_ui.py`.
 Refer to `app/selenium_ui/confluence/modules.py` for examples.
 """
+
+
 # def test_1_selenium_custom_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
 #     extension_ui.app_specific_action(confluence_webdriver, confluence_datasets)
 
