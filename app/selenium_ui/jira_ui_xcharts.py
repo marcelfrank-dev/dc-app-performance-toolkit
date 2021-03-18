@@ -1,6 +1,8 @@
 from extension.jira import extension_ui  # noqa F401
 from selenium_ui.jira import modules
+
 from selenium_ui.jira.pages.pages import XChartsResourcesView, XChartsDataScriptsView
+
 
 # this action should be the first one
 def test_0_selenium_a_login(jira_webdriver, jira_datasets, jira_screen_shots):
@@ -67,7 +69,7 @@ Refer to `app/selenium_ui/jira/modules.py` for examples.
 
 
 # ----------------------- ADMIN MODE ------------------------
-def test_0_selenium_a_login(jira_webdriver, jira_datasets, jira_screen_shots):
+def test_1_selenium_a_login(jira_webdriver, jira_datasets, jira_screen_shots):
     modules.adminLogin(jira_webdriver)
 
 
