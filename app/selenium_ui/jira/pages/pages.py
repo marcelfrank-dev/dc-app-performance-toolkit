@@ -354,12 +354,14 @@ class LastLogView(BasePage):
     page_url = LastLogViewLocators.last_log_view_url
     page_loaded_selector = LastLogViewLocators.log
 
+    def remove_log(self):
+        self.execute_js("$(\"#logContent\").html('')")
+
+    def check_log_exists(self):
+        assert 0 < len(self.get_element(LastLogViewLocators.log_content).text)
+
     def apply_filter(self):
         self.get_element(LastLogViewLocators.apply_filter_button).click()
-
-    def wait_for_loading(self):
-        self.wait_until_visible(LastLogViewLocators.loading_spinner, 10)
-        self.wait_until_invisible(LastLogViewLocators.loading_spinner)
 
     def check_log_visibility(self):
         self.wait_until_visible(LastLogViewLocators.log, 10)

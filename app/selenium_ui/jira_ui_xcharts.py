@@ -1,7 +1,7 @@
 from extension.jira import extension_ui  # noqa F401
 from selenium_ui.jira import modules
 
-from selenium_ui.jira.pages.pages import XChartsResourcesView, XChartsDataScriptsView
+from selenium_ui.jira.pages.pages import XChartsResourcesView, XChartsDataScriptsView, PopupManager
 
 
 # this action should be the first one

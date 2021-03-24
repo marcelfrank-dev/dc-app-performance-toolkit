@@ -1,59 +1,61 @@
+import time
+
 from extension.jira import extension_ui  # noqa F401
 from selenium_ui.jira import modules
 from selenium_ui.jira.pages.pages import LastLogView
 
 
 # this action should be the first one
-def test_0_selenium_a_login(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.login(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_browse_projects_list(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.browse_projects_list(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_browse_boards_list(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.browse_boards_list(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_create_issue(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.create_issue(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_edit_issue(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.edit_issue(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_save_comment(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.save_comment(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_search_jql(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.search_jql(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_view_backlog_for_scrum_board(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.view_backlog_for_scrum_board(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_view_scrum_board(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.view_scrum_board(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_view_kanban_board(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.view_kanban_board(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_view_dashboard(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.view_dashboard(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_view_issue(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.view_issue(jira_webdriver, jira_datasets)
-
-
-def test_1_selenium_view_project_summary(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.view_project_summary(jira_webdriver, jira_datasets)
+# def test_0_selenium_a_login(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.login(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_browse_projects_list(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.browse_projects_list(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_browse_boards_list(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.browse_boards_list(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_create_issue(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.create_issue(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_edit_issue(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.edit_issue(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_save_comment(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.save_comment(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_search_jql(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.search_jql(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_view_backlog_for_scrum_board(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.view_backlog_for_scrum_board(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_view_scrum_board(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.view_scrum_board(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_view_kanban_board(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.view_kanban_board(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_view_dashboard(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.view_dashboard(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_view_issue(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.view_issue(jira_webdriver, jira_datasets)
+#
+#
+# def test_1_selenium_view_project_summary(jira_webdriver, jira_datasets, jira_screen_shots):
+#     modules.view_project_summary(jira_webdriver, jira_datasets)
 
 
 """
@@ -79,16 +81,19 @@ def test_1_selenium_browse_last_log_view_action(jira_webdriver, jira_datasets, j
 
 def test_1_selenium_last_log_apply_filter_action(jira_webdriver, jira_datasets, jira_screen_shots):
     last_log_view_page = LastLogView(jira_webdriver)
+    last_log_view_page.remove_log()
     last_log_view_page.apply_filter()
-    last_log_view_page.wait_for_loading()
+    time.sleep(1)
+    last_log_view_page.check_log_exists()
     last_log_view_page.check_log_visibility()
 
 
 def test_1_selenium_last_log_reload_action(jira_webdriver, jira_datasets, jira_screen_shots):
     last_log_view_page = LastLogView(jira_webdriver)
+    last_log_view_page.remove_log()
     last_log_view_page.reload()
-    last_log_view_page.wait_for_loading()
-    last_log_view_page.wait_for_loading()
+    time.sleep(1)
+    last_log_view_page.check_log_exists()
     last_log_view_page.check_log_visibility()
 
 

@@ -185,6 +185,7 @@ class LastLogViewLocators:
     log = (By.CSS_SELECTOR, "#logContent")
     loading_spinner = (By.CSS_SELECTOR, "#reload-spinner > aui-spinner")
     apply_filter_button = (By.CSS_SELECTOR, "#send")
+    log_content = (By.CSS_SELECTOR, "#logContent")
     reload_button = (By.CSS_SELECTOR, "#reload")
 
 
