@@ -1,7 +1,9 @@
+import time
+
 from extension.confluence import extension_ui  # noqa F401
 from selenium_ui.confluence import modules
 # this action should be the first one
-from selenium_ui.confluence.pages.pages import SpaceAdminBrowserView, SpaceAdminShuttleView, SpaceAdminPermissionsView, SpaceAdminAttachmentServiceView, SpaceAdminSettingsView
+from selenium_ui.confluence.pages.pages import LastLogView
 
 
 def test_0_selenium_a_login(confluence_webdriver, confluence_datasets, confluence_screen_shots):
@@ -48,47 +50,27 @@ def test_1_selenium_a_login(confluence_webdriver, confluence_datasets, confluenc
     modules.admin_login(confluence_webdriver)
 
 
-def test_1_selenium_browse_spad_pages_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
-    space_admin_browser = SpaceAdminBrowserView(confluence_webdriver)
-    space_admin_browser.go_to()
-    space_admin_browser.wait_for_page_loaded()
-
-    space_admin_shuttle = SpaceAdminShuttleView(confluence_webdriver)
-    space_admin_shuttle.go_to()
-    space_admin_shuttle.wait_for_page_loaded()
-
-    space_admin_permissions = SpaceAdminPermissionsView(confluence_webdriver)
-    space_admin_permissions.go_to()
-    space_admin_permissions.wait_for_page_loaded()
-
-    space_admin_attachment_service = SpaceAdminAttachmentServiceView(confluence_webdriver)
-    space_admin_attachment_service.go_to()
-    space_admin_attachment_service.wait_for_page_loaded()
-
-    space_admin_settings = SpaceAdminSettingsView(confluence_webdriver)
-    space_admin_settings.go_to()
-    space_admin_settings.wait_for_page_loaded()
+# ----------------------- LAST LOG ------------------------
+def test_1_selenium_browse_last_log_view_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
+    modules.browse_last_log_view_log(confluence_webdriver)
 
 
-def test_1_selenium_check_permissions_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
-    space_admin_permissions = SpaceAdminPermissionsView(confluence_webdriver)
-    space_admin_permissions.go_to()
-    space_admin_permissions.wait_for_page_loaded()
-    space_admin_permissions.select_admin()
-    space_admin_permissions.click_show_button()
-    space_admin_permissions.check_permissions()
+def test_1_selenium_last_log_apply_filter_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
+    last_log_view_page = LastLogView(confluence_webdriver)
+    last_log_view_page.remove_log()
+    last_log_view_page.apply_filter()
+    time.sleep(1)
+    last_log_view_page.check_log_exists()
+    last_log_view_page.check_log_visibility()
 
 
-def test_1_selenium_shuttle_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
-    space_admin_permissions = SpaceAdminShuttleView(confluence_webdriver)
-    space_admin_permissions.go_to()
-    space_admin_permissions.wait_for_page_loaded()
-    space_admin_permissions.click_add_category_button()
-    space_admin_permissions.set_category_name("Test category")
-    space_admin_permissions.click_category_submit_button()
-    space_admin_permissions.check_created_category("Test category")
-    space_admin_permissions.remove_category()
-    space_admin_permissions.check_for_no_results()
+def test_1_selenium_last_log_reload_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
+    last_log_view_page = LastLogView(confluence_webdriver)
+    last_log_view_page.remove_log()
+    last_log_view_page.reload()
+    time.sleep(1)
+    last_log_view_page.check_log_exists()
+    last_log_view_page.check_log_visibility()
 
 
 # this action should be the last one

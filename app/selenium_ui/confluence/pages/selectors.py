@@ -19,6 +19,7 @@ class UrlManager:
         self.space_admin_permissions = "/admin/plugins/spaceadmin/permissions.action"
         self.space_admin_attachment_service = "/admin/plugins/spaceadmin/index.action"
         self.space_admin_settings = "/admin/plugins/spaceadmin/configure.action"
+        self.last_log_view_log = '/admin/plugins/lastlog/viewlog.action'
 
     def login_url(self):
         return f"{self.host}{self.login_params}"
@@ -55,6 +56,9 @@ class UrlManager:
 
     def space_admin_settings_url(self):
         return f"{self.host}{self.space_admin_settings}"
+
+    def last_log_view_log_url(self):
+        return f"{self.host}{self.last_log_view_log}"
 
 
 class PopupLocators:
@@ -146,3 +150,12 @@ class SpaceAdminViewLocators:
 
     space_admin_settings_url = UrlManager().space_admin_settings_url()
     settings_container = (By.CSS_SELECTOR, "#admin-body-content > form")
+
+
+class LastLogViewLocators:
+    last_log_view_url = UrlManager().last_log_view_log_url()
+    log = (By.CSS_SELECTOR, "#logContent")
+    loading_spinner = (By.CSS_SELECTOR, "#reload-spinner > aui-spinner")
+    apply_filter_button = (By.CSS_SELECTOR, "#send")
+    log_content = (By.CSS_SELECTOR, "#logContent")
+    reload_button = (By.CSS_SELECTOR, "#reload")

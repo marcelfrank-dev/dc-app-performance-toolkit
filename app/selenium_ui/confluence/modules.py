@@ -1,7 +1,7 @@
 import random
 
 from selenium_ui.confluence.pages.pages import Login, AllUpdates, PopupManager, Page, Dashboard, TopNavPanel, Editor, \
-    Logout, AdminLogin, SecureLogin
+    Logout, AdminLogin, SecureLogin, LastLogView
 from selenium_ui.conftest import print_timing
 
 USERS = "users"
@@ -189,3 +189,15 @@ def log_out(webdriver, datasets):
         logout_page = Logout(webdriver)
         logout_page.go_to()
     measure()
+
+
+# LAST LOG
+def browse_last_log_view_log(webdriver):
+    @print_timing("selenium_browse_last_log_view_log")
+    def measure():
+        last_log_view_page = LastLogView(webdriver)
+        last_log_view_page.go_to()
+        last_log_view_page.wait_for_page_loaded()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()

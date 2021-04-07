@@ -2,7 +2,7 @@ from selenium.webdriver.common.keys import Keys
 
 from selenium_ui.base_page import BasePage
 from selenium_ui.confluence.pages.selectors import UrlManager, LoginPageLocators, AllUpdatesLocators, PopupLocators, \
-    PageLocators, DashboardLocators, TopPanelLocators, EditorLocators, SpaceAdminViewLocators
+    PageLocators, DashboardLocators, TopPanelLocators, EditorLocators, SpaceAdminViewLocators, LastLogViewLocators
 
 
 class Login(BasePage):
@@ -209,3 +209,23 @@ class SpaceAdminAttachmentServiceView(BasePage):
 class SpaceAdminSettingsView(BasePage):
     page_url = SpaceAdminViewLocators.space_admin_settings_url
     page_loaded_selector = SpaceAdminViewLocators.settings_container
+
+
+class LastLogView(BasePage):
+    page_url = LastLogViewLocators.last_log_view_url
+    page_loaded_selector = LastLogViewLocators.log
+
+    def remove_log(self):
+        self.execute_js("$(\"#logContent\").html('')")
+
+    def check_log_exists(self):
+        assert 0 < len(self.get_element(LastLogViewLocators.log_content).text)
+
+    def apply_filter(self):
+        self.get_element(LastLogViewLocators.apply_filter_button).click()
+
+    def check_log_visibility(self):
+        self.wait_until_visible(LastLogViewLocators.log, 10)
+
+    def reload(self):
+        self.get_element(LastLogViewLocators.reload_button).click()
