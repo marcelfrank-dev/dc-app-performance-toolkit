@@ -2,8 +2,10 @@ import random
 import time
 
 from selenium_ui.confluence.pages.pages import Login, AllUpdates, PopupManager, Page, Dashboard, TopNavPanel, Editor, \
-    Logout, AdminLogin, SecureLogin, LastLogView
+    Logout, AdminLogin, SecureLogin, LastLogView, SpaceAdminBrowserView, SpaceAdminShuttleView, SpaceAdminPermissionsView, SpaceAdminAttachmentServiceView, SpaceAdminSettingsView
 from selenium_ui.conftest import print_timing
+
+
 
 USERS = "users"
 PAGES = "pages"
