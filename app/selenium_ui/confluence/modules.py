@@ -196,7 +196,7 @@ def log_out(webdriver, datasets):
 def last_log_browse_view_log(confluence_webdriver):
     @print_timing("selenium_last_log_browse_view_log")
     def measure():
-        last_log_view_page = LastLogView(webdriver)
+        last_log_view_page = LastLogView(confluence_webdriver)
         last_log_view_page.go_to()
         last_log_view_page.wait_for_page_loaded()
 
@@ -209,7 +209,7 @@ def last_log_apply_filter(confluence_webdriver):
         last_log_view_page = LastLogView(confluence_webdriver)
         last_log_view_page.remove_log()
         last_log_view_page.apply_filter()
-        time.sleep(1)
+        time.sleep(2)
         last_log_view_page.check_log_exists()
         last_log_view_page.check_log_visibility()
 
@@ -222,7 +222,7 @@ def last_log_reload(confluence_webdriver):
         last_log_view_page = LastLogView(confluence_webdriver)
         last_log_view_page.remove_log()
         last_log_view_page.reload()
-        time.sleep(1)
+        time.sleep(2)
         last_log_view_page.check_log_exists()
         last_log_view_page.check_log_visibility()
 
