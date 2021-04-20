@@ -193,7 +193,7 @@ def log_out(webdriver, datasets):
 
 
 # LAST LOG
-def last_log_browse_view_log(webdriver):
+def last_log_browse_view_log(confluence_webdriver):
     @print_timing("selenium_last_log_browse_view_log")
     def measure():
         last_log_view_page = LastLogView(webdriver)
@@ -203,7 +203,7 @@ def last_log_browse_view_log(webdriver):
     measure()
     PopupManager(webdriver).dismiss_default_popup()
 
-def last_log_apply_filter(webdriver):
+def last_log_apply_filter(confluence_webdriver):
     @print_timing("selenium_last_log_apply_filter")
     def measure():
         last_log_view_page = LastLogView(confluence_webdriver)
@@ -216,7 +216,7 @@ def last_log_apply_filter(webdriver):
     measure()
     PopupManager(webdriver).dismiss_default_popup()
 
-def last_log_reload(webdriver):
+def last_log_reload(confluence_webdriver):
     @print_timing("selenium_last_log_reload")
     def measure():
         last_log_view_page = LastLogView(confluence_webdriver)
