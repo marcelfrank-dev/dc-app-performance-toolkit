@@ -52,26 +52,15 @@ def test_1_selenium_a_login(confluence_webdriver, confluence_datasets, confluenc
 
 # ----------------------- LAST LOG ------------------------
 def test_1_selenium_browse_last_log_view_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
-    modules.browse_last_log_view_log(confluence_webdriver)
+    modules.last_log_browse_view_log(confluence_webdriver)
 
 
 def test_1_selenium_last_log_apply_filter_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
-    last_log_view_page = LastLogView(confluence_webdriver)
-    last_log_view_page.remove_log()
-    last_log_view_page.apply_filter()
-    time.sleep(1)
-    last_log_view_page.check_log_exists()
-    last_log_view_page.check_log_visibility()
+    modules.last_log_apply_filter(confluence_webdriver)
 
 
 def test_1_selenium_last_log_reload_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
-    last_log_view_page = LastLogView(confluence_webdriver)
-    last_log_view_page.remove_log()
-    last_log_view_page.reload()
-    time.sleep(1)
-    last_log_view_page.check_log_exists()
-    last_log_view_page.check_log_visibility()
-
+    modules.last_log_reload(confluence_webdriver)
 
 # this action should be the last one
 def test_2_selenium_z_log_out(confluence_webdriver, confluence_datasets, confluence_screen_shots):

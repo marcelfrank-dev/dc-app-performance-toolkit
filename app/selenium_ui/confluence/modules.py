@@ -1,4 +1,5 @@
 import random
+import time
 
 from selenium_ui.confluence.pages.pages import Login, AllUpdates, PopupManager, Page, Dashboard, TopNavPanel, Editor, \
     Logout, AdminLogin, SecureLogin, LastLogView
@@ -192,12 +193,95 @@ def log_out(webdriver, datasets):
 
 
 # LAST LOG
-def browse_last_log_view_log(webdriver):
-    @print_timing("selenium_browse_last_log_view_log")
+def last_log_browse_view_log(webdriver):
+    @print_timing("selenium_last_log_browse_view_log")
     def measure():
         last_log_view_page = LastLogView(webdriver)
         last_log_view_page.go_to()
         last_log_view_page.wait_for_page_loaded()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+def last_log_apply_filter(webdriver):
+    @print_timing("selenium_last_log_apply_filter")
+    def measure():
+        last_log_view_page = LastLogView(confluence_webdriver)
+        last_log_view_page.remove_log()
+        last_log_view_page.apply_filter()
+        time.sleep(1)
+        last_log_view_page.check_log_exists()
+        last_log_view_page.check_log_visibility()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+def last_log_reload(webdriver):
+    @print_timing("selenium_last_log_reload")
+    def measure():
+        last_log_view_page = LastLogView(confluence_webdriver)
+        last_log_view_page.remove_log()
+        last_log_view_page.reload()
+        time.sleep(1)
+        last_log_view_page.check_log_exists()
+        last_log_view_page.check_log_visibility()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+#SPAD
+def spad_browse_pages(confluence_webdriver):
+    @print_timing("selenium_spad_browse")
+    def measure():
+        space_admin_browser = SpaceAdminBrowserView(confluence_webdriver)
+        space_admin_browser.go_to()
+        space_admin_browser.wait_for_page_loaded()
+
+        space_admin_shuttle = SpaceAdminShuttleView(confluence_webdriver)
+        space_admin_shuttle.go_to()
+        space_admin_shuttle.wait_for_page_loaded()
+
+        space_admin_permissions = SpaceAdminPermissionsView(confluence_webdriver)
+        space_admin_permissions.go_to()
+        space_admin_permissions.wait_for_page_loaded()
+
+        space_admin_attachment_service = SpaceAdminAttachmentServiceView(confluence_webdriver)
+        space_admin_attachment_service.go_to()
+        space_admin_attachment_service.wait_for_page_loaded()
+
+        space_admin_settings = SpaceAdminSettingsView(confluence_webdriver)
+        space_admin_settings.go_to()
+        space_admin_settings.wait_for_page_loaded()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+
+def spad_check_permissions(confluence_webdriver):
+    @print_timing("selenium_spad_check_permissions")
+    def measure():
+        space_admin_permissions = SpaceAdminPermissionsView(confluence_webdriver)
+        space_admin_permissions.go_to()
+        space_admin_permissions.wait_for_page_loaded()
+        space_admin_permissions.select_admin()
+        space_admin_permissions.click_show_button()
+        space_admin_permissions.check_permissions()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+def spad_shuttle(confluence_webdriver):
+    @print_timing("selenium_spad_shuttle")
+    def measure():
+        space_admin_permissions = SpaceAdminShuttleView(confluence_webdriver)
+        space_admin_permissions.go_to()
+        space_admin_permissions.wait_for_page_loaded()
+        space_admin_permissions.click_add_category_button()
+        space_admin_permissions.set_category_name("Test category")
+        space_admin_permissions.click_category_submit_button()
+        space_admin_permissions.check_created_category("Test category")
+        space_admin_permissions.remove_category()
+        space_admin_permissions.check_for_no_results()
 
     measure()
     PopupManager(webdriver).dismiss_default_popup()

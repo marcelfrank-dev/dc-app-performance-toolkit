@@ -49,46 +49,15 @@ def test_1_selenium_a_login(confluence_webdriver, confluence_datasets, confluenc
 
 
 def test_1_selenium_browse_spad_pages_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
-    space_admin_browser = SpaceAdminBrowserView(confluence_webdriver)
-    space_admin_browser.go_to()
-    space_admin_browser.wait_for_page_loaded()
-
-    space_admin_shuttle = SpaceAdminShuttleView(confluence_webdriver)
-    space_admin_shuttle.go_to()
-    space_admin_shuttle.wait_for_page_loaded()
-
-    space_admin_permissions = SpaceAdminPermissionsView(confluence_webdriver)
-    space_admin_permissions.go_to()
-    space_admin_permissions.wait_for_page_loaded()
-
-    space_admin_attachment_service = SpaceAdminAttachmentServiceView(confluence_webdriver)
-    space_admin_attachment_service.go_to()
-    space_admin_attachment_service.wait_for_page_loaded()
-
-    space_admin_settings = SpaceAdminSettingsView(confluence_webdriver)
-    space_admin_settings.go_to()
-    space_admin_settings.wait_for_page_loaded()
+     modules.spad_browse_pages(confluence_webdriver)
 
 
 def test_1_selenium_check_permissions_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
-    space_admin_permissions = SpaceAdminPermissionsView(confluence_webdriver)
-    space_admin_permissions.go_to()
-    space_admin_permissions.wait_for_page_loaded()
-    space_admin_permissions.select_admin()
-    space_admin_permissions.click_show_button()
-    space_admin_permissions.check_permissions()
+    modules.spad_check_permissions(confluence_webdriver)
 
 
 def test_1_selenium_shuttle_action(confluence_webdriver, confluence_datasets, confluence_screen_shots):
-    space_admin_permissions = SpaceAdminShuttleView(confluence_webdriver)
-    space_admin_permissions.go_to()
-    space_admin_permissions.wait_for_page_loaded()
-    space_admin_permissions.click_add_category_button()
-    space_admin_permissions.set_category_name("Test category")
-    space_admin_permissions.click_category_submit_button()
-    space_admin_permissions.check_created_category("Test category")
-    space_admin_permissions.remove_category()
-    space_admin_permissions.check_for_no_results()
+    modules.spad_shuttle(confluence_webdriver)
 
 
 # this action should be the last one
