@@ -201,7 +201,7 @@ def last_log_browse_view_log(confluence_webdriver):
         last_log_view_page.wait_for_page_loaded()
 
     measure()
-    PopupManager(webdriver).dismiss_default_popup()
+    PopupManager(confluence_webdriver).dismiss_default_popup()
 
 def last_log_apply_filter(confluence_webdriver):
     @print_timing("selenium_last_log_apply_filter")
@@ -214,7 +214,7 @@ def last_log_apply_filter(confluence_webdriver):
         last_log_view_page.check_log_visibility()
 
     measure()
-    PopupManager(webdriver).dismiss_default_popup()
+    PopupManager(confluence_webdriver).dismiss_default_popup()
 
 def last_log_reload(confluence_webdriver):
     @print_timing("selenium_last_log_reload")
@@ -227,7 +227,7 @@ def last_log_reload(confluence_webdriver):
         last_log_view_page.check_log_visibility()
 
     measure()
-    PopupManager(webdriver).dismiss_default_popup()
+    PopupManager(confluence_webdriver).dismiss_default_popup()
 
 #SPAD
 def spad_browse_pages(confluence_webdriver):
@@ -254,7 +254,7 @@ def spad_browse_pages(confluence_webdriver):
         space_admin_settings.wait_for_page_loaded()
 
     measure()
-    PopupManager(webdriver).dismiss_default_popup()
+    PopupManager(confluence_webdriver).dismiss_default_popup()
 
 
 def spad_check_permissions(confluence_webdriver):
@@ -268,7 +268,7 @@ def spad_check_permissions(confluence_webdriver):
         space_admin_permissions.check_permissions()
 
     measure()
-    PopupManager(webdriver).dismiss_default_popup()
+    PopupManager(confluence_webdriver).dismiss_default_popup()
 
 def spad_shuttle(confluence_webdriver):
     @print_timing("selenium_spad_shuttle")
@@ -284,4 +284,4 @@ def spad_shuttle(confluence_webdriver):
         space_admin_permissions.check_for_no_results()
 
     measure()
-    PopupManager(webdriver).dismiss_default_popup()
+    PopupManager(confluence_webdriver).dismiss_default_popup()
