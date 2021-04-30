@@ -1,11 +1,12 @@
 import random
 import urllib.parse
+import time
 
 from selenium.webdriver.common.by import By
 
 from selenium_ui.conftest import print_timing
 from selenium_ui.jira.pages.pages import Login, PopupManager, Issue, Project, Search, ProjectsList, \
-    BoardsList, Board, Dashboard, Logout, LastLogView, AdminLogin, SecureLogin, SumUpCalcRulesView, SumUpGlobalSettingsView, SumUpCalculationView, JwtTestIssueView, AdminToolboxIssueTypeView
+    BoardsList, Board, Dashboard, Logout, LastLogView, AdminLogin, SecureLogin, SumUpCalcRulesView, SumUpGlobalSettingsView, SumUpCalculationView, JwtTestIssueView, AdminToolboxIssueTypeView, XChartsResourcesView, XChartsDataScriptsView,
 from util.api.jira_clients import JiraRestClient
 from util.conf import JIRA_SETTINGS
 
@@ -335,8 +336,8 @@ def browse_global_settings_view(webdriver):
 
 
 # LAST LOG
-def browse_last_log_view_log(webdriver):
-    @print_timing("selenium_browse_last_log_view_log")
+def last_log_view_log(webdriver):
+    @print_timing("selenium_last_log_view_log")
     def measure():
         last_log_view_page = LastLogView(webdriver)
         last_log_view_page.go_to()
@@ -345,6 +346,98 @@ def browse_last_log_view_log(webdriver):
     measure()
     PopupManager(webdriver).dismiss_default_popup()
 
+def last_log_apply_filter(webdriver):
+    @print_timing("selenium_last_log_apply_filter")
+    def measure():
+        last_log_view_page = LastLogView(webdriver)
+        last_log_view_page.remove_log()
+        last_log_view_page.apply_filter()
+        time.sleep(1)
+        last_log_view_page.check_log_exists()
+        last_log_view_page.check_log_visibility()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+def last_log_reload_action(webdriver):
+    @print_timing("selenium_last_log_reload_action")
+    def measure():
+        last_log_view_page = LastLogView(webdriver)
+        last_log_view_page.remove_log()
+        last_log_view_page.reload()
+        time.sleep(1)
+        last_log_view_page.check_log_exists()
+        last_log_view_page.check_log_visibility()
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+
+
+#XCHARTS
+def xcharts_add_js_ressource(webdriver):
+    @print_timing("selenium_xcharts_add_js_ressource")
+    def measure():
+        xcharts_resources_page = XChartsResourcesView(webdriver)
+        xcharts_resources_page.go_to()
+        xcharts_resources_page.wait_for_page_loaded()
+        PopupManager(jira_webdriver).dismiss_default_popup()
+        xcharts_resources_page.click_create_resources_button()
+        xcharts_resources_page.set_resource_name("JavaScript resource name")
+        xcharts_resources_page.set_resource_description("JavaScript resource description")
+        xcharts_resources_page.change_to_data_tab()
+        xcharts_resources_page.set_resource_data("console.log(\"this is xcharts\")")
+        xcharts_resources_page.click_save_resource_button()
+        xcharts_resources_page.wait_for_page_loaded()
+        xcharts_resources_page.check_resource_data("JavaScript resource name", "JavaScript resource description", "JavaScript")
+        xcharts_resources_page.delete_first_resource()
+        xcharts_resources_page.check_empty_resource_table()
+
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
+
+def xcharts_add_css_ressource(webdriver):
+    @print_timing("selenium_xcharts_add_css_ressource")
+    def measure():
+        xcharts_resources_page = XChartsResourcesView(webdriver)
+        xcharts_resources_page.go_to()
+        xcharts_resources_page.wait_for_page_loaded()
+        PopupManager(jira_webdriver).dismiss_default_popup()
+        xcharts_resources_page.click_create_resources_button()
+        xcharts_resources_page.set_resource_name("CSS resource name")
+        xcharts_resources_page.set_resource_description("CSS resource description")
+        xcharts_resources_page.change_resource_type()
+        xcharts_resources_page.change_to_data_tab()
+        xcharts_resources_page.set_resource_data(".test {color: #fff;}")
+        xcharts_resources_page.click_save_resource_button()
+        xcharts_resources_page.wait_for_page_loaded()
+        xcharts_resources_page.check_resource_data("CSS resource name", "CSS resource description", "CSS")
+        xcharts_resources_page.delete_first_resource()
+        xcharts_resources_page.check_empty_resource_table()
+
+ measure()
+ PopupManager(webdriver).dismiss_default_popup()
+
+def xcharts_xcharts_add_data_script(webdriver):
+  @print_timing("selenium_xcharts_add_data_script")
+  def measure():
+        xcharts_data_script_page = XChartsDataScriptsView(webdriver)
+        xcharts_data_script_page.go_to()
+        xcharts_data_script_page.wait_for_page_loaded()
+        PopupManager(jira_webdriver).dismiss_default_popup()
+        xcharts_data_script_page.click_create_script_button()
+        xcharts_data_script_page.set_script_name("Data Script name")
+        xcharts_data_script_page.set_script_description("Data Script description")
+        xcharts_data_script_page.set_example()
+        xcharts_data_script_page.add_script()
+        xcharts_data_script_page.set_jql_parameter()
+        xcharts_data_script_page.run_preview()
+        xcharts_data_script_page.save_and_close_script()
+        xcharts_data_script_page.check_script_data("Data Script name", "Data Script description", "Default Layout")
+        xcharts_data_script_page.delete_first_script()
+        xcharts_data_script_page.check_empty_resource_table()
+
+  measure()
+  PopupManager(webdriver).dismiss_default_popup()
 
 # JWT
 def browse_jwt_test_issue(webdriver):

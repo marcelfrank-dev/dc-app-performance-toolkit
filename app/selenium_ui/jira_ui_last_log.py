@@ -76,25 +76,14 @@ def test_1_selenium_a_login(jira_webdriver, jira_datasets, jira_screen_shots):
 
 # ----------------------- LAST LOG ------------------------
 def test_1_selenium_browse_last_log_view_action(jira_webdriver, jira_datasets, jira_screen_shots):
-    modules.browse_last_log_view_log(jira_webdriver)
+    modules.last_log_view_log(jira_webdriver)
 
 
 def test_1_selenium_last_log_apply_filter_action(jira_webdriver, jira_datasets, jira_screen_shots):
-    last_log_view_page = LastLogView(jira_webdriver)
-    last_log_view_page.remove_log()
-    last_log_view_page.apply_filter()
-    time.sleep(1)
-    last_log_view_page.check_log_exists()
-    last_log_view_page.check_log_visibility()
-
+    modules.last_log_apply_filter(jira_webdriver)
 
 def test_1_selenium_last_log_reload_action(jira_webdriver, jira_datasets, jira_screen_shots):
-    last_log_view_page = LastLogView(jira_webdriver)
-    last_log_view_page.remove_log()
-    last_log_view_page.reload()
-    time.sleep(1)
-    last_log_view_page.check_log_exists()
-    last_log_view_page.check_log_visibility()
+    modules.last_log_reload_action(jira_webdriver)
 
 
 # this action should be the last one

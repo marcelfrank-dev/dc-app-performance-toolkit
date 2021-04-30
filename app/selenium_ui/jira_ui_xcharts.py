@@ -75,41 +75,15 @@ def test_1_selenium_a_login(jira_webdriver, jira_datasets, jira_screen_shots):
 
 # ----------------------- xCharts ------------------------
 def test_1_selenium_add_java_script_resource_action(jira_webdriver, jira_datasets, jira_screen_shots):
-    xcharts_resources_page = XChartsResourcesView(jira_webdriver)
-    xcharts_resources_page.go_to()
-    xcharts_resources_page.wait_for_page_loaded()
-    PopupManager(jira_webdriver).dismiss_default_popup()
-    xcharts_resources_page.click_create_resources_button()
-    xcharts_resources_page.set_resource_name("JavaScript resource name")
-    xcharts_resources_page.set_resource_description("JavaScript resource description")
-    xcharts_resources_page.change_to_data_tab()
-    xcharts_resources_page.set_resource_data("console.log(\"this is xcharts\")")
-    xcharts_resources_page.click_save_resource_button()
-    xcharts_resources_page.wait_for_page_loaded()
-    xcharts_resources_page.check_resource_data("JavaScript resource name", "JavaScript resource description", "JavaScript")
-    xcharts_resources_page.delete_first_resource()
-    xcharts_resources_page.check_empty_resource_table()
+    modules.xcharts_add_js_ressource(jira_webdriver)
+
 
 
 def test_1_selenium_add_css_script_resource_action(jira_webdriver, jira_datasets, jira_screen_shots):
-    xcharts_resources_page = XChartsResourcesView(jira_webdriver)
-    xcharts_resources_page.go_to()
-    xcharts_resources_page.wait_for_page_loaded()
-    PopupManager(jira_webdriver).dismiss_default_popup()
-    xcharts_resources_page.click_create_resources_button()
-    xcharts_resources_page.set_resource_name("CSS resource name")
-    xcharts_resources_page.set_resource_description("CSS resource description")
-    xcharts_resources_page.change_resource_type()
-    xcharts_resources_page.change_to_data_tab()
-    xcharts_resources_page.set_resource_data(".test {color: #fff;}")
-    xcharts_resources_page.click_save_resource_button()
-    xcharts_resources_page.wait_for_page_loaded()
-    xcharts_resources_page.check_resource_data("CSS resource name", "CSS resource description", "CSS")
-    xcharts_resources_page.delete_first_resource()
-    xcharts_resources_page.check_empty_resource_table()
-
+    modules.xcharts_add_css_ressource(jira_webdriver)
 
 def test_1_selenium_add_data_script_action(jira_webdriver, jira_datasets, jira_screen_shots):
+    modules.xcharts_add_data_script(jira_webdriver)
     xcharts_data_script_page = XChartsDataScriptsView(jira_webdriver)
     xcharts_data_script_page.go_to()
     xcharts_data_script_page.wait_for_page_loaded()
