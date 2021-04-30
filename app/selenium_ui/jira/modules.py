@@ -380,7 +380,7 @@ def xcharts_add_js_ressource(webdriver):
         xcharts_resources_page = XChartsResourcesView(webdriver)
         xcharts_resources_page.go_to()
         xcharts_resources_page.wait_for_page_loaded()
-        PopupManager(jira_webdriver).dismiss_default_popup()
+        PopupManager(webdriver).dismiss_default_popup()
         xcharts_resources_page.click_create_resources_button()
         xcharts_resources_page.set_resource_name("JavaScript resource name")
         xcharts_resources_page.set_resource_description("JavaScript resource description")
@@ -401,7 +401,7 @@ def xcharts_add_css_ressource(webdriver):
         xcharts_resources_page = XChartsResourcesView(webdriver)
         xcharts_resources_page.go_to()
         xcharts_resources_page.wait_for_page_loaded()
-        PopupManager(jira_webdriver).dismiss_default_popup()
+        PopupManager(webdriver).dismiss_default_popup()
         xcharts_resources_page.click_create_resources_button()
         xcharts_resources_page.set_resource_name("CSS resource name")
         xcharts_resources_page.set_resource_description("CSS resource description")
@@ -413,9 +413,8 @@ def xcharts_add_css_ressource(webdriver):
         xcharts_resources_page.check_resource_data("CSS resource name", "CSS resource description", "CSS")
         xcharts_resources_page.delete_first_resource()
         xcharts_resources_page.check_empty_resource_table()
-
- measure()
- PopupManager(webdriver).dismiss_default_popup()
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
 
 def xcharts_xcharts_add_data_script(webdriver):
   @print_timing("selenium_xcharts_add_data_script")
@@ -423,7 +422,7 @@ def xcharts_xcharts_add_data_script(webdriver):
         xcharts_data_script_page = XChartsDataScriptsView(webdriver)
         xcharts_data_script_page.go_to()
         xcharts_data_script_page.wait_for_page_loaded()
-        PopupManager(jira_webdriver).dismiss_default_popup()
+        PopupManager(webdriver).dismiss_default_popup()
         xcharts_data_script_page.click_create_script_button()
         xcharts_data_script_page.set_script_name("Data Script name")
         xcharts_data_script_page.set_script_description("Data Script description")
