@@ -30,6 +30,7 @@ class UrlManager:
         self.last_log_view_log = '/secure/admin/ViewLastLog!default.jspa'
         self.xcharts_resources_view = '/secure/ChartResourcesIndex!default.jspa'
         self.xcharts_data_scripts_view = '/secure/ScriptedChartsIndex!default.jspa'
+        self.xcharts_chart_view = '/plugins/servlet/xchart?chartToGo=com.decadis.jira.xchart.xchart-core:topTenReporter'
         self.admin_toolbox_issue_types_view = '/secure/admin/ViewIssueTypes.jspa'
         self.jwt_test_issue_view = '/browse/AFOCIA-1'
         self.calc_rules = '/secure/SumUpViewRule!default.jspa'
@@ -83,6 +84,9 @@ class UrlManager:
 
     def xcharts_data_scripts_view_url(self):
         return f"{self.host}{self.xcharts_data_scripts_view}"
+
+    def xcharts_charts_view_url(self):
+        return f"{self.host}{self.xcharts_chart_view}"
 
     def admin_toolbox_issue_types_view_url(self):
         return f"{self.host}{self.admin_toolbox_issue_types_view}"
@@ -229,6 +233,9 @@ class XChartsDataScriptsViewLocators:
     table_script_delete_button = (By.CSS_SELECTOR, "#content > div > div > section > table > tbody > tr:nth-child(1) > td:nth-child(6) > ul > li:nth-child(3) > a")
     table_script_delete_submit_button = (By.CSS_SELECTOR, "#content > div > div > section > form > div.buttons-container > div > input")
 
+class XChartsChartsViewLocators:
+    xcharts_data_scripts_view_url = UrlManager().xcharts_charts_view_url()
+    top10ReorterChart = (By.CSS_SELECTOR, "#chart")
 
 class AdminToolboxViewLocators:
     admin_toolbox_issue_types_view_url = UrlManager().admin_toolbox_issue_types_view_url()

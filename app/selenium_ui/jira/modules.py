@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 
 from selenium_ui.conftest import print_timing
 from selenium_ui.jira.pages.pages import Login, PopupManager, Issue, Project, Search, ProjectsList, \
-    BoardsList, Board, Dashboard, Logout, LastLogView, AdminLogin, SecureLogin, SumUpCalcRulesView, SumUpGlobalSettingsView, SumUpCalculationView, JwtTestIssueView, AdminToolboxIssueTypeView, XChartsResourcesView, XChartsDataScriptsView
+    BoardsList, Board, Dashboard, Logout, LastLogView, AdminLogin, SecureLogin, SumUpCalcRulesView, SumUpGlobalSettingsView, SumUpCalculationView, JwtTestIssueView, AdminToolboxIssueTypeView, XChartsResourcesView, XChartsDataScriptsView, XChartsChartView, XChartsChartView
 from util.api.jira_clients import JiraRestClient
 from util.conf import JIRA_SETTINGS
 
@@ -416,7 +416,7 @@ def xcharts_add_css_ressource(webdriver):
     measure()
     PopupManager(webdriver).dismiss_default_popup()
 
-def xcharts_xcharts_add_data_script(webdriver):
+def xcharts_add_data_script(webdriver):
   @print_timing("selenium_xcharts_add_data_script")
   def measure():
         xcharts_data_script_page = XChartsDataScriptsView(webdriver)
@@ -437,6 +437,16 @@ def xcharts_xcharts_add_data_script(webdriver):
 
   measure()
   PopupManager(webdriver).dismiss_default_popup()
+
+def xcharts_open_default_chart(webdriver):
+    @print_timing("selenium_xcharts_open_default_chart")
+    def measure():
+        xcharts_charts_view = XChartsChartView(webdriver)
+        xcharts_charts_view.go_to()
+        xcharts_charts_view.wait_for_page_loaded()
+        xcharts_charts_view.checkTop10ReporterChart()
+    measure()
+    PopupManager(webdriver).dismiss_default_popup()
 
 # JWT
 def browse_jwt_test_issue(webdriver):

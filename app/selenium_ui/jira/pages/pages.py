@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium_ui.base_page import BasePage
 from selenium_ui.jira.pages.selectors import UrlManager, LoginPageLocators, DashboardLocators, PopupLocators, \
     IssueLocators, ProjectLocators, SearchLocators, BoardsListLocators, BoardLocators, LogoutLocators, LastLogViewLocators, SumUpLocators, JwtTestIssueViewLocators, AdminToolboxViewLocators, \
-    XChartsResourcesViewLocators, XChartsDataScriptsViewLocators
+    XChartsResourcesViewLocators, XChartsDataScriptsViewLocators, XChartsChartsViewLocators
 
 
 class PopupManager(BasePage):
@@ -478,6 +478,15 @@ class XChartsDataScriptsView(BasePage):
     def check_empty_resource_table(self):
         self.wait_until_visible(XChartsDataScriptsViewLocators.table_script, 10)
         self.wait_until_invisible(XChartsDataScriptsViewLocators.table_script_rows)
+
+class XChartsChartView(BasePage):
+    page_url = XChartsChartsViewLocators.xcharts_data_scripts_view_url
+    page_loaded_selector = XChartsChartsViewLocators.top10ReorterChart
+
+    def checkTop10ReporterChart(self):
+        self.wait_until_visible(XChartsChartsViewLocators.top10ReorterChart, 30)
+
+
 
 
 class SumUpCalcRulesView(BasePage):
