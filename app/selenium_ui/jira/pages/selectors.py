@@ -120,6 +120,7 @@ class LoginPageLocators:
     system_dashboard = (By.ID, "dashboard")
     system_settings = (By.ID, "main")
     secure_login = (By.ID, "login-form")
+    footer = (By.ID, 'footer-build-information')
 
 
 class LogoutLocators:

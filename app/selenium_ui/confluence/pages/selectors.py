@@ -66,6 +66,7 @@ class PopupLocators:
     skip_onbording_1 = '.aui-button aui-button-link .skip-onboarding'
     skip_onboarding_2 = '.aui-button.aui-button-link.skip-onboarding'
     time_saving_template = '#closeDisDialog'
+    welcome_to_confluence = '.aui-button.aui-button-primary.show-onboarding'
 
 
 class LoginPageLocators:
@@ -73,6 +74,8 @@ class LoginPageLocators:
     login_button = (By.ID, "loginButton")
     login_username_field = (By.ID, "os_username")
     login_password_field = (By.ID, "os_password")
+    footer_build_info = (By.ID, "footer-build-information")
+    footer_node_info = (By.ID, "footer-cluster-node")
 
     # Setup user page per first login
     first_login_setup_page = (By.ID, "grow-ic-nav-container")
@@ -92,6 +95,9 @@ class LoginPageLocators:
     password_field = (By.CSS_SELECTOR, "#os_password")
     login_submit_button = (By.CSS_SELECTOR, "#loginButton")
 
+    # logout
+    logout = (By.XPATH, "//a[@href='logout.action']")
+
 
 class AllUpdatesLocators:
     updates_content = (By.CLASS_NAME, "list-container-all-updates")
@@ -104,7 +110,7 @@ class PageLocators:
 
 class DashboardLocators:
     dashboard_url = UrlManager().dashboard_url()
-    updated_items = (By.CLASS_NAME, "update-items")
+    all_updates = (By.CLASS_NAME, "content-header-all-updates")
 
 
 class TopPanelLocators:
@@ -159,3 +165,6 @@ class LastLogViewLocators:
     apply_filter_button = (By.CSS_SELECTOR, "#send")
     log_content = (By.CSS_SELECTOR, "#logContent")
     reload_button = (By.CSS_SELECTOR, "#reload")
+
+class LogoutLocators:
+    logout_msg = (By.ID, "logout-message")
