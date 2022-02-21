@@ -535,6 +535,7 @@ class SumUpCalcRulesView(BasePage):
         self.get_element(SumUpLocators.rule_name_field).send_keys("SumUp watchers field")
         self.get_element(SumUpLocators.submit_button).click()
         self.wait_until_visible(SumUpLocators.first_rule, 10)
+        time.sleep(2)
 
     def delete_rule(self):
         self.get_element(SumUpLocators.delete_first_rule_button).click()
