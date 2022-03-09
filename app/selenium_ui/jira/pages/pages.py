@@ -3,7 +3,7 @@ import random
 import time
 
 from selenium.webdriver.common.keys import Keys
-from selenium_ui.conftest import retry
+from selenium_ui.conftest import retry, print_timing
 import time
 import random
 import json
@@ -252,71 +252,115 @@ class JwtTestIssueView(BasePage):
     page_loaded_selector = JwtTestIssueViewLocators.summary
 
     def click_transition(self):
-        self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
-        self.get_element(JwtTestIssueViewLocators.transition_button).click()
-        self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
-        self.get_element(JwtTestIssueViewLocators.issue_updated_flag_close_button).click()
-        self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
+        @print_timing("JwtTestIssueView_click_transition")
+        def measure():
+            self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
+            self.get_element(JwtTestIssueViewLocators.transition_button).click()
+            self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
+            self.get_element(JwtTestIssueViewLocators.issue_updated_flag_close_button).click()
+            self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
+
+        measure()
 
     def check_calc_field_value(self):
-        self.wait_until_visible(JwtTestIssueViewLocators.calc_field_value, 10)
-        assert "1" in self.get_element(JwtTestIssueViewLocators.calc_field_value).text
+        @print_timing("JwtTestIssueView_check_calc_field_value")
+        def measure():
+            self.wait_until_visible(JwtTestIssueViewLocators.calc_field_value, 10)
+            assert "1" in self.get_element(JwtTestIssueViewLocators.calc_field_value).text
+
+        measure()
 
     def change_priority(self):
-        self.get_element(JwtTestIssueViewLocators.priority_button).click()
-        self.wait_until_visible(JwtTestIssueViewLocators.first_priority_option, 10)
-        self.get_element(JwtTestIssueViewLocators.first_priority_option).click()
-        self.wait_until_visible(JwtTestIssueViewLocators.submit_priority_button, 10)
-        self.get_element(JwtTestIssueViewLocators.submit_priority_button).click()
-        self.wait_until_visible(JwtTestIssueViewLocators.priority_select_loading, 10)
-        self.wait_until_invisible(JwtTestIssueViewLocators.priority_select_loading)
+        @print_timing("JwtTestIssueView_change_priority")
+        def measure():
+            self.get_element(JwtTestIssueViewLocators.priority_button).click()
+            self.wait_until_visible(JwtTestIssueViewLocators.first_priority_option, 10)
+            self.get_element(JwtTestIssueViewLocators.first_priority_option).click()
+            self.wait_until_visible(JwtTestIssueViewLocators.submit_priority_button, 10)
+            self.get_element(JwtTestIssueViewLocators.submit_priority_button).click()
+            self.wait_until_visible(JwtTestIssueViewLocators.priority_select_loading, 10)
+            self.wait_until_invisible(JwtTestIssueViewLocators.priority_select_loading)
+
+        measure()
 
     def check_automation_rule_changes(self):
-        self.wait_until_visible(JwtTestIssueViewLocators.assignee, 10)
-        assert "Unassigned" in self.get_element(JwtTestIssueViewLocators.assignee).text.strip()
-        self.check_summary_value("Changed by Automation rule")
+        @print_timing("JwtTestIssueView_check_automation_rule_changes")
+        def measure():
+            self.wait_until_visible(JwtTestIssueViewLocators.assignee, 10)
+            assert "Unassigned" in self.get_element(JwtTestIssueViewLocators.assignee).text.strip()
+            self.check_summary_value("Changed by Automation rule")
+
+        measure()
 
     def assign_to_me(self):
-        self.wait_until_visible(JwtTestIssueViewLocators.assign_to_me_button, 10)
-        self.get_element(JwtTestIssueViewLocators.assign_to_me_button).click()
-        self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
-        self.get_element(JwtTestIssueViewLocators.issue_updated_flag_close_button).click()
-        self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
+        @print_timing("JwtTestIssueView_assign_to_me")
+        def measure():
+            self.wait_until_visible(JwtTestIssueViewLocators.assign_to_me_button, 10)
+            self.get_element(JwtTestIssueViewLocators.assign_to_me_button).click()
+            self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
+            self.get_element(JwtTestIssueViewLocators.issue_updated_flag_close_button).click()
+            self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
+
+        measure()
 
     def check_condition(self, visible):
-        if visible:
-            self.wait_until_visible(JwtTestIssueViewLocators.transition_button)
-        else:
-            self.wait_until_invisible(JwtTestIssueViewLocators.transition_button)
+        @print_timing("JwtTestIssueView_check_condition")
+        def measure():
+            if visible:
+                self.wait_until_visible(JwtTestIssueViewLocators.transition_button)
+            else:
+                self.wait_until_invisible(JwtTestIssueViewLocators.transition_button)
+
+        measure()
 
     def check_validator(self, passed):
-        if passed:
-            self.wait_until_invisible(JwtTestIssueViewLocators.transition_screen_error)
-        else:
-            self.wait_until_visible(JwtTestIssueViewLocators.transition_screen_error)
+        @print_timing("JwtTestIssueView_check_validator")
+        def measure():
+            if passed:
+                self.wait_until_invisible(JwtTestIssueViewLocators.transition_screen_error)
+            else:
+                self.wait_until_visible(JwtTestIssueViewLocators.transition_screen_error)
+
+        measure()
 
     def close_transition_screen(self):
-        self.get_element(JwtTestIssueViewLocators.transition_screen_cancel_button).click()
+        @print_timing("JwtTestIssueView_close_transition_screen")
+        def measure():
+            self.get_element(JwtTestIssueViewLocators.transition_screen_cancel_button).click()
+
+        measure()
 
     def execute_transition_without_change(self):
-        self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
-        self.get_element(JwtTestIssueViewLocators.transition_button).click()
-        self.wait_until_visible(JwtTestIssueViewLocators.transition_screen_submit_button, 10)
-        self.get_element(JwtTestIssueViewLocators.transition_screen_submit_button).click()
+        @print_timing("JwtTestIssueView_execute_transition_without_change")
+        def measure():
+            self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
+            self.get_element(JwtTestIssueViewLocators.transition_button).click()
+            self.wait_until_visible(JwtTestIssueViewLocators.transition_screen_submit_button, 10)
+            self.get_element(JwtTestIssueViewLocators.transition_screen_submit_button).click()
+
+        measure()
 
     def execute_transition_with_change(self):
-        self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
-        self.get_element(JwtTestIssueViewLocators.transition_button).click()
-        self.wait_until_visible(JwtTestIssueViewLocators.transition_summary, 10)
-        self.get_element(JwtTestIssueViewLocators.transition_summary).send_keys("JWT-Summary")
-        self.get_element(JwtTestIssueViewLocators.transition_screen_submit_button).click()
-        self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
-        self.get_element(JwtTestIssueViewLocators.issue_updated_flag_close_button).click()
-        self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
+        @print_timing("JwtTestIssueView_execute_transition_with_change")
+        def measure():
+            self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
+            self.get_element(JwtTestIssueViewLocators.transition_button).click()
+            self.wait_until_visible(JwtTestIssueViewLocators.transition_summary, 10)
+            self.get_element(JwtTestIssueViewLocators.transition_summary).send_keys("JWT-Summary")
+            self.get_element(JwtTestIssueViewLocators.transition_screen_submit_button).click()
+            self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
+            self.get_element(JwtTestIssueViewLocators.issue_updated_flag_close_button).click()
+            self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
+
+        measure()
 
     def check_summary_value(self, text):
-        self.wait_until_visible(JwtTestIssueViewLocators.summary, 10)
-        assert text in self.get_element(JwtTestIssueViewLocators.summary).text
+        @print_timing("JwtTestIssueView_check_summary_value")
+        def measure():
+            self.wait_until_visible(JwtTestIssueViewLocators.summary, 10)
+            assert text in self.get_element(JwtTestIssueViewLocators.summary).text
+
+        measure()
 
 
 class AdminToolboxIssueTypeView(BasePage):
@@ -324,62 +368,102 @@ class AdminToolboxIssueTypeView(BasePage):
     page_loaded_selector = AdminToolboxViewLocators.filter_bar
 
     def check_id_column_visibility(self, visible):
-        if visible:
-            self.wait_until_visible(AdminToolboxViewLocators.filter_id_column, 10)
-        else:
-            self.wait_until_invisible(AdminToolboxViewLocators.filter_id_column)
+        @print_timing("AdminToolboxIssueTypeView_check_id_column_visibility")
+        def measure():
+            if visible:
+                self.wait_until_visible(AdminToolboxViewLocators.filter_id_column, 10)
+            else:
+                self.wait_until_invisible(AdminToolboxViewLocators.filter_id_column)
+
+        measure()
 
     def activate_show_hide_id_column(self):
-        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
-        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_show_hide_button, 10)
-        if not self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_checkbox).is_selected():
-            self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_button).click()
-        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+        @print_timing("AdminToolboxIssueTypeView_activate_show_hide_id_column")
+        def measure():
+            self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+            self.wait_until_visible(AdminToolboxViewLocators.filter_settings_show_hide_button, 10)
+            if not self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_checkbox).is_selected():
+                self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_button).click()
+            self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+
+        measure()
 
     def deactivate_show_hide_id_column(self):
-        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_button, 10)
-        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
-        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_show_hide_button, 10)
-        if self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_checkbox).is_selected():
-            self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_button).click()
-        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+        @print_timing("AdminToolboxIssueTypeView_deactivate_show_hide_id_column")
+        def measure():
+            self.wait_until_visible(AdminToolboxViewLocators.filter_settings_button, 10)
+            self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+            self.wait_until_visible(AdminToolboxViewLocators.filter_settings_show_hide_button, 10)
+            if self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_checkbox).is_selected():
+                self.get_element(AdminToolboxViewLocators.filter_settings_show_hide_button).click()
+            self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+
+        measure()
 
     def check_smart_view_visibility(self, visible):
-        if visible:
-            self.wait_until_visible(AdminToolboxViewLocators.filter_smart_view_related_schemes_button, 10)
-        else:
-            self.wait_until_invisible(AdminToolboxViewLocators.filter_smart_view_related_schemes_button)
+        @print_timing("AdminToolboxIssueTypeView_check_smart_view_visibility")
+        def measure():
+            if visible:
+                self.wait_until_visible(AdminToolboxViewLocators.filter_smart_view_related_schemes_button, 10)
+            else:
+                self.wait_until_invisible(AdminToolboxViewLocators.filter_smart_view_related_schemes_button)
+
+        measure()
 
     def activate_smart_view(self):
-        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_button, 10)
-        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
-        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_smart_view_button, 10)
-        if not self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_checkbox).is_selected():
-            self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_button).click()
-        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+        @print_timing("AdminToolboxIssueTypeView_activate_smart_view")
+        def measure():
+            self.wait_until_visible(AdminToolboxViewLocators.filter_settings_button, 10)
+            self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+            self.wait_until_visible(AdminToolboxViewLocators.filter_settings_smart_view_button, 10)
+            if not self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_checkbox).is_selected():
+                self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_button).click()
+            self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+
+        measure()
 
     def deactivate_smart_view(self):
-        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_button, 10)
-        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
-        self.wait_until_visible(AdminToolboxViewLocators.filter_settings_smart_view_button, 10)
-        if self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_checkbox).is_selected():
-            self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_button).click()
-        self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+        @print_timing("AdminToolboxIssueTypeView_deactivate_smart_view")
+        def measure():
+            self.wait_until_visible(AdminToolboxViewLocators.filter_settings_button, 10)
+            self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+            self.wait_until_visible(AdminToolboxViewLocators.filter_settings_smart_view_button, 10)
+            if self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_checkbox).is_selected():
+                self.get_element(AdminToolboxViewLocators.filter_settings_smart_view_button).click()
+            self.get_element(AdminToolboxViewLocators.filter_settings_button).click()
+
+        measure()
 
     def set_name_filter(self):
-        self.get_element(AdminToolboxViewLocators.filter_name_select).click()
-        self.wait_until_visible(AdminToolboxViewLocators.filter_name_dropdown_container, 10)
-        self.get_element(AdminToolboxViewLocators.filter_name_bug_option).click()
-        self.get_element(AdminToolboxViewLocators.filter_name_select).click()
+        @print_timing("AdminToolboxIssueTypeView_set_name_filter")
+        def measure():
+            self.get_element(AdminToolboxViewLocators.filter_name_select).click()
+            self.wait_until_visible(AdminToolboxViewLocators.filter_name_dropdown_container, 10)
+            self.get_element(AdminToolboxViewLocators.filter_name_bug_option).click()
+            self.get_element(AdminToolboxViewLocators.filter_name_select).click()
+
+        measure()
 
     def click_reset_filter_button(self):
-        self.get_element(AdminToolboxViewLocators.filter_reset_all_button).click()
+        @print_timing("AdminToolboxIssueTypeView_click_reset_filter_button")
+        def measure():
+            self.get_element(AdminToolboxViewLocators.filter_reset_all_button).click()
+
+        measure()
 
     def check_activated_name_filter_result(self):
-        self.wait_until_invisible(AdminToolboxViewLocators.filter_name_second_visible_table_row)
+        @print_timing("AdminToolboxIssueTypeView_check_activated_name_filter_result")
+        def measure():
+            self.wait_until_invisible(AdminToolboxViewLocators.filter_name_second_visible_table_row)
+
+        measure()
 
     def check_deactivated_name_filter_result(self):
-        self.wait_until_visible(AdminToolboxViewLocators.filter_name_second_visible_table_row, 10)
+        @print_timing("AdminToolboxIssueTypeView_check_deactivated_name_filter_result")
+        def measure():
+            self.wait_until_visible(AdminToolboxViewLocators.filter_name_second_visible_table_row, 10)
+
+        measure()
 
 
 class LastLogView(BasePage):
@@ -387,19 +471,39 @@ class LastLogView(BasePage):
     page_loaded_selector = LastLogViewLocators.log
 
     def remove_log(self):
-        self.execute_js("$(\"#logContent\").html('')")
+        @print_timing("LastLogView_remove_log")
+        def measure():
+            self.execute_js("$(\"#logContent\").html('')")
+
+        measure()
 
     def check_log_exists(self):
-        assert 0 < len(self.get_element(LastLogViewLocators.log_content).text)
+        @print_timing("LastLogView_check_log_exists")
+        def measure():
+            assert 0 < len(self.get_element(LastLogViewLocators.log_content).text)
+
+        measure()
 
     def apply_filter(self):
-        self.get_element(LastLogViewLocators.apply_filter_button).click()
+        @print_timing("LastLogView_apply_filter")
+        def measure():
+            self.get_element(LastLogViewLocators.apply_filter_button).click()
+
+        measure()
 
     def check_log_visibility(self):
-        self.wait_until_visible(LastLogViewLocators.log, 10)
+        @print_timing("LastLogView_check_log_visibility")
+        def measure():
+            self.wait_until_visible(LastLogViewLocators.log, 10)
+
+        measure()
 
     def reload(self):
-        self.get_element(LastLogViewLocators.reload_button).click()
+        @print_timing("LastLogView_reload")
+        def measure():
+            self.get_element(LastLogViewLocators.reload_button).click()
+
+        measure()
 
 
 class XChartsResourcesView(BasePage):
@@ -407,51 +511,91 @@ class XChartsResourcesView(BasePage):
     page_loaded_selector = XChartsResourcesViewLocators.create_resources_button
 
     def click_create_resources_button(self):
-        self.wait_until_visible(XChartsResourcesViewLocators.create_resources_button, 10)
-        self.get_element(XChartsResourcesViewLocators.create_resources_button).click()
+        @print_timing("XChartsResourcesView_click_create_resources_button")
+        def measure():
+            self.wait_until_visible(XChartsResourcesViewLocators.create_resources_button, 10)
+            self.get_element(XChartsResourcesViewLocators.create_resources_button).click()
+
+        measure()
 
     def set_resource_name(self, name):
-        self.wait_until_visible(XChartsResourcesViewLocators.resource_name_input_field, 10)
-        self.get_element(XChartsResourcesViewLocators.resource_name_input_field).send_keys(name)
+        @print_timing("XChartsResourcesView_set_resource_name")
+        def measure():
+            self.wait_until_visible(XChartsResourcesViewLocators.resource_name_input_field, 10)
+            self.get_element(XChartsResourcesViewLocators.resource_name_input_field).send_keys(name)
+
+        measure()
 
     def set_resource_description(self, description):
-        self.wait_until_visible(XChartsResourcesViewLocators.resource_description_input_field, 10)
-        self.get_element(XChartsResourcesViewLocators.resource_description_input_field).send_keys(description)
+        @print_timing("XChartsResourcesView_set_resource_description")
+        def measure():
+            self.wait_until_visible(XChartsResourcesViewLocators.resource_description_input_field, 10)
+            self.get_element(XChartsResourcesViewLocators.resource_description_input_field).send_keys(description)
+
+        measure()
 
     def change_resource_type(self):
-        self.wait_until_visible(XChartsResourcesViewLocators.resource_type_input_field, 10)
-        self.get_element(XChartsResourcesViewLocators.resource_type_input_field).click()
-        self.get_element(XChartsResourcesViewLocators.resource_type_input_field).send_keys(Keys.ENTER)
+        @print_timing("XChartsResourcesView_change_resource_type")
+        def measure():
+            self.wait_until_visible(XChartsResourcesViewLocators.resource_type_input_field, 10)
+            self.get_element(XChartsResourcesViewLocators.resource_type_input_field).click()
+            self.get_element(XChartsResourcesViewLocators.resource_type_input_field).send_keys(Keys.ENTER)
+
+        measure()
 
     def set_resource_data(self, data):
-        self.wait_until_present(XChartsResourcesViewLocators.resource_data_input, 10)
-        self.execute_js("document.getElementById(\"data\").setAttribute(\"style\",\"\")")
-        self.get_element(XChartsResourcesViewLocators.resource_data_input).send_keys(data)
+        @print_timing("XChartsResourcesView_set_resource_data")
+        def measure():
+            self.wait_until_present(XChartsResourcesViewLocators.resource_data_input, 10)
+            self.execute_js("document.getElementById(\"data\").setAttribute(\"style\",\"\")")
+            self.get_element(XChartsResourcesViewLocators.resource_data_input).send_keys(data)
+
+        measure()
 
     def change_to_data_tab(self):
-        self.wait_until_visible(XChartsResourcesViewLocators.resource_data_tab_button, 10)
-        self.get_element(XChartsResourcesViewLocators.resource_data_tab_button).click()
+        @print_timing("XChartsResourcesView_change_to_data_tab")
+        def measure():
+            self.wait_until_visible(XChartsResourcesViewLocators.resource_data_tab_button, 10)
+            self.get_element(XChartsResourcesViewLocators.resource_data_tab_button).click()
+
+        measure()
 
     def click_save_resource_button(self):
-        self.wait_until_visible(XChartsResourcesViewLocators.resource_save_button, 10)
-        self.get_element(XChartsResourcesViewLocators.resource_save_button).click()
+        @print_timing("XChartsResourcesView_click_save_resource_button")
+        def measure():
+            self.wait_until_visible(XChartsResourcesViewLocators.resource_save_button, 10)
+            self.get_element(XChartsResourcesViewLocators.resource_save_button).click()
+
+        measure()
 
     def check_resource_data(self, name, description, res_type):
-        self.wait_until_visible(XChartsResourcesViewLocators.table_resource_name, 10)
-        assert name in self.get_element(XChartsResourcesViewLocators.table_resource_name).text
-        self.wait_until_visible(XChartsResourcesViewLocators.table_resource_description, 10)
-        assert description in self.get_element(XChartsResourcesViewLocators.table_resource_description).text
-        self.wait_until_visible(XChartsResourcesViewLocators.table_resource_type, 10)
-        assert res_type in self.get_element(XChartsResourcesViewLocators.table_resource_type).text
+        @print_timing("XChartsResourcesView_check_resource_data")
+        def measure():
+            self.wait_until_visible(XChartsResourcesViewLocators.table_resource_name, 10)
+            assert name in self.get_element(XChartsResourcesViewLocators.table_resource_name).text
+            self.wait_until_visible(XChartsResourcesViewLocators.table_resource_description, 10)
+            assert description in self.get_element(XChartsResourcesViewLocators.table_resource_description).text
+            self.wait_until_visible(XChartsResourcesViewLocators.table_resource_type, 10)
+            assert res_type in self.get_element(XChartsResourcesViewLocators.table_resource_type).text
+
+        measure()
 
     def delete_first_resource(self):
-        self.get_element(XChartsResourcesViewLocators.table_resource_delete_button).click()
-        self.wait_until_visible(XChartsResourcesViewLocators.table_resource_delete_confirm_button, 10)
-        self.get_element(XChartsResourcesViewLocators.table_resource_delete_confirm_button).click()
+        @print_timing("XChartsResourcesView_delete_first_resource")
+        def measure():
+            self.get_element(XChartsResourcesViewLocators.table_resource_delete_button).click()
+            self.wait_until_visible(XChartsResourcesViewLocators.table_resource_delete_confirm_button, 10)
+            self.get_element(XChartsResourcesViewLocators.table_resource_delete_confirm_button).click()
+
+        measure()
 
     def check_empty_resource_table(self):
-        self.wait_until_visible(XChartsResourcesViewLocators.table_resource, 10)
-        self.wait_until_invisible(XChartsResourcesViewLocators.table_resource_rows)
+        @print_timing("XChartsResourcesView_check_empty_resource_table")
+        def measure():
+            self.wait_until_visible(XChartsResourcesViewLocators.table_resource, 10)
+            self.wait_until_invisible(XChartsResourcesViewLocators.table_resource_rows)
+
+        measure()
 
 
 class XChartsDataScriptsView(BasePage):
@@ -459,66 +603,113 @@ class XChartsDataScriptsView(BasePage):
     page_loaded_selector = XChartsDataScriptsViewLocators.create_script_button
 
     def set_script_name(self, name):
-        self.wait_until_visible(XChartsDataScriptsViewLocators.script_name_input_field, 10)
-        self.get_element(XChartsDataScriptsViewLocators.script_name_input_field).send_keys(name)
+        @print_timing("XChartsDataScriptsView_set_script_name")
+        def measure():
+            self.wait_until_visible(XChartsDataScriptsViewLocators.script_name_input_field, 10)
+            self.get_element(XChartsDataScriptsViewLocators.script_name_input_field).send_keys(name)
+
+        measure()
 
     def set_script_description(self, description):
-        self.wait_until_visible(XChartsDataScriptsViewLocators.script_description_input_field, 10)
-        self.get_element(XChartsDataScriptsViewLocators.script_description_input_field).send_keys(description)
+        @print_timing("XChartsDataScriptsView_set_script_description")
+        def measure():
+            self.wait_until_visible(XChartsDataScriptsViewLocators.script_description_input_field, 10)
+            self.get_element(XChartsDataScriptsViewLocators.script_description_input_field).send_keys(description)
+
+        measure()
 
     def set_example(self):
-        self.wait_until_visible(XChartsDataScriptsViewLocators.script_example_input_field, 10)
-        self.get_element(XChartsDataScriptsViewLocators.script_example_input_field).click()
-        self.wait_until_visible(XChartsDataScriptsViewLocators.script_example_first_option, 10)
-        self.get_element(XChartsDataScriptsViewLocators.script_example_input_field).send_keys(Keys.ENTER)
+        @print_timing("XChartsDataScriptsView_set_example")
+        def measure():
+            self.wait_until_visible(XChartsDataScriptsViewLocators.script_example_input_field, 10)
+            self.get_element(XChartsDataScriptsViewLocators.script_example_input_field).click()
+            self.wait_until_visible(XChartsDataScriptsViewLocators.script_example_first_option, 10)
+            self.get_element(XChartsDataScriptsViewLocators.script_example_input_field).send_keys(Keys.ENTER)
+
+        measure()
 
     def click_create_script_button(self):
-        self.wait_until_visible(XChartsDataScriptsViewLocators.create_script_button, 10)
-        self.get_element(XChartsDataScriptsViewLocators.create_script_button).click()
+        @print_timing("XChartsDataScriptsView_click_create_script_button")
+        def measure():
+            self.wait_until_visible(XChartsDataScriptsViewLocators.create_script_button, 10)
+            self.get_element(XChartsDataScriptsViewLocators.create_script_button).click()
+
+        measure()
 
     def add_script(self):
-        self.wait_until_visible(XChartsDataScriptsViewLocators.script_add_button, 10)
-        self.get_element(XChartsDataScriptsViewLocators.script_add_button).click()
+        @print_timing("XChartsDataScriptsView_add_script")
+        def measure():
+            self.wait_until_visible(XChartsDataScriptsViewLocators.script_add_button, 10)
+            self.get_element(XChartsDataScriptsViewLocators.script_add_button).click()
+
+        measure()
 
     def set_jql_parameter(self):
-        self.wait_until_visible(XChartsDataScriptsViewLocators.script_jql_parameter_input, 10)
-        self.get_element(XChartsDataScriptsViewLocators.script_jql_parameter_input).send_keys("porject = \"VLLR\"")
+        @print_timing("XChartsDataScriptsView_set_jql_parameter")
+        def measure():
+            self.wait_until_visible(XChartsDataScriptsViewLocators.script_jql_parameter_input, 10)
+            self.get_element(XChartsDataScriptsViewLocators.script_jql_parameter_input).send_keys("porject = \"VLLR\"")
+
+        measure()
 
     def save_and_close_script(self):
-        self.wait_until_visible(XChartsDataScriptsViewLocators.script_save_and_close_button, 10)
-        self.get_element(XChartsDataScriptsViewLocators.script_save_and_close_button).click()
+        @print_timing("XChartsDataScriptsView_save_and_close_script")
+        def measure():
+            self.wait_until_visible(XChartsDataScriptsViewLocators.script_save_and_close_button, 10)
+            self.get_element(XChartsDataScriptsViewLocators.script_save_and_close_button).click()
+
+        measure()
 
     def run_preview(self):
-        self.wait_until_visible(XChartsDataScriptsViewLocators.script_preview_button, 10)
-        self.wait_until_invisible(XChartsDataScriptsViewLocators.script_preview_iframe)
-        self.get_element(XChartsDataScriptsViewLocators.script_preview_button).click()
-        self.wait_until_visible(XChartsDataScriptsViewLocators.script_preview_iframe, 10)
+        @print_timing("XChartsDataScriptsView_run_preview")
+        def measure():
+            self.wait_until_visible(XChartsDataScriptsViewLocators.script_preview_button, 10)
+            self.wait_until_invisible(XChartsDataScriptsViewLocators.script_preview_iframe)
+            self.get_element(XChartsDataScriptsViewLocators.script_preview_button).click()
+            self.wait_until_visible(XChartsDataScriptsViewLocators.script_preview_iframe, 10)
+
+        measure()
 
     def check_script_data(self, name, description, layout):
-        self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_name, 10)
-        assert name in self.get_element(XChartsDataScriptsViewLocators.table_script_name).text
-        self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_description, 10)
-        assert description in self.get_element(XChartsDataScriptsViewLocators.table_script_description).text
-        self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_layout, 10)
-        assert layout in self.get_element(XChartsDataScriptsViewLocators.table_script_layout).text
+        @print_timing("XChartsDataScriptsView_check_script_data")
+        def measure():
+            self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_name, 10)
+            assert name in self.get_element(XChartsDataScriptsViewLocators.table_script_name).text
+            self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_description, 10)
+            assert description in self.get_element(XChartsDataScriptsViewLocators.table_script_description).text
+            self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_layout, 10)
+            assert layout in self.get_element(XChartsDataScriptsViewLocators.table_script_layout).text
+
+        measure()
 
     def delete_first_script(self):
-        self.get_element(XChartsDataScriptsViewLocators.table_script_delete_button).click()
-        self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_delete_submit_button, 10)
-        self.get_element(XChartsDataScriptsViewLocators.table_script_delete_submit_button).click()
+        @print_timing("XChartsDataScriptsView_delete_first_script")
+        def measure():
+            self.get_element(XChartsDataScriptsViewLocators.table_script_delete_button).click()
+            self.wait_until_visible(XChartsDataScriptsViewLocators.table_script_delete_submit_button, 10)
+            self.get_element(XChartsDataScriptsViewLocators.table_script_delete_submit_button).click()
+
+        measure()
 
     def check_empty_resource_table(self):
-        self.wait_until_visible(XChartsDataScriptsViewLocators.table_script, 10)
-        self.wait_until_invisible(XChartsDataScriptsViewLocators.table_script_rows)
+        @print_timing("XChartsDataScriptsView_check_empty_resource_table")
+        def measure():
+            self.wait_until_visible(XChartsDataScriptsViewLocators.table_script, 10)
+            self.wait_until_invisible(XChartsDataScriptsViewLocators.table_script_rows)
+
+        measure()
+
 
 class XChartsChartView(BasePage):
     page_url = XChartsChartsViewLocators.xcharts_data_scripts_view_url
     page_loaded_selector = XChartsChartsViewLocators.top10ReorterChart
 
-    def checkTop10ReporterChart(self):
-        self.wait_until_visible(XChartsChartsViewLocators.top10ReorterChart, 30)
+    def check_top_10_reporter_chart(self):
+        @print_timing("XChartsChartView_check_top_10_reporter_chart")
+        def measure():
+            self.wait_until_visible(XChartsChartsViewLocators.top10ReorterChart, 30)
 
-
+        measure()
 
 
 class SumUpCalcRulesView(BasePage):
@@ -526,25 +717,33 @@ class SumUpCalcRulesView(BasePage):
     page_loaded_selector = SumUpLocators.add_new_rule_button
 
     def add_new_rule(self):
-        self.get_element(SumUpLocators.add_new_rule_button).click()
-        self.wait_until_visible(SumUpLocators.new_rule_field_select, 10)
-        self.get_element(SumUpLocators.new_rule_field_select).send_keys("Watchers")
-        self.wait_until_visible(SumUpLocators.watchers_field_select_option, 10)
-        self.get_element(SumUpLocators.new_rule_field_select).send_keys(Keys.ENTER)
-        self.wait_until_visible(SumUpLocators.rule_name_field, 10)
-        self.get_element(SumUpLocators.rule_name_field).send_keys("SumUp watchers field")
-        self.get_element(SumUpLocators.submit_button).click()
-        self.wait_until_visible(SumUpLocators.first_rule, 10)
-        time.sleep(2)
+        @print_timing("SumUpCalcRulesView_add_new_rule")
+        def measure():
+            self.get_element(SumUpLocators.add_new_rule_button).click()
+            self.wait_until_visible(SumUpLocators.new_rule_field_select, 10)
+            self.get_element(SumUpLocators.new_rule_field_select).send_keys("Watchers")
+            self.wait_until_visible(SumUpLocators.watchers_field_select_option, 10)
+            self.get_element(SumUpLocators.new_rule_field_select).send_keys(Keys.ENTER)
+            self.wait_until_visible(SumUpLocators.rule_name_field, 10)
+            self.get_element(SumUpLocators.rule_name_field).send_keys("SumUp watchers field")
+            self.get_element(SumUpLocators.submit_button).click()
+            self.wait_until_visible(SumUpLocators.first_rule, 10)
+            time.sleep(2)
+
+        measure()
 
     def delete_rule(self):
-        self.get_element(SumUpLocators.delete_first_rule_button).click()
-        self.wait_until_visible(SumUpLocators.submit_button, 10)
-        self.get_element(SumUpLocators.submit_button).click()
-        # wait 2 seconds to be sure that the rule is deleted
-        time.sleep(2)
-        self.go_to()
-        self.element_exists(SumUpLocators.no_rule_message)
+        @print_timing("SumUpCalcRulesView_delete_rule")
+        def measure():
+            self.get_element(SumUpLocators.delete_first_rule_button).click()
+            self.wait_until_visible(SumUpLocators.submit_button, 10)
+            self.get_element(SumUpLocators.submit_button).click()
+            # wait 2 seconds to be sure that the rule is deleted
+            time.sleep(2)
+            self.go_to()
+            self.element_exists(SumUpLocators.no_rule_message)
+
+        measure()
 
 
 class SumUpCalculationView(BasePage):
@@ -552,40 +751,56 @@ class SumUpCalculationView(BasePage):
     page_loaded_selector = SumUpLocators.switch_layout_button
 
     def switch_view_layout(self):
-        self.get_element(SumUpLocators.switch_layout_button).click()
-        self.wait_until_visible(SumUpLocators.list_view_layout_option, 10)
-        self.get_element(SumUpLocators.list_view_layout_option).click()
+        @print_timing("SumUpCalculationView_switch_view_layout")
+        def measure():
+            self.get_element(SumUpLocators.switch_layout_button).click()
+            self.wait_until_visible(SumUpLocators.list_view_layout_option, 10)
+            self.get_element(SumUpLocators.list_view_layout_option).click()
+
+        measure()
 
     def add_watchers_field(self):
-        self.get_element(SumUpLocators.columns_button).click()
-        self.wait_until_visible(SumUpLocators.columns_search_bar, 10)
-        self.get_element(SumUpLocators.columns_search_bar).send_keys("Watchers")
-        self.wait_until_visible(SumUpLocators.watchers_checkbox_label, 10)
-        checkbox_label = self.get_element(SumUpLocators.watchers_checkbox_label)
-        checkbox = self.get_element(SumUpLocators.watchers_checkbox)
-        if not checkbox.is_selected():
-            checkbox_label.click()
-        self.get_element(SumUpLocators.columns_submit_button).click()
-        self.wait_until_visible(SumUpLocators.watchers_column_header, 10)
+        @print_timing("SumUpCalculationView_add_watchers_field")
+        def measure():
+            self.get_element(SumUpLocators.columns_button).click()
+            self.wait_until_visible(SumUpLocators.columns_search_bar, 10)
+            self.get_element(SumUpLocators.columns_search_bar).send_keys("Watchers")
+            self.wait_until_visible(SumUpLocators.watchers_checkbox_label, 10)
+            checkbox_label = self.get_element(SumUpLocators.watchers_checkbox_label)
+            checkbox = self.get_element(SumUpLocators.watchers_checkbox)
+            if not checkbox.is_selected():
+                checkbox_label.click()
+            self.get_element(SumUpLocators.columns_submit_button).click()
+            self.wait_until_visible(SumUpLocators.watchers_column_header, 10)
+
+        measure()
 
     def calculate(self):
-        self.get_element(SumUpLocators.calculate_toggle).click()
-        self.wait_until_visible(SumUpLocators.page_sum_row, 10)
-        self.wait_until_visible(SumUpLocators.total_sum_row, 10)
-        self.get_element(SumUpLocators.calculate_toggle).click()
-        self.wait_until_invisible(SumUpLocators.page_sum_row)
-        self.wait_until_invisible(SumUpLocators.total_sum_row)
+        @print_timing("SumUpCalculationView_calculate")
+        def measure():
+            self.get_element(SumUpLocators.calculate_toggle).click()
+            self.wait_until_visible(SumUpLocators.page_sum_row, 10)
+            self.wait_until_visible(SumUpLocators.total_sum_row, 10)
+            self.get_element(SumUpLocators.calculate_toggle).click()
+            self.wait_until_invisible(SumUpLocators.page_sum_row)
+            self.wait_until_invisible(SumUpLocators.total_sum_row)
+
+        measure()
 
     def remove_watchers_field(self):
-        self.get_element(SumUpLocators.columns_button).click()
-        self.wait_until_visible(SumUpLocators.columns_search_bar, 10)
-        self.get_element(SumUpLocators.columns_search_bar).send_keys("Watchers")
-        self.wait_until_visible(SumUpLocators.watchers_checkbox_label, 10)
-        checkbox_label = self.get_element(SumUpLocators.watchers_checkbox_label)
-        checkbox = self.get_element(SumUpLocators.watchers_checkbox)
-        if checkbox.is_selected():
-            checkbox_label.click()
-        self.get_element(SumUpLocators.columns_submit_button).click()
+        @print_timing("SumUpCalculationView_remove_watchers_field")
+        def measure():
+            self.get_element(SumUpLocators.columns_button).click()
+            self.wait_until_visible(SumUpLocators.columns_search_bar, 10)
+            self.get_element(SumUpLocators.columns_search_bar).send_keys("Watchers")
+            self.wait_until_visible(SumUpLocators.watchers_checkbox_label, 10)
+            checkbox_label = self.get_element(SumUpLocators.watchers_checkbox_label)
+            checkbox = self.get_element(SumUpLocators.watchers_checkbox)
+            if checkbox.is_selected():
+                checkbox_label.click()
+            self.get_element(SumUpLocators.columns_submit_button).click()
+
+        measure()
 
 
 class SumUpGlobalSettingsView(BasePage):
@@ -593,32 +808,40 @@ class SumUpGlobalSettingsView(BasePage):
     page_loaded_selector = SumUpLocators.supported_apps_table
 
     def deactivate_apps(self):
-        self.wait_until_visible(SumUpLocators.active_jira_core_toggle, 10)
-        self.get_element(SumUpLocators.active_jira_core_toggle).click()
-        self.wait_until_visible(SumUpLocators.open_flag, 10)
-        self.get_element(SumUpLocators.flag_close_button).click()
-        self.wait_until_invisible(SumUpLocators.open_flag)
-        self.wait_until_visible(SumUpLocators.inactive_jira_core_toggle, 10)
-        self.wait_until_visible(SumUpLocators.active_jira_software_toggle, 10)
-        self.get_element(SumUpLocators.active_jira_software_toggle).click()
-        self.wait_until_visible(SumUpLocators.open_flag, 10)
-        self.get_element(SumUpLocators.flag_close_button).click()
-        self.wait_until_invisible(SumUpLocators.open_flag)
-        self.wait_until_visible(SumUpLocators.inactive_jira_software_toggle, 10)
+        @print_timing("SumUpGlobalSettingsView_deactivate_apps")
+        def measure():
+            self.wait_until_visible(SumUpLocators.active_jira_core_toggle, 10)
+            self.get_element(SumUpLocators.active_jira_core_toggle).click()
+            self.wait_until_visible(SumUpLocators.open_flag, 10)
+            self.get_element(SumUpLocators.flag_close_button).click()
+            self.wait_until_invisible(SumUpLocators.open_flag)
+            self.wait_until_visible(SumUpLocators.inactive_jira_core_toggle, 10)
+            self.wait_until_visible(SumUpLocators.active_jira_software_toggle, 10)
+            self.get_element(SumUpLocators.active_jira_software_toggle).click()
+            self.wait_until_visible(SumUpLocators.open_flag, 10)
+            self.get_element(SumUpLocators.flag_close_button).click()
+            self.wait_until_invisible(SumUpLocators.open_flag)
+            self.wait_until_visible(SumUpLocators.inactive_jira_software_toggle, 10)
+
+        measure()
 
     def activate_apps(self):
-        self.wait_until_visible(SumUpLocators.inactive_jira_core_toggle, 10)
-        self.get_element(SumUpLocators.inactive_jira_core_toggle).click()
-        self.wait_until_visible(SumUpLocators.open_flag, 10)
-        self.get_element(SumUpLocators.flag_close_button).click()
-        self.wait_until_invisible(SumUpLocators.open_flag)
-        self.wait_until_visible(SumUpLocators.active_jira_core_toggle, 10)
-        self.wait_until_visible(SumUpLocators.inactive_jira_software_toggle, 10)
-        self.get_element(SumUpLocators.inactive_jira_software_toggle).click()
-        self.wait_until_visible(SumUpLocators.open_flag, 10)
-        self.get_element(SumUpLocators.flag_close_button).click()
-        self.wait_until_invisible(SumUpLocators.open_flag)
-        self.wait_until_visible(SumUpLocators.active_jira_software_toggle, 10)
+        @print_timing("SumUpGlobalSettingsView_deactivate_apps")
+        def measure():
+            self.wait_until_visible(SumUpLocators.inactive_jira_core_toggle, 10)
+            self.get_element(SumUpLocators.inactive_jira_core_toggle).click()
+            self.wait_until_visible(SumUpLocators.open_flag, 10)
+            self.get_element(SumUpLocators.flag_close_button).click()
+            self.wait_until_invisible(SumUpLocators.open_flag)
+            self.wait_until_visible(SumUpLocators.active_jira_core_toggle, 10)
+            self.wait_until_visible(SumUpLocators.inactive_jira_software_toggle, 10)
+            self.get_element(SumUpLocators.inactive_jira_software_toggle).click()
+            self.wait_until_visible(SumUpLocators.open_flag, 10)
+            self.get_element(SumUpLocators.flag_close_button).click()
+            self.wait_until_invisible(SumUpLocators.open_flag)
+            self.wait_until_visible(SumUpLocators.active_jira_software_toggle, 10)
+
+        measure()
 
 
 class Search(BasePage):

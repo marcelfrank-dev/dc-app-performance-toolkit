@@ -2,7 +2,8 @@ from selenium.webdriver.common.keys import Keys
 
 from selenium_ui.base_page import BasePage
 from selenium_ui.confluence.pages.selectors import UrlManager, LoginPageLocators, AllUpdatesLocators, PopupLocators, \
-    PageLocators, DashboardLocators, TopPanelLocators, EditorLocators, SpaceAdminViewLocators, LastLogViewLocators
+    PageLocators, DashboardLocators, TopPanelLocators, EditorLocators, SpaceAdminViewLocators, LastLogViewLocators, LogoutLocators
+from selenium_ui.conftest import print_timing
 
 
 class Login(BasePage):
@@ -175,29 +176,53 @@ class SpaceAdminShuttleView(BasePage):
     page_loaded_selector = SpaceAdminViewLocators.shuttle_container
 
     def click_add_category_button(self):
-        self.wait_until_visible(SpaceAdminViewLocators.shuttle_add_category_button)
-        self.get_element(SpaceAdminViewLocators.shuttle_add_category_button).click()
+        @print_timing("SpaceAdminShuttleView_click_add_category_button")
+        def measure():
+            self.wait_until_visible(SpaceAdminViewLocators.shuttle_add_category_button)
+            self.get_element(SpaceAdminViewLocators.shuttle_add_category_button).click()
+
+        measure()
 
     def set_category_name(self, name):
-        self.wait_until_visible(SpaceAdminViewLocators.shuttle_category_name_input, 10)
-        self.get_element(SpaceAdminViewLocators.shuttle_category_name_input).send_keys(name)
+        @print_timing("SpaceAdminShuttleView_set_category_name")
+        def measure():
+            self.wait_until_visible(SpaceAdminViewLocators.shuttle_category_name_input, 10)
+            self.get_element(SpaceAdminViewLocators.shuttle_category_name_input).send_keys(name)
+
+        measure()
 
     def click_category_submit_button(self):
-        self.wait_until_visible(SpaceAdminViewLocators.shuttle_category_submit_button, 10)
-        self.get_element(SpaceAdminViewLocators.shuttle_category_submit_button).click()
+        @print_timing("SpaceAdminShuttleView_click_category_submit_button")
+        def measure():
+            self.wait_until_visible(SpaceAdminViewLocators.shuttle_category_submit_button, 10)
+            self.get_element(SpaceAdminViewLocators.shuttle_category_submit_button).click()
+
+        measure()
 
     def check_created_category(self, name):
-        self.wait_until_visible(SpaceAdminViewLocators.shuttle_browser_category_name, 10)
-        assert name in self.get_element(SpaceAdminViewLocators.shuttle_browser_category_name).text
+        @print_timing("SpaceAdminShuttleView_check_created_category")
+        def measure():
+            self.wait_until_visible(SpaceAdminViewLocators.shuttle_browser_category_name, 10)
+            assert name in self.get_element(SpaceAdminViewLocators.shuttle_browser_category_name).text
+
+        measure()
 
     def remove_category(self):
-        self.execute_js("$(\"#space-shuttle-categories > li > div > div > a.aui-button.aui-button-link.remove-category\").attr(\"style\",\"display:inline-block\")")
-        self.get_element(SpaceAdminViewLocators.shuttle_browser_category_delete_button).click()
-        self.wait_until_visible(SpaceAdminViewLocators.shuttle_browser_category_delete_confirm_button, 10)
-        self.get_element(SpaceAdminViewLocators.shuttle_browser_category_delete_confirm_button).click()
+        @print_timing("SpaceAdminShuttleView_remove_category")
+        def measure():
+            self.execute_js("$(\"#space-shuttle-categories > li > div > div > a.aui-button.aui-button-link.remove-category\").attr(\"style\",\"display:inline-block\")")
+            self.get_element(SpaceAdminViewLocators.shuttle_browser_category_delete_button).click()
+            self.wait_until_visible(SpaceAdminViewLocators.shuttle_browser_category_delete_confirm_button, 10)
+            self.get_element(SpaceAdminViewLocators.shuttle_browser_category_delete_confirm_button).click()
+
+        measure()
 
     def check_for_no_results(self):
-        self.wait_until_invisible(SpaceAdminViewLocators.shuttle_browser_categories)
+        @print_timing("SpaceAdminShuttleView_check_for_no_results")
+        def measure():
+            self.wait_until_invisible(SpaceAdminViewLocators.shuttle_browser_categories)
+
+        measure()
 
 
 class SpaceAdminPermissionsView(BasePage):
@@ -205,20 +230,32 @@ class SpaceAdminPermissionsView(BasePage):
     page_loaded_selector = SpaceAdminViewLocators.permissions_container
 
     def select_admin(self):
-        self.wait_until_visible(SpaceAdminViewLocators.permission_user_select, 10)
-        self.get_element(SpaceAdminViewLocators.permission_user_select).click()
-        self.wait_until_visible(SpaceAdminViewLocators.permission_user_search_input, 10)
-        self.get_element(SpaceAdminViewLocators.permission_user_search_input).send_keys("admin")
-        self.wait_until_visible(SpaceAdminViewLocators.permission_user_select_option, 10)
-        self.get_element(SpaceAdminViewLocators.permission_user_search_input).send_keys(Keys.ENTER)
+        @print_timing("SpaceAdminPermissionsView_select_admin")
+        def measure():
+            self.wait_until_visible(SpaceAdminViewLocators.permission_user_select, 10)
+            self.get_element(SpaceAdminViewLocators.permission_user_select).click()
+            self.wait_until_visible(SpaceAdminViewLocators.permission_user_search_input, 10)
+            self.get_element(SpaceAdminViewLocators.permission_user_search_input).send_keys("admin")
+            self.wait_until_visible(SpaceAdminViewLocators.permission_user_select_option, 10)
+            self.get_element(SpaceAdminViewLocators.permission_user_search_input).send_keys(Keys.ENTER)
+
+        measure()
 
     def click_show_button(self):
-        self.wait_until_visible(SpaceAdminViewLocators.permission_show_button, 10)
-        self.get_element(SpaceAdminViewLocators.permission_show_button).click()
+        @print_timing("SpaceAdminPermissionsView_click_show_button")
+        def measure():
+            self.wait_until_visible(SpaceAdminViewLocators.permission_show_button, 10)
+            self.get_element(SpaceAdminViewLocators.permission_show_button).click()
+
+        measure()
 
     def check_permissions(self):
-        self.wait_until_visible(SpaceAdminViewLocators.permission_approve_icons, 10)
-        assert 14 == len(self.get_elements(SpaceAdminViewLocators.permission_approve_icons))
+        @print_timing("SpaceAdminPermissionsView_check_permissions")
+        def measure():
+            self.wait_until_visible(SpaceAdminViewLocators.permission_approve_icons, 10)
+            assert 14 == len(self.get_elements(SpaceAdminViewLocators.permission_approve_icons))
+
+        measure()
 
 
 class SpaceAdminAttachmentServiceView(BasePage):
@@ -236,16 +273,36 @@ class LastLogView(BasePage):
     page_loaded_selector = LastLogViewLocators.log
 
     def remove_log(self):
-        self.execute_js("$(\"#logContent\").html('')")
+        @print_timing("LastLogView_remove_log")
+        def measure():
+            self.execute_js("$(\"#logContent\").html('')")
+
+        measure()
 
     def check_log_exists(self):
-        assert 0 < len(self.get_element(LastLogViewLocators.log_content).text)
+        @print_timing("LastLogView_check_log_exists")
+        def measure():
+            assert 0 < len(self.get_element(LastLogViewLocators.log_content).text)
+
+        measure()
 
     def apply_filter(self):
-        self.get_element(LastLogViewLocators.apply_filter_button).click()
+        @print_timing("LastLogView_apply_filter")
+        def measure():
+            self.get_element(LastLogViewLocators.apply_filter_button).click()
+
+        measure()
 
     def check_log_visibility(self):
-        self.wait_until_visible(LastLogViewLocators.log, 10)
+        @print_timing("LastLogView_check_log_visibility")
+        def measure():
+            self.wait_until_visible(LastLogViewLocators.log, 10)
+
+        measure()
 
     def reload(self):
-        self.get_element(LastLogViewLocators.reload_button).click()
+        @print_timing("LastLogView_reload")
+        def measure():
+            self.get_element(LastLogViewLocators.reload_button).click()
+
+        measure()
