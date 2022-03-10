@@ -448,7 +448,7 @@ def xcharts_open_default_chart(webdriver):
         xcharts_charts_view = XChartsChartView(webdriver)
         xcharts_charts_view.go_to()
         xcharts_charts_view.wait_for_page_loaded()
-        xcharts_charts_view.checkTop10ReporterChart()
+        xcharts_charts_view.check_top_10_reporter_chart()
     measure()
     PopupManager(webdriver).dismiss_default_popup()
 
