@@ -166,5 +166,6 @@ class LastLogViewLocators:
     log_content = (By.CSS_SELECTOR, "#logContent")
     reload_button = (By.CSS_SELECTOR, "#reload")
 
+
 class LogoutLocators:
     logout_msg = (By.ID, "logout-message")

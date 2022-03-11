@@ -61,9 +61,9 @@ execution:
     hold-for: ${test_duration}
 scenarios:
   selenium:
-#    script: selenium_ui/confluence_ui.py
+    script: selenium_ui/confluence_ui.py
 #    script: selenium_ui/confluence_ui_spad.py
-    script: selenium_ui/confluence_ui_last_log.py
+#    script: selenium_ui/confluence_ui_last_log.py
   locust:
     script: locustio/confluence/locustfile.py
   jmeter:
