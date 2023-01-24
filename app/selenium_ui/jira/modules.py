@@ -91,7 +91,7 @@ def adminLogin(webdriver):
 
         @print_timing("selenium_admin_login:login_and_view_system_settings")
         def sub_measure():
-            login_page.set_credentials(username="admin", password="admin")
+            login_page.set_credentials(username="admin", password="XlSia0MRlfw0OeAv1nA6")
             secure_login_page.wait_until_visible((By.ID, "login-form-authenticatePassword"), 30000)
             secure_login_page.set_credentials()
             login_page.wait_for_page_loaded()
