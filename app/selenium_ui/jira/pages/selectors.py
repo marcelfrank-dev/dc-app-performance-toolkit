@@ -268,7 +268,7 @@ class JwtTestIssueViewLocators:
     issue_updated_flag = (By.CSS_SELECTOR, "#aui-flag-container > div[open=\"open\"]")
     issue_updated_flag_close_button = (By.CSS_SELECTOR, ".aui-close-button")
 
-    calc_field_value = (By.CSS_SELECTOR, "#customfield_11200-val")
+    calc_field_value = (By.CSS_SELECTOR, "#customfield_11101-val")
 
     assign_to_me_button = (By.CSS_SELECTOR, "#assign-to-me")
 
