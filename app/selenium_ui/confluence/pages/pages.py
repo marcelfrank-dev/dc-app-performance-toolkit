@@ -183,7 +183,7 @@ class SecureLogin(BasePage):
     secure_password_field = LoginPageLocators.secure_password_field
 
     def set_credentials(self):
-        self.get_element(LoginPageLocators.secure_password_field).send_keys("XlSia0MRlfw0OeAv1nA6")
+        self.get_element(LoginPageLocators.secure_password_field).send_keys("XMOnAYOO6yVq0X6AP6ql")
         self.get_element(LoginPageLocators.secure_login_submit_button).click()
 
 

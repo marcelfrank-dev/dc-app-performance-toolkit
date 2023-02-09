@@ -75,7 +75,7 @@ def admin_login(webdriver):
     login_page = AdminLogin(webdriver)
     secure_login_page = SecureLogin(webdriver)
     login_page.go_to()
-    login_page.set_credentials(username="admin", password="XlSia0MRlfw0OeAv1nA6")
+    login_page.set_credentials(username="admin", password="XMOnAYOO6yVq0X6AP6ql")
     login_page.go_to()
     secure_login_page.wait_until_visible(secure_login_page.secure_password_field, 30)
     secure_login_page.set_credentials()
