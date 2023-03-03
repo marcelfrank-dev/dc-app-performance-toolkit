@@ -17,7 +17,7 @@ class UrlManager:
         self.space_admin_browser = "/admin/plugins/spaceadmin/browser.action"
         self.space_admin_shuttle = "/admin/plugins/spaceadmin/spaceshuttle.action"
         self.space_admin_permissions = "/admin/plugins/spaceadmin/permissions.action"
-        self.space_admin_attachment_service = "/admin/plugins/spaceadmin/index.action"
+        self.space_admin_attachment_service = "/admin/plugins/spaceadmin/attachmentcleanup.action"
         self.space_admin_settings = "/admin/plugins/spaceadmin/configure.action"
         self.last_log_view_log = '/admin/plugins/lastlog/viewlog.action'
 
