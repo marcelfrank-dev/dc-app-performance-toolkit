@@ -1,5 +1,6 @@
 import random
 from selenium_ui.conftest import print_timing, measure_browser_navi_metrics, measure_dom_requests
+import time
 
 from selenium_ui.confluence.pages.pages import Login, AllUpdates, PopupManager, Page, Dashboard, TopNavPanel, Editor, \
     Logout, AdminLogin, SecureLogin, LastLogView, SpaceAdminBrowserView, SpaceAdminShuttleView, SpaceAdminPermissionsView, SpaceAdminAttachmentServiceView, SpaceAdminSettingsView
@@ -315,6 +316,7 @@ def last_log_browse_view_log(confluence_webdriver):
     measure()
     PopupManager(confluence_webdriver).dismiss_default_popup()
 
+
 def last_log_apply_filter(confluence_webdriver):
     @print_timing("selenium_last_log_apply_filter")
     def measure():
@@ -327,6 +329,7 @@ def last_log_apply_filter(confluence_webdriver):
 
     measure()
     PopupManager(confluence_webdriver).dismiss_default_popup()
+
 
 def last_log_reload(confluence_webdriver):
     @print_timing("selenium_last_log_reload")
@@ -341,7 +344,8 @@ def last_log_reload(confluence_webdriver):
     measure()
     PopupManager(confluence_webdriver).dismiss_default_popup()
 
-#SPAD
+
+# SPAD
 def spad_browse_pages(confluence_webdriver):
     @print_timing("selenium_spad_browse")
     def measure():
@@ -381,6 +385,7 @@ def spad_check_permissions(confluence_webdriver):
 
     measure()
     PopupManager(confluence_webdriver).dismiss_default_popup()
+
 
 def spad_shuttle(confluence_webdriver):
     @print_timing("selenium_spad_shuttle")
