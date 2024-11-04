@@ -19,7 +19,7 @@ class UrlManager:
         self.space_admin_permissions = "/admin/plugins/spaceadmin/permissions.action"
         self.space_admin_attachment_service = "/admin/plugins/spaceadmin/attachmentcleanup.action"
         self.space_admin_settings = "/admin/plugins/spaceadmin/configure.action"
-        self.last_log_view_log = '/admin/plugins/lastlog/viewlog.action'
+        self.last_log_view_log = '/plugins/servlet/lastlog'
 
     def login_url(self):
         return f"{self.host}{self.login_params}"
@@ -155,7 +155,7 @@ class SpaceAdminViewLocators:
     shuttle_add_category_button = (By.CSS_SELECTOR, "#addCategory")
     shuttle_category_name_input = (By.CSS_SELECTOR, "#com-atlassian-confluence > section > div > form > div:nth-child(1) > input")
     shuttle_category_submit_button = (By.CSS_SELECTOR, "#dialog-save-button")
-    shuttle_browser_category_name = (By.CSS_SELECTOR, "#space-shuttle-categories > li > div > strong")
+    shuttle_browser_category_name = (By.CSS_SELECTOR, "#space-shuttle-categories > li div > strong")
     shuttle_browser_category_delete_button = (By.CSS_SELECTOR, "#space-shuttle-categories > li > div > div > a.aui-button.aui-button-link.remove-category")
     shuttle_browser_category_delete_confirm_button = (By.CSS_SELECTOR, "#dialog-save-button")
     shuttle_browser_categories = (By.CSS_SELECTOR, ".space-shuttle-category")
@@ -166,7 +166,7 @@ class SpaceAdminViewLocators:
     permission_user_select = (By.CSS_SELECTOR, "#s2id_username > a")
     permission_user_select_option = (By.CSS_SELECTOR, "#select2-drop > ul > li > div")
     permission_show_button = (By.CSS_SELECTOR, "#submit-button-user-group")
-    permission_approve_icons = (By.CSS_SELECTOR, "#admin-body-content > div > form > table > tbody > tr:nth-child(2) > td > span")
+    permission_approve_icons = (By.CSS_SELECTOR, "#admin-body-content > div > form > table > tbody > tr:nth-child(1) > td > span")
 
     space_admin_attachment_service_url = UrlManager().space_admin_attachment_service_url()
     attachment_service_container = (By.CSS_SELECTOR, "#admin-body > form")
@@ -179,9 +179,11 @@ class LastLogViewLocators:
     last_log_view_url = UrlManager().last_log_view_log_url()
     log = (By.CSS_SELECTOR, "#logContent")
     loading_spinner = (By.CSS_SELECTOR, "#reload-spinner > aui-spinner")
-    apply_filter_button = (By.CSS_SELECTOR, "#send")
-    log_content = (By.CSS_SELECTOR, "#logContent")
-    reload_button = (By.CSS_SELECTOR, "#reload")
+    apply_filter_button = (By.CSS_SELECTOR, '[data-testid="submit"]')
+    log_content = (By.CSS_SELECTOR, "[class*='logContainer'] > div")
+    log_no_content = (By.CSS_SELECTOR, "[class*='logContainer'] > p")
+    reload_button = (By.CSS_SELECTOR, '[data-testid="reload--container"] > button')
+    search_input = (By.CSS_SELECTOR, "[data-testid=\"input\"]")
 
 
 class LogoutLocators:

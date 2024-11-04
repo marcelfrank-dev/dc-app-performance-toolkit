@@ -5,12 +5,10 @@ runs:
   # E.g. relativePath: "./app/results/jira/2024-01-01_10-10-10"
   - runName: "without app"
     runType: "baseline"
-    fullPath: "/Users/Marcel/Library/CloudStorage/OneDrive-DecadisAG/DC-Approvals/2023/xCharts/performance_scale_tests/1_node_no_app"
-    #relativePath: "./app/results/{PRODUCT}/{TIMESTAMP}"
+    relativePath: "./app/results/jira/RUN_1_2024-02-08_19-18-39"
   - runName: "with app"
     runType: "experiment"
-    fullPath: "/Users/Marcel/Library/CloudStorage/OneDrive-DecadisAG/DC-Approvals/2023/xCharts/performance_scale_tests/1_node_with_app_no_specific_tests"
-    #relativePath: "./app/results/{PRODUCT}/{TIMESTAMP}"
+    relativePath: "./app/results/jira/RUN_2_JWT_2024-02-15_13-58-15"
 
 # Chart generation config
 index_col: "Action"

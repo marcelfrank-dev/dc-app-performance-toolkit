@@ -6,6 +6,7 @@ class PopupLocators:
     default_popup = '.aui-message .icon-close'
     popup_1 = 'form.tip-footer>.helptip-close'
     popup_2 = '.aui-inline-dialog-contents .cancel'
+    popup_3 = '.aui-close-button'
 
 
 class UrlManager:
@@ -27,12 +28,12 @@ class UrlManager:
         self.boards_list_params = '/secure/ManageRapidViews.jspa'
         self.scrum_board_backlog_params = f"/secure/RapidBoard.jspa?rapidView={board_id}&view=planning"
         self.scrum_board_params = f"/secure/RapidBoard.jspa?rapidView={board_id}"
-        self.last_log_view_log = '/secure/admin/ViewLastLog!default.jspa'
+        self.last_log_view_log = '/plugins/servlet/lastlog'
         self.xcharts_resources_view = '/secure/ChartResourcesIndex!default.jspa'
         self.xcharts_data_scripts_view = '/secure/ScriptedChartsIndex!default.jspa'
         self.xcharts_chart_view = '/plugins/servlet/xchart?chartToGo=com.decadis.jira.xchart.xchart-core:topTenReporter'
         self.admin_toolbox_issue_types_view = '/secure/admin/ViewIssueTypes.jspa'
-        self.jwt_test_issue_view = '/browse/AFOCIA-1'
+        self.jwt_test_issue_view = '/browse/JWT-1'
         self.calc_rules = '/secure/SumUpViewRule!default.jspa'
         self.issues_calc = '/issues/?jql=watcher%20is%20not%20EMPTY%20and%20project%20%3D%20"VLLR"'
         self.global_settings = '/secure/SumUpAdminConfiguration!default.jspa'
@@ -191,9 +192,11 @@ class LastLogViewLocators:
     last_log_view_url = UrlManager().last_log_view_log_url()
     log = (By.CSS_SELECTOR, "#logContent")
     loading_spinner = (By.CSS_SELECTOR, "#reload-spinner > aui-spinner")
-    apply_filter_button = (By.CSS_SELECTOR, "#send")
-    log_content = (By.CSS_SELECTOR, "#logContent")
-    reload_button = (By.CSS_SELECTOR, "#reload")
+    apply_filter_button = (By.CSS_SELECTOR, '[data-testid="submit"]')
+    log_content = (By.CSS_SELECTOR, "[class*='logContainer'] > div")
+    log_no_content = (By.CSS_SELECTOR, "[class*='logContainer'] > p")
+    reload_button = (By.CSS_SELECTOR, '[data-testid="reload--container"] > button')
+    search_input = (By.CSS_SELECTOR, "[data-testid=\"input\"]")
 
 
 class XChartsResourcesViewLocators:
@@ -260,7 +263,8 @@ class AdminToolboxViewLocators:
 
 class JwtTestIssueViewLocators:
     jwt_test_issue_view_url = UrlManager().jwt_test_issue_view_url()
-    transition_button = (By.CSS_SELECTOR, "#action_id_51")
+    transition_dropdown = (By.CSS_SELECTOR, "#opsbar-transitions_more")
+    transition_button = (By.XPATH, "//*[@id='opsbar-transitions_more_drop']//*[contains(text(), 'JWT-TRANSITION')]/../../../..")
     transition_screen_submit_button = (By.CSS_SELECTOR, "#issue-workflow-transition-submit")
     transition_screen_cancel_button = (By.CSS_SELECTOR, "#issue-workflow-transition-cancel")
     transition_screen_error = (By.CSS_SELECTOR, ".error")
@@ -270,11 +274,13 @@ class JwtTestIssueViewLocators:
     issue_updated_flag = (By.CSS_SELECTOR, "#aui-flag-container > div[open=\"open\"]")
     issue_updated_flag_close_button = (By.CSS_SELECTOR, ".aui-close-button")
 
-    calc_field_value = (By.CSS_SELECTOR, "#customfield_11101-val")
+    # TODO for JWT: Change to right id
+    calc_field_value = (By.CSS_SELECTOR, "#customfield_11100-val")
 
     assign_to_me_button = (By.CSS_SELECTOR, "#assign-to-me")
 
     priority_button = (By.CSS_SELECTOR, "#priority-val")
+    security_token_missing_dialog = (By.CSS_SELECTOR, ".aui-list-item.active")
     first_priority_option = (By.CSS_SELECTOR, ".aui-list-item.active")
     submit_priority_button = (By.CSS_SELECTOR, "#priority-form > div.save-options > button.aui-button.submit")
     priority_select_loading = (By.CSS_SELECTOR, "#priority-single-select.aui-disabled")

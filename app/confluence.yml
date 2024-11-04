@@ -1,17 +1,17 @@
 ---
 settings:
-  artifacts-dir: results/confluence/%Y-%m-%d_%H-%M-%S
+  artifacts-dir: results/confluence/RUN_5_SPAD_%Y-%m-%d_%H-%M-%S
   aggregator: consolidator
   verbose: false
   check-updates: false                 # disable bzt check for updates
   env:
-    application_hostname: ac2c982f1251e4bf4a22c33941eeaf18-919617174.us-east-2.elb.amazonaws.com   # Confluence DC hostname without protocol, port and postfix e.g. test-confluence.atlassian.com or localhost
+    application_hostname: aeb3fa2574b7443259e9e8f2ecc02f47-788665485.us-east-2.elb.amazonaws.com   # Confluence DC hostname without protocol, port and postfix e.g. test-confluence.atlassian.com or localhost
     application_protocol: http         # http or https
     application_port: 80               # 80, 443, 8080, 1990, etc
-    secure: True                       # Set False to allow insecure connections, e.g. when using self-signed SSL certificate
+    secure: false                       # Set False to allow insecure connections, e.g. when using self-signed SSL certificate
     application_postfix: /confluence   # e.g. /confluence for TerraForm deployment url like `http://a1234-54321.us-east-2.elb.amazonaws.com/confluence`. Leave this value blank for url without postfix.
     admin_login: admin
-    admin_password: XMOnAYOO6yVq0X6AP6ql
+    admin_password: admin
     load_executor: jmeter              # jmeter and locust are supported. jmeter by default.
     concurrency: 200                   # number of concurrent virtual users for jmeter or locust scenario
     test_duration: 45m
@@ -65,9 +65,7 @@ execution:
     hold-for: ${test_duration}
 scenarios:
   selenium:
-#    script: selenium_ui/confluence_ui.py
-#    script: selenium_ui/confluence_ui_spad.py
-    script: selenium_ui/confluence_ui_last_log.py
+    script: selenium_ui/confluence_ui.py
   locust:
     script: locustio/confluence/locustfile.py
   jmeter:

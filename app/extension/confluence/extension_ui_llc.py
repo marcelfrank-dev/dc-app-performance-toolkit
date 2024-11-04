@@ -32,17 +32,17 @@ def app_specific_action(webdriver, datasets):
 
     test_1_selenium_a_login(webdriver, datasets)
 
-    def test_1_selenium_browse_spad_pages_action(webdriver, datasets):
-        modules.spad_browse_pages(webdriver)
+    def test_10_selenium_browse_last_log_view_action(webdriver, datasets):
+        modules.last_log_view_log(webdriver)
 
-    test_1_selenium_browse_spad_pages_action(webdriver, datasets)
+    test_10_selenium_browse_last_log_view_action(webdriver, datasets);
 
-    def test_1_selenium_check_permissions_action(webdriver, datasets):
-        modules.spad_check_permissions(webdriver)
+    def test_20_selenium_last_log_apply_filter_action(webdriver, datasets):
+        modules.last_log_apply_filter(webdriver)
 
-    test_1_selenium_check_permissions_action(webdriver, datasets)
+    test_20_selenium_last_log_apply_filter_action(webdriver, datasets);
 
-    def test_1_selenium_shuttle_action(webdriver, datasets):
-        modules.spad_shuttle(webdriver)
+    def test_30_selenium_last_log_reload_action(webdriver, datasets):
+        modules.last_log_reload_action(webdriver)
 
-    test_1_selenium_shuttle_action(webdriver, datasets)
+    test_30_selenium_last_log_reload_action(webdriver, datasets);

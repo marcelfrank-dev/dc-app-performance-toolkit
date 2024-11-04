@@ -11,20 +11,20 @@
 # This value can not be altered after the configuration has been applied.
 # Only lowercase letters, numbers, dashes, and dots are allowed.
 # ! REQUIRED !
-environment_name = "dcapt-product"
+environment_name = "dcapt-jira"
 
 # Supported products: jira, confluence, bitbucket, crowd and bamboo.
 # For JSM set product as jira.
 # e.g.: products = ["jira"]
 # ! REQUIRED !
-products = ["product-to-deploy"]
+products = ["jira"]
 
 # License
 # To avoid storing license in a plain text file, we recommend storing it in an environment variable prefixed with `TF_VAR_` (i.e. `TF_VAR_jira_license`) and keep the below line commented out
 # If storing license as plain-text is not a concern for this environment, feel free to uncomment the following line and supply the license here.
 # ! IMPORTANT ! Please make sure valid license is used without spaces and new line symbols.
 # ! REQUIRED !
-jira_license = "jira-license"
+jira_license = "AAABwQ0ODAoPeNqVUsuO2jAU3fsrLHXTLhIlAYYpkqUixx2YJgERipiKjSe5EA/gpHYCZb6+eYCghSJ16WPd87r3g59KHKQ7bLWx1eo5D71OF9Nwih3LaSOqgOcilS7PgVSIYduG1UaeiEBqmB4yCPgWCB35PpvQYd9Db0Jx8/jPYlFNExZM2WQ8GYYMBcX2FdRo+V2D0sSwT1TsVybU4ULHqXRqskylcRHlZvUwdLrM91yByaNc7IDkqgAUFq86UiKrxWqE7fim4Od3TVSycwoyB9WAm0Z6wHVCfLqnXxmPtWDdcewla3gfPIUZyDdYjejLvJ9M5h4tvv2wB7MQ2PZ5On9hWRx3dj9n7/sFWZBTkqFLvKEbssDwHKvz2el07Xs5wpyrytGSbzSgNRxmZTGVb/vBsrrWY6tlo5UCkEmaZaDuVDsuVJRwDX8v63K6Tp8poU/NsYD8afWG1q01u3Bu/LkMhMNjIPyxqhk3PX9a9PB5FcjnokQll9H/7/vqcC6NXh7DHY5/HMCpcQeN1IpLoZvDcSHisdC4/4RoKvNSg5UBNmRrLhWX6y9x82/GR80rhzV6Ze1OqUeZGr6h8hvyy0TBMC4CFQCVf8Vk8Txsjx6gtbHfj18epr9aSQIVAIfzDkdipAvzCOsmQkz5FXH1uGTVX02lh"
 confluence_license = "confluence-license"
 bitbucket_license = "bitbucket-license"
 crowd_license = "crowd-license"
@@ -34,7 +34,7 @@ bamboo_license = "bamboo-license"
 # Number of product application nodes.
 # Note: For initial installation this value needs to be set to 1 and it can be changed only after product is fully
 # installed and configured.
-jira_replica_count = 1
+jira_replica_count = 4
 confluence_replica_count = 1
 bitbucket_replica_count = 1
 crowd_replica_count = 1

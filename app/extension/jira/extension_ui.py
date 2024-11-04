@@ -1,11 +1,8 @@
-import random
-
-from selenium.webdriver.common.by import By
+import time
 
 from selenium_ui.base_page import BasePage
-from selenium_ui.conftest import print_timing
-from selenium_ui.jira.pages.pages import Login
-from util.conf import JIRA_SETTINGS
+from selenium_ui.jira import modules
+from selenium_ui.jira.pages.pages import JwtTestIssueView
 
 
 def app_specific_action(webdriver, datasets):
@@ -32,13 +29,66 @@ def app_specific_action(webdriver, datasets):
     #     app_specific_user_login(username='admin', password='admin')
     # measure()
 
-    @print_timing("selenium_app_custom_action")
-    def measure():
-        @print_timing("selenium_app_custom_action:view_issue")
-        def sub_measure():
-            page.go_to_url(f"{JIRA_SETTINGS.server_url}/browse/{issue_key}")
-            page.wait_until_visible((By.ID, "summary-val"))  # Wait for summary field visible
-            page.wait_until_visible((By.ID, "ID_OF_YOUR_APP_SPECIFIC_UI_ELEMENT"))  # Wait for you app-specific UI element by ID selector
-        sub_measure()
-    measure()
+    # ----------------------- ADMIN MODE ------------------------
+    def test_1_selenium_a_login(webdriver, datasets):
+        modules.adminLogin(webdriver)
 
+    test_1_selenium_a_login(webdriver, datasets)
+
+    # ----------------------- JWT ------------------------
+    def test_10_selenium_browse_jwt_test_issue_action(webdriver, datasets):
+        modules.browse_jwt_test_issue(webdriver)
+
+    test_10_selenium_browse_jwt_test_issue_action(webdriver, datasets)
+
+    def test_11_selenium_check_calc_field_value_action(webdriver, datasets):
+        jwt_test_issue_view_page = JwtTestIssueView(webdriver)
+        jwt_test_issue_view_page.go_to()
+        jwt_test_issue_view_page.check_calc_field_value()
+
+    test_11_selenium_check_calc_field_value_action(webdriver, datasets)
+
+    def test_12_selenium_check_automation_rule_action(webdriver, datasets):
+        jwt_test_issue_view_page = JwtTestIssueView(webdriver)
+        jwt_test_issue_view_page.go_to()
+        jwt_test_issue_view_page.change_priority()
+        # wait 4 seconds to be sure that the automation rule is executed
+        time.sleep(4)
+        jwt_test_issue_view_page.go_to()
+        jwt_test_issue_view_page.check_automation_rule_changes()
+
+    test_12_selenium_check_automation_rule_action(webdriver, datasets)
+
+    def test_13_selenium_check_condition_hide_button_action(webdriver, datasets):
+        jwt_test_issue_view_page = JwtTestIssueView(webdriver)
+        jwt_test_issue_view_page.go_to()
+        jwt_test_issue_view_page.check_condition(0)
+
+    test_13_selenium_check_condition_hide_button_action(webdriver, datasets)
+
+    def test_14_selenium_check_condition_show_button_action(webdriver, datasets):
+        jwt_test_issue_view_page = JwtTestIssueView(webdriver)
+        jwt_test_issue_view_page.go_to()
+        jwt_test_issue_view_page.assign_to_me()
+        jwt_test_issue_view_page.check_condition(1)
+
+    test_14_selenium_check_condition_show_button_action(webdriver, datasets)
+
+    def test_15_selenium_check_validation_fail_action(webdriver, datasets):
+        jwt_test_issue_view_page = JwtTestIssueView(webdriver)
+        jwt_test_issue_view_page.go_to()
+        jwt_test_issue_view_page.execute_transition_without_change()
+        jwt_test_issue_view_page.check_validator(0)
+        jwt_test_issue_view_page.close_transition_screen()
+        jwt_test_issue_view_page.go_to()
+
+    test_15_selenium_check_validation_fail_action(webdriver, datasets)
+
+    def test_16_selenium_check_validation_pass_action(webdriver, datasets):
+        jwt_test_issue_view_page = JwtTestIssueView(webdriver)
+        jwt_test_issue_view_page.go_to()
+        jwt_test_issue_view_page.execute_transition_with_change()
+        jwt_test_issue_view_page.check_validator(1)
+        jwt_test_issue_view_page.check_summary_value("JWT-Summary")
+
+    test_16_selenium_check_validation_pass_action(webdriver, datasets)

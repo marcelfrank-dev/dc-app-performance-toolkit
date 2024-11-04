@@ -17,7 +17,7 @@ from selenium_ui.jira.pages.selectors import UrlManager, LoginPageLocators, Dash
 class PopupManager(BasePage):
 
     def dismiss_default_popup(self):
-        return self.dismiss_popup(PopupLocators.default_popup, PopupLocators.popup_1, PopupLocators.popup_2)
+        return self.dismiss_popup(PopupLocators.default_popup, PopupLocators.popup_1, PopupLocators.popup_2, PopupLocators.popup_3)
 
 
 class Login(BasePage):
@@ -82,7 +82,7 @@ class SecureLogin(BasePage):
     page_loaded_selector = LoginPageLocators.secure_login
 
     def set_credentials(self):
-        self.get_element(LoginPageLocators.secure_password_field).send_keys("XlSia0MRlfw0OeAv1nA6")
+        self.get_element(LoginPageLocators.secure_password_field).send_keys("admin")
         self.get_element(LoginPageLocators.login_submit_button).click()
 
 
@@ -261,11 +261,10 @@ class JwtTestIssueView(BasePage):
     def click_transition(self):
         @print_timing("JwtTestIssueView_click_transition")
         def measure():
+            self.wait_until_visible(JwtTestIssueViewLocators.transition_dropdown, 10)
+            self.get_element(JwtTestIssueViewLocators.transition_dropdown).click()
             self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
             self.get_element(JwtTestIssueViewLocators.transition_button).click()
-            self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
-            self.get_element(JwtTestIssueViewLocators.issue_updated_flag_close_button).click()
-            self.wait_until_invisible(JwtTestIssueViewLocators.issue_updated_flag)
 
         measure()
 
@@ -280,7 +279,9 @@ class JwtTestIssueView(BasePage):
     def change_priority(self):
         @print_timing("JwtTestIssueView_change_priority")
         def measure():
-            self.get_element(JwtTestIssueViewLocators.priority_button).click()
+            self.wait_until_visible(JwtTestIssueViewLocators.priority_button, 10)
+            time.sleep(2)
+            self.execute_js("AJS.$(\"#priority-val\").click()")
             self.wait_until_visible(JwtTestIssueViewLocators.first_priority_option, 10)
             self.get_element(JwtTestIssueViewLocators.first_priority_option).click()
             self.wait_until_visible(JwtTestIssueViewLocators.submit_priority_button, 10)
@@ -313,6 +314,8 @@ class JwtTestIssueView(BasePage):
     def check_condition(self, visible):
         @print_timing("JwtTestIssueView_check_condition")
         def measure():
+            self.wait_until_visible(JwtTestIssueViewLocators.transition_dropdown, 10)
+            self.get_element(JwtTestIssueViewLocators.transition_dropdown).click()
             if visible:
                 self.wait_until_visible(JwtTestIssueViewLocators.transition_button)
             else:
@@ -340,8 +343,7 @@ class JwtTestIssueView(BasePage):
     def execute_transition_without_change(self):
         @print_timing("JwtTestIssueView_execute_transition_without_change")
         def measure():
-            self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
-            self.get_element(JwtTestIssueViewLocators.transition_button).click()
+            self.click_transition()
             self.wait_until_visible(JwtTestIssueViewLocators.transition_screen_submit_button, 10)
             self.get_element(JwtTestIssueViewLocators.transition_screen_submit_button).click()
 
@@ -350,10 +352,9 @@ class JwtTestIssueView(BasePage):
     def execute_transition_with_change(self):
         @print_timing("JwtTestIssueView_execute_transition_with_change")
         def measure():
-            self.wait_until_visible(JwtTestIssueViewLocators.transition_button, 10)
-            self.get_element(JwtTestIssueViewLocators.transition_button).click()
+            self.click_transition()
             self.wait_until_visible(JwtTestIssueViewLocators.transition_summary, 10)
-            self.get_element(JwtTestIssueViewLocators.transition_summary).send_keys("JWT-Summary")
+            self.get_element(JwtTestIssueViewLocators.transition_summary).send_keys("JWT-Summary in screen")
             self.get_element(JwtTestIssueViewLocators.transition_screen_submit_button).click()
             self.wait_until_visible(JwtTestIssueViewLocators.issue_updated_flag, 10)
             self.get_element(JwtTestIssueViewLocators.issue_updated_flag_close_button).click()
@@ -480,28 +481,32 @@ class LastLogView(BasePage):
     def remove_log(self):
         @print_timing("LastLogView_remove_log")
         def measure():
-            self.execute_js("$(\"#logContent\").html('')")
+            self.get_element(LastLogViewLocators.search_input).send_keys('no-logs-will-be-found-fjdsafönadjsköfnadjslfndsjkalfdnsjakfllndsafjkd')
+            self.get_element(LastLogViewLocators.apply_filter_button).click()
 
         measure()
 
     def check_log_exists(self):
         @print_timing("LastLogView_check_log_exists")
         def measure():
-            assert 0 < len(self.get_element(LastLogViewLocators.log_content).text)
+            self.wait_until_any_ec_presented(selectors=[LastLogViewLocators.log_content])
 
         measure()
+
+    def check_no_log_exists(self):
+        @print_timing("LastLogView_check_no_log_exists")
+        def measure():
+            self.wait_until_any_ec_presented(selectors=[LastLogViewLocators.log_no_content])
+
+        measure()
+
+    def wait_for_page_loaded(self):
+        self.wait_until_any_ec_presented(selectors=[LastLogViewLocators.log_content, LastLogViewLocators.search_input])
 
     def apply_filter(self):
         @print_timing("LastLogView_apply_filter")
         def measure():
             self.get_element(LastLogViewLocators.apply_filter_button).click()
-
-        measure()
-
-    def check_log_visibility(self):
-        @print_timing("LastLogView_check_log_visibility")
-        def measure():
-            self.wait_until_visible(LastLogViewLocators.log, 10)
 
         measure()
 

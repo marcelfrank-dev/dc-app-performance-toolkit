@@ -208,7 +208,7 @@ class SecureLogin(BasePage):
     secure_password_field = LoginPageLocators.secure_password_field
 
     def set_credentials(self):
-        self.get_element(LoginPageLocators.secure_password_field).send_keys("XMOnAYOO6yVq0X6AP6ql")
+        self.get_element(LoginPageLocators.secure_password_field).send_keys("admin")
         self.get_element(LoginPageLocators.secure_login_submit_button).click()
 
 
@@ -321,28 +321,32 @@ class LastLogView(BasePage):
     def remove_log(self):
         @print_timing("LastLogView_remove_log")
         def measure():
-            self.execute_js("$(\"#logContent\").html('')")
+            self.get_element(LastLogViewLocators.search_input).send_keys('no-logs-will-be-found-fjdsafönadjsköfnadjslfndsjkalfdnsjakfllndsafjkd')
+            self.get_element(LastLogViewLocators.apply_filter_button).click()
 
         measure()
 
     def check_log_exists(self):
         @print_timing("LastLogView_check_log_exists")
         def measure():
-            assert 0 < len(self.get_element(LastLogViewLocators.log_content).text)
+            self.wait_until_any_ec_presented(selectors=[LastLogViewLocators.log_content])
 
         measure()
+
+    def check_no_log_exists(self):
+        @print_timing("LastLogView_check_no_log_exists")
+        def measure():
+            self.wait_until_any_ec_presented(selectors=[LastLogViewLocators.log_no_content])
+
+        measure()
+
+    def wait_for_page_loaded(self):
+        self.wait_until_any_ec_presented(selectors=[LastLogViewLocators.log_content, LastLogViewLocators.search_input])
 
     def apply_filter(self):
         @print_timing("LastLogView_apply_filter")
         def measure():
             self.get_element(LastLogViewLocators.apply_filter_button).click()
-
-        measure()
-
-    def check_log_visibility(self):
-        @print_timing("LastLogView_check_log_visibility")
-        def measure():
-            self.wait_until_visible(LastLogViewLocators.log, 10)
 
         measure()
 

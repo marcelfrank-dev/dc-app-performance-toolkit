@@ -112,7 +112,7 @@ def adminLogin(webdriver):
 
         @print_timing("selenium_admin_login:login_and_view_system_settings")
         def sub_measure():
-            login_page.set_credentials(username="admin", password="XlSia0MRlfw0OeAv1nA6")
+            login_page.set_credentials(username="admin", password="admin")
             secure_login_page.wait_until_visible((By.ID, "login-form-authenticatePassword"), 30000)
             secure_login_page.set_credentials()
             login_page.wait_for_page_loaded()
@@ -399,8 +399,10 @@ def last_log_apply_filter(webdriver):
         last_log_view_page.remove_log()
         last_log_view_page.apply_filter()
         time.sleep(1)
+        last_log_view_page.check_no_log_exists()
+        last_log_view_page.go_to()
+        time.sleep(1)
         last_log_view_page.check_log_exists()
-        last_log_view_page.check_log_visibility()
 
     measure()
     PopupManager(webdriver).dismiss_default_popup()
@@ -409,11 +411,12 @@ def last_log_reload_action(webdriver):
     @print_timing("selenium_last_log_reload_action")
     def measure():
         last_log_view_page = LastLogView(webdriver)
-        last_log_view_page.remove_log()
         last_log_view_page.reload()
         time.sleep(1)
         last_log_view_page.check_log_exists()
-        last_log_view_page.check_log_visibility()
+        time.sleep(5)
+        last_log_view_page.check_log_exists()
+
     measure()
     PopupManager(webdriver).dismiss_default_popup()
 
