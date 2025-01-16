@@ -5,7 +5,7 @@ settings:
   verbose: false
   check-updates: false                 # disable bzt check for updates
   env:
-    application_hostname: a64e10e737d934eabb7163816477cbf8-1998419324.us-east-2.elb.amazonaws.com   # Jira DC hostname without protocol and port e.g. test-jira.atlassian.com or localhost
+    application_hostname: a44fd5a34892f430f89b97c83562a628-1525785023.us-east-2.elb.amazonaws.com   # Jira DC hostname without protocol and port e.g. test-jira.atlassian.com or localhost
     application_protocol: http         # http or https
     application_port: 80               # 80, 443, 8080, 2990, etc
     secure: false                       # Set False to allow insecure connections, e.g. when using self-signed SSL certificate
@@ -115,8 +115,8 @@ modules:
       httpsampler.ignore_failed_embedded_resources: "true"
   selenium:
     chromedriver:
-      version: "122.0.6261.128" # Supports Chrome version 120. You can refer to https://googlechromelabs.github.io/chrome-for-testing
-      #version: "130.0.6723.91" # Supports Chrome version 130. You can refer to https://googlechromelabs.github.io/chrome-for-testing
+#      version: "122.0.6261.128" # Supports Chrome version 120. You can refer to https://googlechromelabs.github.io/chrome-for-testing
+      version: "130.0.6723.91" # Supports Chrome version 130. You can refer to https://googlechromelabs.github.io/chrome-for-testing
 reporting:
 - data-source: sample-labels
   module: junit-xml
