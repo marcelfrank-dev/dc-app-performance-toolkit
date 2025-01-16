@@ -18,7 +18,7 @@ jobs:
           command: |
             export ENVIRONMENT_NAME=dcapt-jira
       - run:
-          name: Run Docker Command
+          name: RUN TESTS
           command: |
             docker run \
             -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
