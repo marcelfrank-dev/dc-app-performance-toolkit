@@ -28,7 +28,7 @@ jobs:
             -e ENVIRONMENT_NAME=$ENVIRONMENT_NAME \
             -v "$PWD:/data-center-terraform/dc-app-performance-toolkit" \
             -v "$PWD/app/util/k8s/bzt_on_pod.sh:/data-center-terraform/bzt_on_pod.sh" \
-            -it atlassianlabs/terraform:2.9.3 bash -c /data-center-terraform/bzt_on_pod.sh jira.yml
+            -it atlassianlabs/terraform:2.9.3 bash -c "/data-center-terraform/bzt_on_pod.sh jira.yml"
       - persist_to_workspace:
           root: app/results
           paths:
