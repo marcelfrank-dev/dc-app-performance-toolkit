@@ -26,7 +26,7 @@ jobs:
             -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
             -e REGION=us-east-2 \
             -e ENVIRONMENT_NAME=$ENVIRONMENT_NAME \
-            -it atlassianlabs/terraform:2.9.3 bash $PWD/app/util/k8s/bzt_on_pod.sh jira.yml
+            -it atlassianlabs/terraform:2.9.3 bash /data-center-terraform/dc-app-performance-toolkit/app/util/k8s/bzt_on_pod.sh jira.yml
       - persist_to_workspace:
           root: app/results
           paths:
