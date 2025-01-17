@@ -19,8 +19,10 @@ jobs:
           command: |
             export ENVIRONMENT_NAME=dcapt-jira
       - run:
-          name: Pull Terraform Image
-          command: docker pull atlassianlabs/terraform:2.9.3
+          name: Install New Docker Version
+          command: |
+            sudo apt-get update
+            sudo apt-get install --only-upgrade docker-ce
       - run:
           name: Verify bzt_on_pod.sh Exists
           command: |
@@ -30,7 +32,7 @@ jobs:
       - run:
           name: RUN TESTS
           command: |
-            docker run \
+            docker run --pull=always\
             -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
             -e REGION=us-east-2 \
