@@ -19,11 +19,6 @@ jobs:
           command: |
             export ENVIRONMENT_NAME=dcapt-jira
       - run:
-          name: Install New Docker Version
-          command: |
-            sudo apt-get update
-            sudo apt-get install --only-upgrade docker-ce
-      - run:
           name: Pull Terraform Image
           command: docker pull atlassianlabs/terraform:2.9.3
       - run:
