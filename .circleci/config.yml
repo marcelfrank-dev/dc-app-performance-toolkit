@@ -22,9 +22,9 @@ jobs:
           name: Pull Terraform Image
           command: docker pull atlassianlabs/terraform:2.9.3
       - run:
-        name: Verify bzt_on_pod.sh Exists
-        command: |
-          ls -l "$(pwd)/app/util/k8s/bzt_on_pod.sh"
+          name: Verify bzt_on_pod.sh Exists
+          command: |
+            ls -l "$(pwd)/app/util/k8s/bzt_on_pod.sh"
       - run:
           name: RUN TESTS
           command: |
@@ -36,7 +36,7 @@ jobs:
             -v "/home/circleci/project:/data-center-terraform/dc-app-performance-toolkit" \
             -v "/home/circleci/project/app/util/k8s/bzt_on_pod.sh:/data-center-terraform/bzt_on_pod.sh:ro" \
             -it atlassianlabs/terraform:2.9.3 bash /data-center-terraform/bzt_on_pod.sh jira.yml
-- persist_to_workspace:
+      - persist_to_workspace:
           root: app/results
           paths:
             - '*'
