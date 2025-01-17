@@ -4,7 +4,7 @@ executors:
   docker-executor:
     docker:
       - image: docker:latest
-      - image: circleci/python:3.8
+      - image: circleci/python:3.10.1
 
 jobs:
   run-tests:
