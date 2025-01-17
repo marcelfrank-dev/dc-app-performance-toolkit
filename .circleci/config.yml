@@ -36,9 +36,9 @@ jobs:
             -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
             -e REGION=us-east-2 \
             -e ENVIRONMENT_NAME=$ENVIRONMENT_NAME \
-            -v "/home/circleci/project:/data-center-terraform/dc-app-performance-toolkit" \
-            -v "/home/circleci/project/app/util/k8s/bzt_on_pod.sh:/data-center-terraform/bzt_on_pod.sh:ro" \
-            -it atlassianlabs/terraform:2.9.3 bash /data-center-terraform/bzt_on_pod.sh jira.yml
+            -v "$(pwd):/data-center-terraform/dc-app-performance-toolkit" \
+            -v "$(pwd)/app/util/k8s/bzt_on_pod.sh:/data-center-terraform/bzt_on_pod.sh" \
+            -it atlassianlabs/terraform:2.9.3 bash bzt_on_pod.sh jira.yml
       - persist_to_workspace:
           root: app/results
           paths:
