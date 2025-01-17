@@ -4,7 +4,8 @@ executors:
   docker-executor:
     docker:
       - image: docker:latest
-      - image: circleci/python:3.10.1
+      - image: circleci/python:3.11
+    working_directory: ~/project
 
 jobs:
   run-tests:
@@ -15,6 +16,33 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - run:
+          name: Install JDK 17
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y openjdk-17-jdk
+            java -version
+      - run:
+          name: Install Google Chrome and ChromeDriver
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y wget
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
+            CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+            CHROMEDRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
+            wget https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+            unzip chromedriver_linux64.zip
+            sudo mv chromedriver /usr/local/bin/
+            chromedriver --version
+      - run:
+          name: Setup Python Virtual Environment
+          command: |
+            python3 --version
+            pip install virtualenv
+            virtualenv venv -p python3
+            source venv/bin/activate
+            pip install -r requirements.txt
       - run:
           name: Verify Host File
           command: |
