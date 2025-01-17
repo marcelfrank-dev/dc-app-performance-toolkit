@@ -25,6 +25,8 @@ jobs:
           name: Verify bzt_on_pod.sh Exists
           command: |
             ls -l "$(pwd)/app/util/k8s/bzt_on_pod.sh"
+            chmod +x "$(pwd)/app/util/k8s/bzt_on_pod.sh"
+
       - run:
           name: RUN TESTS
           command: |
