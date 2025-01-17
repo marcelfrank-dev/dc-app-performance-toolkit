@@ -24,7 +24,7 @@ jobs:
             docker run \
             -v "$PWD:/data-center-terraform" \
             -it atlassianlabs/terraform:2.9.3 \
-            bash -c "ls -l /data-center-terraform/app/util/k8s"
+            bash -c "ls -l /app/util/k8s"
       - run:
           name: RUN TESTS
           command: |
