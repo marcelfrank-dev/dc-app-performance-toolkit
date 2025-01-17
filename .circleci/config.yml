@@ -16,11 +16,6 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Verify Host File
-          command: |
-            echo "Current Directory: $(pwd)"
-            ls -l "$(pwd)/app/util/k8s/bzt_on_pod.sh"
-      - run:
           name: Set Environment Name
           command: |
             export ENVIRONMENT_NAME=dcapt-jira
@@ -28,12 +23,11 @@ jobs:
           name: Verify Docker Version
           command: docker --version
       - run:
-          name: Verify bzt_on_pod.sh Exists
+          name: Debug Source Path
           command: |
+            echo "Host Current Directory: $(pwd)"
+            chmod 644 "$(pwd)/app/util/k8s/bzt_on_pod.sh"
             ls -l "$(pwd)/app/util/k8s/bzt_on_pod.sh"
-      - run:
-          name: Set Executable Permissions
-          command: chmod +x "$(pwd)/app/util/k8s/bzt_on_pod.sh"
       - run:
           name: RUN TESTS
           command: |
@@ -43,8 +37,8 @@ jobs:
             -e REGION=us-east-2 \
             -e ENVIRONMENT_NAME=$ENVIRONMENT_NAME \
             -v "$(pwd):/data-center-terraform/dc-app-performance-toolkit" \
-            -v "$(pwd)/app/util/k8s/bzt_on_pod.sh:/tmp/run_bzt.sh" \
-            -it atlassianlabs/terraform:2.9.3 ls -l /tmp/run_bzt.sh
+            -v "$(pwd)/app/util/k8s/bzt_on_pod.sh:/custom/run_bzt.sh" \
+            -it atlassianlabs/terraform:2.9.3 ls -l /custom/run_bzt.sh
       - persist_to_workspace:
           root: app/results
           paths:
