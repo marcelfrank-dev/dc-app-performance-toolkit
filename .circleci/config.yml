@@ -22,7 +22,7 @@ jobs:
           name: Debug Container
           command: |
             docker run \
-            -v "$PWD:/data-center-terraform" \
+            -v "/$PWD:/data-center-terraform/dc-app-performance-toolkit" \
             -it atlassianlabs/terraform:2.9.3 \
             bash -c "ls -l /app/util/k8s"
       - run:
