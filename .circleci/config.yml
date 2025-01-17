@@ -19,9 +19,17 @@ jobs:
           command: |
             export ENVIRONMENT_NAME=dcapt-jira
       - run:
+          name: Install New Docker Version
+          command: |
+            sudo apt-get update
+            sudo apt-get install --only-upgrade docker-ce
+      - run:
+          name: Pull Terraform Image
+          command: docker pull atlassianlabs/terraform:2.9.3
+      - run:
           name: RUN TESTS
           command: |
-            docker run --pull=always \
+            docker run \
             -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
             -e REGION=us-east-2 \
