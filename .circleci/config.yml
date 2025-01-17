@@ -16,6 +16,11 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
+          name: Verify Host File
+          command: |
+            echo "Current Directory: $(pwd)"
+            ls -l "$(pwd)/app/util/k8s/bzt_on_pod.sh"
+      - run:
           name: Set Environment Name
           command: |
             export ENVIRONMENT_NAME=dcapt-jira
@@ -26,8 +31,17 @@ jobs:
           name: Verify bzt_on_pod.sh Exists
           command: |
             ls -l "$(pwd)/app/util/k8s/bzt_on_pod.sh"
-            chmod +x "$(pwd)/app/util/k8s/bzt_on_pod.sh"
-
+      - run:
+          name: Set Executable Permissions
+          command: chmod +x "$(pwd)/app/util/k8s/bzt_on_pod.sh"
+      - run:
+          name: Debug Container
+          command: |
+            docker run \
+            -v "/home/circleci/project:/data-center-terraform/dc-app-performance-toolkit" \
+            -v "/home/circleci/project/app/util/k8s/bzt_on_pod.sh:/data-center-terraform/bzt_on_pod.sh:ro" \
+            -it atlassianlabs/terraform:2.9.3 \
+            bash -c "ls -l /data-center-terraform && file /data-center-terraform/bzt_on_pod.sh"
       - run:
           name: RUN TESTS
           command: |
@@ -36,9 +50,9 @@ jobs:
             -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
             -e REGION=us-east-2 \
             -e ENVIRONMENT_NAME=$ENVIRONMENT_NAME \
-            -v "$(pwd):/data-center-terraform/dc-app-performance-toolkit" \
-            -v "$(pwd)/app/util/k8s/bzt_on_pod.sh:/data-center-terraform/bzt_on_pod.sh" \
-            -it atlassianlabs/terraform:2.9.3 bash bzt_on_pod.sh jira.yml
+            -v "/home/circleci/project:/data-center-terraform/dc-app-performance-toolkit" \
+            -v "/home/circleci/project/app/util/k8s/bzt_on_pod.sh:/data-center-terraform/bzt_on_pod.sh:ro" \
+            -it atlassianlabs/terraform:2.9.3 bash /data-center-terraform/bzt_on_pod.sh jira.yml
       - persist_to_workspace:
           root: app/results
           paths:
