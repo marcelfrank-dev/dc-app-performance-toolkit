@@ -43,8 +43,8 @@ jobs:
             -e REGION=us-east-2 \
             -e ENVIRONMENT_NAME=$ENVIRONMENT_NAME \
             -v "$(pwd):/data-center-terraform/dc-app-performance-toolkit" \
-            -v "$(pwd)/app/util/k8s/bzt_on_pod.sh:/data-center-terraform/run_bzt.sh" \
-            -it atlassianlabs/terraform:2.9.3 bash /data-center-terraform/run_bzt.sh jira.yml
+            -v "$(pwd)/app/util/k8s/bzt_on_pod.sh:/tmp/run_bzt.sh:ro" \
+            -it atlassianlabs/terraform:2.9.3 bash /tmp/run_bzt.sh jira.yml
       - persist_to_workspace:
           root: app/results
           paths:
