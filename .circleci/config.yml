@@ -3,6 +3,7 @@ version: 2.1
 executors:
   docker-executor:
     docker:
+      - image: docker:20.10
       - image: circleci/python:3.8
 
 jobs:
@@ -22,7 +23,20 @@ jobs:
           name: Install New Docker Version
           command: |
             sudo apt-get update
-            sudo apt-get install --only-upgrade docker-ce
+            sudo apt-get install -y \
+              ca-certificates \
+              curl \
+              gnupg
+            sudo mkdir -m 0755 -p /etc/apt/keyrings
+            curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+            echo \
+              "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+              $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            sudo apt-get update
+            sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      - run:
+          name: Verify Docker Version
+          command: docker --version
       - run:
           name: Verify bzt_on_pod.sh Exists
           command: |
