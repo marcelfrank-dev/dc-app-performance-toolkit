@@ -19,13 +19,6 @@ jobs:
           command: |
             export ENVIRONMENT_NAME=dcapt-jira
       - run:
-          name: Debug Container
-          command: |
-            docker run \
-            -v "/$PWD:/data-center-terraform/dc-app-performance-toolkit" \
-            -it atlassianlabs/terraform:2.9.3 \
-            bash -c "ls -l /data-center-terraform/dc-app-performance-toolkit/app/util/k8s"
-      - run:
           name: RUN TESTS
           command: |
             docker run --pull=always
@@ -33,8 +26,8 @@ jobs:
             -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
             -e REGION=us-east-2 \
             -e ENVIRONMENT_NAME=$ENVIRONMENT_NAME \
-            -v "/$PWD:/data-center-terraform/dc-app-performance-toolkit" \
-            -v "/$PWD/app/util/k8s/bzt_on_pod.sh:/data-center-terraform/bzt_on_pod.sh" \
+            -v "$(pwd):/data-center-terraform/dc-app-performance-toolkit" \
+            -v "$(pwd)/app/util/k8s/bzt_on_pod.sh:/data-center-terraform/bzt_on_pod.sh" \
             -it atlassianlabs/terraform:2.9.3 bash bzt_on_pod.sh jira.yml
 
 
