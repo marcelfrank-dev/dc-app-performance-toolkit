@@ -35,13 +35,6 @@ jobs:
           name: Set Executable Permissions
           command: chmod +x "$(pwd)/app/util/k8s/bzt_on_pod.sh"
       - run:
-          name: Debug Container
-          command: |
-            docker run \
-            -v "$(pwd)/app/util/k8s/bzt_on_pod.sh:/data-center-terraform/run_bzt.sh" \
-            -it atlassianlabs/terraform:2.9.3 \
-            bash -c "ls -l /data-center-terraform && file /data-center-terraform/run_bzt.sh"
-      - run:
           name: RUN TESTS
           command: |
             docker run \
