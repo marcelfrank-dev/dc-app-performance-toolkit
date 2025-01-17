@@ -19,6 +19,13 @@ jobs:
           command: |
             export ENVIRONMENT_NAME=dcapt-jira
       - run:
+          name: Debug Container
+          command: |
+            docker run \
+            -v "$PWD:/data-center-terraform" \
+            -it atlassianlabs/terraform:2.9.3 \
+            bash -c "ls -l /data-center-terraform/app/util/k8s"
+      - run:
           name: RUN TESTS
           command: |
             docker run \
@@ -27,9 +34,10 @@ jobs:
             -e REGION=us-east-2 \
             -e ENVIRONMENT_NAME=$ENVIRONMENT_NAME \
             -v "$PWD:/data-center-terraform" \
-            -w "/data-center-terraform" \
+            -w "/data-center-terraform/app/util/k8s" \
             -it atlassianlabs/terraform:2.9.3 \
-            bash ./bzt_on_pod.sh jira.yml
+            bash ./bzt_on_pod.sh ../../jira.yml
+
       - persist_to_workspace:
           root: app/results
           paths:
